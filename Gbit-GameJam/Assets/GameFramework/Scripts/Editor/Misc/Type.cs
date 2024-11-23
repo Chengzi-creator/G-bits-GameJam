@@ -17,7 +17,7 @@ namespace UnityGameFramework.Editor
     internal static class Type
     {
         private static readonly string[] RuntimeAssemblyNames =
-        {
+        {   
 #if UNITY_2017_3_OR_NEWER
             "UnityGameFramework.Runtime",
 #endif

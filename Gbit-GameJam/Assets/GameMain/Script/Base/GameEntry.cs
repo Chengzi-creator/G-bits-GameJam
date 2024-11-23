@@ -9,6 +9,7 @@ public partial class GameEntry : MonoBehaviour
     /// </summary>
     private void Start()
     {
+        
         // 初始化内置组件
         InitBuiltinComponents();
  
