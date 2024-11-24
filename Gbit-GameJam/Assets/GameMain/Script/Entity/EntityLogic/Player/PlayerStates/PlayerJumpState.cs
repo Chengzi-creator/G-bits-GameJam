@@ -7,27 +7,16 @@ using UnityEngine;
 public class PlayerJumpState : PlayerStateBase
 {
     private float JumpSpeed => JumpSpeedCalculation();
-    
-    private float timer = 0f;
-
     protected override void OnEnter(IFsm<EntityPlayer> fsm)
     {
         base.OnEnter(fsm);
         m_EntityPlayer.rb.velocity = new Vector2(m_EntityPlayer.rb.velocity.x, JumpSpeed);
-        timer = 0f;
     }
 
     protected override void OnUpdate(IFsm<EntityPlayer> fsm, float elapseSeconds, float realElapseSeconds)
     {
         base.OnUpdate(fsm, elapseSeconds, realElapseSeconds);
-        timer += elapseSeconds;
-        if (timer >= m_EntityPlayer.JumpDuration)
-        {
-            if (m_EntityPlayer.OnGround())
-            {
-                ChangeState<PlayerMoveState>(fsm);
-            }
-        }
+        ChangeState<PlayerAirState>(fsm);
     }
 
 

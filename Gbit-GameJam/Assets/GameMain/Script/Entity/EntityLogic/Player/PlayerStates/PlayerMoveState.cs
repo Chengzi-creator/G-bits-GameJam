@@ -22,6 +22,10 @@ public class PlayerMoveState : PlayerStateBase
         {
             ChangeState<PlayerAttackState>(fsm);
         }
+        else if (Input.GetKeyDown(m_EntityPlayer.DODGE_COMMAND))
+        {
+            ChangeState<PlayerDodgeState>(fsm);
+        }
     }
     
     

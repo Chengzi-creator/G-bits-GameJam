@@ -2,33 +2,42 @@
 using System.Collections.Generic;
 using GameFramework;
 using GameFramework.Fsm;
-using UnityEngine;
 using UnityGameFramework.Runtime;
 
-[RequireComponent(typeof(Collider2D))]
-public class EntityWindow : EntityLogic
+public class EntityWindow : EntityLogic,IWindow
 {
     public static int WindowId = 30001;
     
     private IFsm<EntityWindow> fsm;
 
-    private WindowCompoment windowCompoment;
-    
-    public bool isMouseOver { get; private set; }
+    public List<WindowCompoment> windowCompoment = new List<WindowCompoment>();
+    public bool isHide { get; private set; }
     
     protected override void OnShow(object userData)
     {
         base.OnShow(userData);
 
+        isHide = false;
+        
         GameEntry.Event.Fire(this, WindowShowEventArgs.Create(50f));
         
         List<FsmState<EntityWindow>> states = new List<FsmState<EntityWindow>>()
         {
             WindowRandomMoveState.Create(),
-            WindowInteractionState.Create(),
         };
         fsm = GameEntry.Fsm.CreateFsm<EntityWindow>((WindowId++).ToString(), this, states);
         fsm.Start<WindowRandomMoveState>();
+        
+        //获取子物体的WindowCompoment
+        WindowCompoment[] children = GetComponentsInChildren<WindowCompoment>();
+        foreach (var child in children)
+        {
+            if (child != null)
+            {
+                windowCompoment.Add(child);
+                child.Holder = this;
+            }
+        }
     }
 
     private void OnDestroy()
@@ -41,13 +50,8 @@ public class EntityWindow : EntityLogic
         }
     }
 
-    private void OnMouseOver()
+    public void HideWindow()
     {
-        isMouseOver = true;
-    }
-    
-    private void OnMouseExit()
-    {
-        isMouseOver = false;
+        isHide = true;
     }
 }
