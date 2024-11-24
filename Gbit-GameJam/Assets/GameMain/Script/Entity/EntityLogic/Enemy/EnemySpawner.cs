@@ -11,12 +11,9 @@ public class EnemySpawner : MonoBehaviour
     [Header("生成间隔")] [SerializeField] private float m_SpawnInterval = 1f;
     // [SerializeField] private GameObject m_EnemyTemplate;
 
-    [SerializeField] private GameObject m_BoneTemplate;
-    [SerializeField] private GameObject m_BluePumpkinTemplate;
-    [SerializeField] private GameObject m_RedPumpkinTemplate;
-    [SerializeField] private GameObject m_GhostTemplate;
+    [SerializeField] private GameObject m_PaperTemplate;
     private RepeatTimer m_SpawnTimer;
-    private ObjectPool<MyObjectBase, Enemy> m_EnemyPool;
+    //private ObjectPool<MyObjectBase, EntityEnemy> m_EnemyPool;
 
     private Bounds m_SpawnBounds;
     private Dictionary<string, Queue<GameObject>> m_Pools = new();
@@ -35,10 +32,7 @@ public class EnemySpawner : MonoBehaviour
         m_SpawnTimer = new RepeatTimer();
         m_SpawnTimer.Initialize(m_SpawnInterval);
         m_SpawnTimer.OnComplete += SpawnTestEnemy;
-        m_TemplateDict.Add("Bone", m_BoneTemplate);
-        m_TemplateDict.Add("BluePumpkin", m_BluePumpkinTemplate);
-        m_TemplateDict.Add("RedPumpkin", m_RedPumpkinTemplate);
-        m_TemplateDict.Add("Ghost", m_GhostTemplate);
+        m_TemplateDict.Add("Paper", m_PaperTemplate);
         foreach (var key in m_TemplateDict.Keys)
         {
             m_Pools.Add(key, new Queue<GameObject>());
@@ -51,7 +45,7 @@ public class EnemySpawner : MonoBehaviour
     public void SpawnTestEnemy()
     {
         int rand = Random.Range(1, 100);
-        Enemy e;
+        EntityEnemy e;
         switch (rand) //生成规则
         {
             case 1:
@@ -101,7 +95,7 @@ public class EnemySpawner : MonoBehaviour
 
 
 
-    private Enemy Spawn(string enemyName)
+    private EntityEnemy Spawn(string enemyName)
     {
         if (!m_Pools.ContainsKey(enemyName))
         {
@@ -111,22 +105,23 @@ public class EnemySpawner : MonoBehaviour
 
         if (m_Pools[enemyName].Count > 0)
         {
-            var e = m_Pools[enemyName].Dequeue().GetComponent<Enemy>();
+            var e = m_Pools[enemyName].Dequeue().GetComponent<EntityEnemy>();
             e.gameObject.SetActive(true);
-            e.OnShow(null);
+            //e.OnShow(null);
             return e;
         }
         else
         {
-            var e = Instantiate(m_TemplateDict[enemyName], m_PoolParentDict[enemyName]).GetComponent<Enemy>();
-            e.OnInit(this);
+            var e = Instantiate(m_TemplateDict[enemyName], m_PoolParentDict[enemyName]).GetComponent<EntityEnemy>();
+            //e.OnInit(this);
             e.SetName(enemyName);
-            e.OnShow(null);
-            return e;
+            //e.OnShow(null);
+            //return e;
+            return null;
         }
     }
 
-    public void Unspawn(Enemy enemy)
+    public void Unspawn(EntityEnemy enemy)
     {
         enemy.gameObject.SetActive(false);
         m_Pools[enemy.GetName()].Enqueue(enemy.gameObject);
