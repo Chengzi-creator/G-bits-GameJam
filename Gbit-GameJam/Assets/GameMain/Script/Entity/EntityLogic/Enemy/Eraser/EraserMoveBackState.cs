@@ -15,10 +15,12 @@ public class EraserMoveBackState : EraserStateBase
     protected override void OnEnter(IFsm<EntityEraser> fsm)
     {
         base.OnEnter(fsm);
+        Debug.Log("MoveBack");
         
         m_Timer = 0f;
         playerPosition = m_EntityEraser.player.transform.position;
         eraserPositon = m_EntityEraser.transform.position;
+        m_EntityEraser.moveSpeed = 3f;
         if ((playerPosition.x - eraserPositon.x) > 0)
             forwardDirection.x = 1;
         else
@@ -34,7 +36,7 @@ public class EraserMoveBackState : EraserStateBase
         MoveBack();
         if (m_Timer >= 1.5f)
         {
-            ChangeState<EraserCollisionState>(fsm);
+            ChangeState<EraserCollisionWaitState>(fsm);
         }
     }
     

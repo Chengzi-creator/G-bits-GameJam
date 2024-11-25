@@ -78,7 +78,7 @@ public class EraserIdleState : EraserStateBase
                 ChangeState<EraserMoveBackState>(m_Fsm);
                 break;
             case 3 :
-                ChangeState<EraserCollisionState>(m_Fsm);
+                ChangeState<EraserCollisionWaitState>(m_Fsm);
                 break;
         }
     }

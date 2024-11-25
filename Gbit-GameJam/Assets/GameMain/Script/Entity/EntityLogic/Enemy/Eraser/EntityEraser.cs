@@ -12,6 +12,7 @@ public class EntityEraser : EntityEnemy
 
     public float m_Speed { get; private set; }
     public float m_CollisionSpeed { get; private set; }
+    public Animator m_Animator { get; private set; }
    
     protected override void OnShow(object userData)
     {
@@ -23,7 +24,8 @@ public class EntityEraser : EntityEnemy
             EraserCollisionState.Create(),
             EraserSpecialState.Create(),
             EraserMoveBackState.Create(),
-            EraserMoveForwardState.Create()
+            EraserMoveForwardState.Create(),
+            EraserCollisionWaitState.Create(),
         };
         fsm = GameEntry.Fsm.CreateFsm<EntityEraser>((EnemyId++).ToString(), this, states);
         fsm.Start<EraserIdleState>();

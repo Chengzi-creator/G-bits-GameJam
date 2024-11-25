@@ -15,8 +15,8 @@ public class ProcedureBattle : ProcedureBase
         GameEntry.Entity.ShowEntity<EntityWindow>(EntityWindow.WindowId,
             "Assets/GameMain/Prefabs/Windows/WindowExample.prefab",
             "Window");
-        
-        GameEntry.Entity.ShowEntity<EntityPaper>(EntityEnemy.EnemyId, "Assets/GameMain/Prefabs/Enemy/Paper.prefab",
+         
+        GameEntry.Entity.ShowEntity<EntityEraser>(EntityEnemy.EnemyId, "Assets/GameMain/Prefabs/Enemy/Eraser.prefab",
             "Enemy", EntityEnemyData.Create(Vector2.zero));
         
     }
