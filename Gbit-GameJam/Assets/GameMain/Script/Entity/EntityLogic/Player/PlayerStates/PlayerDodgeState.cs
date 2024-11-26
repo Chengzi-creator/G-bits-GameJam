@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerDodgeState : PlayerStateBase
 {
     private float timer = 0f;
-    private bool isRight => m_EntityPlayer.isRight;
+    private bool isRight;
 
     private float dodgeDuration => m_EntityPlayer.DodgeLength / m_EntityPlayer.DodgeSpeed;
 
@@ -13,6 +13,7 @@ public class PlayerDodgeState : PlayerStateBase
     {
         base.OnEnter(fsm);
         timer = 0f;
+        isRight = m_EntityPlayer.isRight;
     }
 
     protected override void OnUpdate(IFsm<EntityPlayer> fsm, float elapseSeconds, float realElapseSeconds)

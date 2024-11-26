@@ -8,14 +8,16 @@ public class PlayerHealthChangeEventArgs : GameEventArgs
     public int LastHp { get; private set; }
 
     public int CurrentHp { get; private set; }
+    public float CurrentHpRate { get; private set; }
     public object UserData { get; private set; }
 
-    public static PlayerHealthChangeEventArgs Create(int lastHp, int currentHp, object userData = null)
+    public static PlayerHealthChangeEventArgs Create(int lastHp, int currentHp,float rate, object userData = null)
     {
         PlayerHealthChangeEventArgs e = ReferencePool.Acquire<PlayerHealthChangeEventArgs>();
         e.LastHp = lastHp;
         e.CurrentHp = currentHp;
         e.UserData = userData;
+        e.CurrentHpRate = rate;
         return e;
     }
 
@@ -23,6 +25,7 @@ public class PlayerHealthChangeEventArgs : GameEventArgs
     {
         LastHp = 0;
         CurrentHp = 0;
+        CurrentHpRate = 0;
         UserData = null;
     }
 

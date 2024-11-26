@@ -17,7 +17,7 @@ namespace UnityGameFramework.Runtime
     /// </summary>
     [DisallowMultipleComponent]
     [AddComponentMenu("Game Framework/Debugger")]
-    public sealed partial class DebuggerComponent : GameFrameworkComponent
+    public partial class DebuggerComponent : GameFrameworkComponent
     {
         /// <summary>
         /// 默认调试器漂浮框大小。

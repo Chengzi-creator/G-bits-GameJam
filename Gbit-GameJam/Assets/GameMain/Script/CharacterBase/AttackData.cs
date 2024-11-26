@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-[CreateAssetMenu (fileName = "AttackData", menuName = "AttackData")]
-public class AttackData : ScriptableObject
+public class AttackData
 {
     public int Damage;
     public Vector2 AttackDirection;

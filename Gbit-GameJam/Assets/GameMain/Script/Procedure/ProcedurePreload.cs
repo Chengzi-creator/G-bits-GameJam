@@ -21,19 +21,14 @@ public class ProcedurePreload : ProcedureBase
         GameEntry.Entity.AddEntityGroup("Enemy",0,0,0,0);
         GameEntry.Entity.AddEntityGroup("Window",0,0,0,0);
         GameEntry.Entity.AddEntityGroup("MissileGroup",0,0,0,0);
-        Physics2D.gravity = new Vector2(0, -18f);
-        
+        Physics2D.gravity = new Vector2(0, -32f);
 
-        GameEntry.UI.AddUIGroup("BattleUI");
+        GameEntry.UI.AddUIGroup("Boardcast",10);
+        GameEntry.UI.AddUIGroup("BattleUI",9);
         
         DataTableBase dataTableBase = (DataTableBase)GameEntry.DataTable.CreateDataTable<DRPlayer>();
         dataTableBase.ReadData("Assets/GameMain/DataTables/Player.txt",this);
-
-
-        //Debug
-        GameEntry.UI.OpenUIForm("Assets/GameMain/Prefabs/UI/SleepValue.prefab", "BattleUI");
         
-        GameEntry.Scene.LoadScene("Assets/GameMain/Scene/Battle.unity",this);
     }
 
     private void OnLoadDataTableSuccess(object sender, GameEventArgs e)
@@ -51,15 +46,7 @@ public class ProcedurePreload : ProcedureBase
     protected override void OnUpdate(IFsm<IProcedureManager> procedureOwner, float elapseSeconds, float realElapseSeconds)
     {
         base.OnUpdate(procedureOwner, elapseSeconds, realElapseSeconds);
-        if (!isSceneLoaded)
-        {
-            return;
-        }
-        if (!isPlayerDataTableLoaded)
-        {
-            return;
-        }
-        ChangeState<ProcedureBattle>(procedureOwner);
+        ChangeState<ProcedureBoardcast>(procedureOwner);
     }
 
     private void OnLoadSceneSuccess(object sender, GameEventArgs e)

@@ -8,6 +8,7 @@ public class PlayerIdelState : PlayerStateBase
     {
         base.OnEnter(fsm);
         m_EntityPlayer.rb.velocity = Vector2.zero;
+        m_EntityPlayer.anim.SetBool("Run", false);
     }
 
     protected override void OnUpdate(IFsm<EntityPlayer> fsm, float elapseSeconds, float realElapseSeconds)

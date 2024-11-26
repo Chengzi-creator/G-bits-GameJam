@@ -7,7 +7,7 @@
 
 namespace UnityGameFramework.Runtime
 {
-    public sealed partial class DebuggerComponent : GameFrameworkComponent
+    public partial class DebuggerComponent : GameFrameworkComponent
     {
         private sealed class FpsCounter
         {

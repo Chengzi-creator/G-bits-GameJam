@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityGameFramework.Runtime;
 
 
 public enum AttackType
@@ -35,7 +36,7 @@ public class PlayerAttackComponent : MonoBehaviour
         AxeRotateSpeed = -720f;
     }
 
-    public void AttackStart(Vector3 position)
+    public void AttackStart(Vector3 position , bool isRight = true)
     {
         switch (currentAttackType)
         {
@@ -43,8 +44,9 @@ public class PlayerAttackComponent : MonoBehaviour
                 MeleeAttackHitBox.SetActive(true);
                 break;
             case AttackType.Axe:
-                GameEntry.Entity.ShowEntity<PlayerAxe>(PlayerAxe.PlayerAxeId++, "Assets/GameMain/Prefabs/Axe.prefab", "MissileGroup",
-                    PlayerAxeData.Create(position, AxeRotateSpeed, AxeFlyHeight, AxeFlyLength));
+                GameEntry.Entity.ShowEntity<PlayerAxe>(PlayerAxe.PlayerAxeId++, "Assets/GameMain/Prefabs/Axe.prefab",
+                    "MissileGroup",
+                    PlayerAxeData.Create(position, AxeRotateSpeed, AxeFlyHeight, AxeFlyLength, isRight));
                 break;
         }
     }

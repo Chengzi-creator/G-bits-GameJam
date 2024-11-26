@@ -95,11 +95,11 @@ public class PlayerAttackState : PlayerStateBase
     
     void AttackStart()
     {
-        //m_EntityPlayer.attackComponent.AttackStart(m_EntityPlayer.transform.position);
+        m_EntityPlayer.attackComponent.AttackStart(m_EntityPlayer.transform.position,m_EntityPlayer.isRight);
     }
     void AttackEnd()
     {
-        //m_EntityPlayer.attackComponent.AttackEnd();
+        m_EntityPlayer.attackComponent.AttackEnd();
     }
     
     

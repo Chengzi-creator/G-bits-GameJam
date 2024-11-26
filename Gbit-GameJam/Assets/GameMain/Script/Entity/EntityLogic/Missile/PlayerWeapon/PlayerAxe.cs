@@ -13,6 +13,8 @@ public class PlayerAxe : EntityLogic
     public float RotateSpeed { get; private set; }
     public float FlyHeight { get; private set; }
     public float FlyLength { get; private set; }
+    
+    public bool IsRight { get; private set; }
 
     private Vector3 rotate;
 
@@ -34,6 +36,17 @@ public class PlayerAxe : EntityLogic
         RotateSpeed = data.RotateSpeed;
         FlyHeight = data.FlyHeight;
         FlyLength = data.FlyLength;
+        IsRight = data.IsRight;
+
+        if (IsRight)
+        {
+            transform.localRotation = Quaternion.Euler(0, 0, 0);
+        }
+        else
+        {
+            transform.localRotation = Quaternion.Euler(0, 180, 0);
+        }
+
         rotate = new Vector3(0, 0, RotateSpeed);
     }
 
@@ -44,13 +57,14 @@ public class PlayerAxe : EntityLogic
         float t = Mathf.Sqrt(2 * FlyHeight / Mathf.Abs(Physics2D.gravity.y));
         float velocityX = (FlyLength / 2) / t;
         float velocityY = t * Mathf.Abs(Physics2D.gravity.y);
-        rb.velocity = new Vector2(velocityX, velocityY);
+        rb.velocity = IsRight ? new Vector2(velocityX, velocityY) : new Vector2(-velocityX, velocityY);
     }
 
     protected override void OnUpdate(float elapseSeconds, float realElapseSeconds)
     {
         base.OnUpdate(elapseSeconds, realElapseSeconds);
         transform.Rotate(rotate * elapseSeconds);
+        
     }
 
     private void OnCollisionEnter2D(Collision2D other)

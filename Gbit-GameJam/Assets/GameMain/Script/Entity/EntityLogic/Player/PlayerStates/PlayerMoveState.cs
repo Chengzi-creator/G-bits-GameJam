@@ -9,6 +9,7 @@ public class PlayerMoveState : PlayerStateBase
     {
         base.OnEnter(fsm);
         m_EntityPlayer.anim.SetBool("Run",true);
+        m_EntityPlayer.anim.speed = m_EntityPlayer.Speed / m_EntityPlayer.PlayerBaseSpeed;
     }
 
     protected override void OnUpdate(IFsm<EntityPlayer> fsm, float elapseSeconds, float realElapseSeconds)
@@ -38,6 +39,7 @@ public class PlayerMoveState : PlayerStateBase
     {
         base.OnLeave(fsm, isShutdown);
         m_EntityPlayer.anim.SetBool("Run",false);
+        m_EntityPlayer.anim.speed = 1f;
     }
 
     void Move()

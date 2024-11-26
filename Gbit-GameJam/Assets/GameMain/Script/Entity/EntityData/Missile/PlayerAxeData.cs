@@ -8,7 +8,9 @@ public class PlayerAxeData : IReference
     public float FlyHeight { get; private set; }
     public float FlyLength { get; private set; }
     
-    public static PlayerAxeData Create(Vector3 initPosition, float rotateSpeed, float flyHeight, float flyLength)
+    public bool IsRight { get; private set; }
+    
+    public static PlayerAxeData Create(Vector3 initPosition, float rotateSpeed, float flyHeight, float flyLength , bool isRight = true)
     {
         PlayerAxeData d = ReferencePool.Acquire<PlayerAxeData>();
         
@@ -16,6 +18,7 @@ public class PlayerAxeData : IReference
         d.RotateSpeed = rotateSpeed;
         d.FlyHeight = flyHeight;
         d.FlyLength = flyLength;
+        d.IsRight = isRight;
         return d;
     }
 
