@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackData : MonoBehaviour
+
+[CreateAssetMenu (fileName = "AttackData", menuName = "AttackData")]
+public class AttackData : ScriptableObject
 {
     public int Damage;
     public Vector2 AttackDirection;
@@ -17,5 +19,4 @@ public class AttackData : MonoBehaviour
         Damage = damage;
         AttackDirection = attackDirection;
     }
-
 }

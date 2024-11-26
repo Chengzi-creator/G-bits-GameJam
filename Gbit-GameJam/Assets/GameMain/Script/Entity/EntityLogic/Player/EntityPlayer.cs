@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using GameFramework;
 using GameFramework.DataTable;
@@ -8,7 +7,10 @@ using UnityEngine;
 using UnityGameFramework.Runtime;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class EntityPlayer : EntityLogic
+[RequireComponent(typeof(PlayerAttackComponent))]
+[RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(Animator))]
+public class EntityPlayer : EntityLogic, IAttackAble
 {
     public static int PlayerId = 1001;
 
@@ -20,6 +22,10 @@ public class EntityPlayer : EntityLogic
     public KeyCode DODGE_COMMAND = KeyCode.LeftShift;
 
     public Rigidbody2D rb { get; private set; }
+    public PlayerAttackComponent attackComponent { get; private set; }
+    public Animator anim { get; private set; }
+    
+    
     public float Speed { get; private set; }
     public float JumpHeight { get; private set; }
     public float AirDuration { get; private set; }
@@ -31,6 +37,23 @@ public class EntityPlayer : EntityLogic
     public float DodgeLength { get; private set; }
     public float DodgeSpeed { get; private set; }
     
+    public int MaxHP { get; private set; }
+    
+    private int m_Hp;
+    public int Hp
+    {
+        get => m_Hp;
+        set
+        {
+            if (value != m_Hp)
+            {
+                GameEntry.Event.Fire(this, PlayerHealthChangeEventArgs.Create(m_Hp, value));
+            }
+            m_Hp = value;
+        }
+    }
+
+
     public Vector2 MoveDirection { get; private set; }
 
     public bool isRight = true;
@@ -47,6 +70,8 @@ public class EntityPlayer : EntityLogic
         transform.position = playerData.InitPosition;
 
         rb = GetComponent<Rigidbody2D>();
+        attackComponent = GetComponent<PlayerAttackComponent>();
+        anim = GetComponent<Animator>();
 
         IDataTable<DRPlayer> dt = GameEntry.DataTable.GetDataTable<DRPlayer>();
 
@@ -67,6 +92,9 @@ public class EntityPlayer : EntityLogic
                 DodgeSpeed = dr.DodgeSpeed;
             }
         }
+        
+        MaxHP = 100;
+        Hp = MaxHP;
     }
 
     protected override void OnShow(object userData)
@@ -116,7 +144,14 @@ public class EntityPlayer : EntityLogic
     
     public bool OnGround()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 1.1f, LayerMask.GetMask("Land"));
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 1.35f, LayerMask.GetMask("Land"));
         return hit.collider != null;
+    }
+
+    public void OnAttacked(AttackData data)
+    {
+        //TODO:处理受击逻辑
+        int damage = Math.Clamp(data.Damage, 0, Hp);
+        Hp -= damage;
     }
 }

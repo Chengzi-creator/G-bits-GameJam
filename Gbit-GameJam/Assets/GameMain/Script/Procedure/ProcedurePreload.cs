@@ -20,6 +20,7 @@ public class ProcedurePreload : ProcedureBase
         GameEntry.Entity.AddEntityGroup("Player",0,0,0,0);
         GameEntry.Entity.AddEntityGroup("Enemy",0,0,0,0);
         GameEntry.Entity.AddEntityGroup("Window",0,0,0,0);
+        GameEntry.Entity.AddEntityGroup("MissileGroup",0,0,0,0);
         Physics2D.gravity = new Vector2(0, -18f);
         
 

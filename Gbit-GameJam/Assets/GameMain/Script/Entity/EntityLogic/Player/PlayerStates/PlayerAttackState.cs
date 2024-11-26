@@ -16,8 +16,6 @@ public class PlayerAttackState : PlayerStateBase
     private bool m_JumpBuffer;
     private bool m_DodgeBuffer;
     
-    //Debug
-    private GameObject attack => m_EntityPlayer.transform.Find("Attack").gameObject;
     protected override void OnEnter(IFsm<EntityPlayer> fsm)
     {
         base.OnEnter(fsm);
@@ -97,11 +95,11 @@ public class PlayerAttackState : PlayerStateBase
     
     void AttackStart()
     {
-        attack.SetActive(true);
+        m_EntityPlayer.attackComponent.AttackStart(m_EntityPlayer.transform.position);
     }
     void AttackEnd()
     {
-        attack.SetActive(false);
+        m_EntityPlayer.attackComponent.AttackEnd();
     }
     
     
