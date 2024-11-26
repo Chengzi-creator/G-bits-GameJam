@@ -3,14 +3,16 @@ using  UnityEngine;
 
 public class BulletData : IReference
 {
-    public Vector2 position;
+    public Vector2 Position;
     public bool ThroughAble;
     public int Damage;
     public float Speed;
     public float AliveTime;
     public float ScaleFactor = 1;
     public Vector2 Direction;
-
+    public bool Horizontal = false;
+    public bool Parabola = false;
+    
     public BulletData(int entityId, int typeId, bool throughAble, int damage, float speed, float aliveTime, float scaleFactor)
     {
         ThroughAble = throughAble;

@@ -1,6 +1,7 @@
 ﻿using GameFramework;
 using GameFramework.Fsm;
 using UnityEngine;
+
 public class PaperCollisionState:PaperStateBase
 {
     protected Vector2 targetPosition;

@@ -18,7 +18,7 @@ public class EntityPaper : EntityEnemy
       {
          PaperIdleState.Create(),
          PaperCollisionState.Create(),
-         PaperRemoteState.Create(),
+         PaperRemoteState.Create()
       };
       fsm = GameEntry.Fsm.CreateFsm<EntityEnemy>((EnemyId++).ToString(), this, states);
       fsm.Start<PaperIdleState>();

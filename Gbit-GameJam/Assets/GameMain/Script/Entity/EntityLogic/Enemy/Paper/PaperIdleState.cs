@@ -46,11 +46,11 @@ public class PaperIdleState : PaperStateBase
     {
         if (playerPosition.x - paperPositon.x >= 0)
         {
-            m_EntityEnemy.m_SpriteRenderer.flipX = true;
+            m_EntityEnemy.m_SpriteRenderer.flipX = false;
         }
         else
         {
-            m_EntityEnemy.m_SpriteRenderer.flipX = false;
+            m_EntityEnemy.m_SpriteRenderer.flipX = true;
         }
         
     }
