@@ -11,20 +11,20 @@ public class PaperIdleState : PaperStateBase
     protected Vector2 playerPosition;
     protected Vector2 paperPositon;
     
-    protected override void OnEnter(IFsm<EntityEnemy> fsm)
+    protected override void OnEnter(IFsm<EntityPaper> fsm)
     {
         base.OnEnter(fsm);
-        m_EntityEnemy.m_Rigidbody.velocity = Vector2.zero;
+        m_EntityPaper.m_Rigidbody.velocity = Vector2.zero;
         m_Timer = 0f;
         time++;
-        paperPositon = m_EntityEnemy.transform.position;
+        paperPositon = m_EntityPaper.transform.position;
         Debug.Log("Idle");
     }
     
-    protected override void OnUpdate(IFsm<EntityEnemy> fsm, float elapseSeconds, float realElapseSeconds)
+    protected override void OnUpdate(IFsm<EntityPaper> fsm, float elapseSeconds, float realElapseSeconds)
     {
         base.OnUpdate(fsm, elapseSeconds, realElapseSeconds);
-        playerPosition = m_EntityEnemy.player.transform.position;
+        playerPosition = m_EntityPaper.player.transform.position;
         Flip();
         
         m_Timer += elapseSeconds;
@@ -46,11 +46,11 @@ public class PaperIdleState : PaperStateBase
     {
         if (playerPosition.x - paperPositon.x >= 0)
         {
-            m_EntityEnemy.m_SpriteRenderer.flipX = false;
+            m_EntityPaper.m_SpriteRenderer.flipX = false;
         }
         else
         {
-            m_EntityEnemy.m_SpriteRenderer.flipX = true;
+            m_EntityPaper.m_SpriteRenderer.flipX = true;
         }
         
     }
@@ -63,7 +63,7 @@ public class PaperIdleState : PaperStateBase
     
     public override void Clear()
     {
-        m_EntityEnemy = null;
+        m_EntityPaper = null;
     }
     
 }

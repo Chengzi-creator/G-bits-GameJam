@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityGameFramework.Runtime;
 
 [RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(PlayerAttackComponent))]
+//[RequireComponent(typeof(PlayerAttackComponent))]
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(Animator))]
 public class EntityPlayer : EntityLogic, IAttackAble
@@ -22,7 +22,7 @@ public class EntityPlayer : EntityLogic, IAttackAble
     public KeyCode DODGE_COMMAND = KeyCode.LeftShift;
 
     public Rigidbody2D rb { get; private set; }
-    public PlayerAttackComponent attackComponent { get; private set; }
+    //public PlayerAttackComponent attackComponent { get; private set; }
     public Animator anim { get; private set; }
     
     
@@ -47,7 +47,7 @@ public class EntityPlayer : EntityLogic, IAttackAble
         {
             if (value != m_Hp)
             {
-                GameEntry.Event.Fire(this, PlayerHealthChangeEventArgs.Create(m_Hp, value));
+                //GameEntry.Event.Fire(this, PlayerHealthChangeEventArgs.Create(m_Hp, value));
             }
             m_Hp = value;
         }
@@ -70,7 +70,7 @@ public class EntityPlayer : EntityLogic, IAttackAble
         transform.position = playerData.InitPosition;
 
         rb = GetComponent<Rigidbody2D>();
-        attackComponent = GetComponent<PlayerAttackComponent>();
+        //attackComponent = GetComponent<PlayerAttackComponent>();
         anim = GetComponent<Animator>();
 
         IDataTable<DRPlayer> dt = GameEntry.DataTable.GetDataTable<DRPlayer>();

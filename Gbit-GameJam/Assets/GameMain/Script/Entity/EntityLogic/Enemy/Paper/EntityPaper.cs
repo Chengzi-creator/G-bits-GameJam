@@ -2,26 +2,36 @@ using System;
 using System.Collections.Generic;
 using GameFramework;
 using GameFramework.Fsm;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityGameFramework.Runtime;
 
 
 public class EntityPaper : EntityEnemy
 {  
-   private IFsm<EntityEnemy> fsm;
-   
+   private IFsm<EntityPaper> fsm;
+   private EntityPaperData PaperData;
+   private GameObject m_BulletPrefab;
+ 
    protected override void OnShow(object userData)
    {
+      //PaperData = (EntityPaperData)userData;
+      //m_BulletPrefab = PaperData.BulletPrefab;
+      m_BulletPrefab = Resources.Load<GameObject>("Bullet");
       base.OnShow(userData);
       Debug.Log("成功了");
-      List<FsmState<EntityEnemy>> states = new List<FsmState<EntityEnemy>>()
+      List<FsmState<EntityPaper>> states = new List<FsmState<EntityPaper>>()
       {
          PaperIdleState.Create(),
          PaperCollisionState.Create(),
          PaperRemoteState.Create()
       };
-      fsm = GameEntry.Fsm.CreateFsm<EntityEnemy>((EnemyId++).ToString(), this, states);
+      fsm = GameEntry.Fsm.CreateFsm<EntityPaper>((EnemyId++).ToString(), this, states);
       fsm.Start<PaperIdleState>();
    }
-   
+
+   public GameObject SpawnBullet()
+   {  
+      return Instantiate(m_BulletPrefab);
+   }
 }

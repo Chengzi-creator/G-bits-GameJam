@@ -2,14 +2,14 @@
 using GameFramework.Fsm;
 
 
-public abstract class PaperStateBase : FsmState<EntityEnemy>,IReference
+public abstract class PaperStateBase : FsmState<EntityPaper>,IReference
 {
-    protected EntityEnemy m_EntityEnemy;
+    protected EntityPaper m_EntityPaper;
     
-    protected override void OnInit(IFsm<EntityEnemy> fsm)
+    protected override void OnInit(IFsm<EntityPaper> fsm)
     {
         base.OnInit(fsm);
-        m_EntityEnemy = fsm.Owner;
+        m_EntityPaper = fsm.Owner;
     }
 
     public abstract void Clear();
