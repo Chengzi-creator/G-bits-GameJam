@@ -30,6 +30,7 @@ public class EraserSpecialState : EraserStateBase
         m_Bounds = GetBounds();
         //嘲讽动画
         //烟雾消失动画
+        Flip();
     }
 
     protected override void OnUpdate(IFsm<EntityEraser> fsm, float elapseSeconds, float realElapseSeconds)
@@ -39,16 +40,39 @@ public class EraserSpecialState : EraserStateBase
         eraserPositon = m_EntityEraser.transform.position;
         m_Timer += elapseSeconds;
         //暂时不考虑动画效果
-        if (m_Timer <= 1f)
+        if (m_Timer < 1f)
+        {   
+            
+        }
+        else if(m_Timer <= 2f && m_Timer >= 1f)
+        {
+            m_EntityEraser.m_Animator.SetBool("Idle",false);
+            m_EntityEraser.m_Animator.SetBool("Fade",true);
+        }
+        else if (m_Timer <= 3f && m_Timer >= 2f )
         {
             FollowPlayer();
+            m_EntityEraser.m_Animator.SetBool("Fade",false);
         }
-        else if(m_Timer > 1f)
+        else if(m_Timer > 3f)
         {
             //体积开始膨胀并播放倒计时动画
             Debug.Log("Smash");
             Smash();
         }
+    }
+    
+    protected void Flip()
+    {
+        if (playerPosition.x - eraserPositon.x >= 0)
+        {
+            m_EntityEraser.m_SpriteRenderer.flipX = true;
+        }
+        else
+        {
+            m_EntityEraser.m_SpriteRenderer.flipX = false;
+        }
+        
     }
 
     private void FollowPlayer()

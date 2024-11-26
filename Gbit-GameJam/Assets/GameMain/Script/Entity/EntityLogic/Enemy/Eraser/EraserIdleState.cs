@@ -27,6 +27,7 @@ public class EraserIdleState : EraserStateBase
         distance = System.Math.Abs(playerPosition.x - eraserPositon.x);
         CalculateLength(GetBound());
         Debug.Log("EraserIdle");
+        m_EntityEraser.m_Animator.SetBool("Idle",true);
     }
     
     
@@ -72,9 +73,13 @@ public class EraserIdleState : EraserStateBase
         switch (DistanceJudge())
         {
             case 1 :
+                m_EntityEraser.m_Animator.SetBool("Idle",false);
+                m_EntityEraser.m_Animator.SetBool("MoveForward",true);
                 ChangeState<EraserMoveForwardState>(m_Fsm);
                 break;
             case 2 :
+                m_EntityEraser.m_Animator.SetBool("Idle",false);
+                m_EntityEraser.m_Animator.SetBool("MoveBack",true);
                 ChangeState<EraserMoveBackState>(m_Fsm);
                 break;
             case 3 :

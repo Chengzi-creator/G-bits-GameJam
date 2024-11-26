@@ -19,11 +19,11 @@ public class EraserCollisionState : EraserStateBase
         Debug.Log("Collision");
         m_Fsm = fsm;
         m_EntityEraser.m_Rigidbody.velocity = Vector2.zero;
-        m_EntityEraser.moveSpeed = 5f;
+        m_EntityEraser.moveSpeed = 8f;
         //一个计时，一个计数，初始化位置用于下面判断
         m_Timer = 0f;
         targetPosition = CalculateTargetPosition(GetBound());
-
+        Flip();
     }
 
     protected override void OnUpdate(IFsm<EntityEraser> fsm, float elapseSeconds, float realElapseSeconds)
@@ -69,7 +69,7 @@ public class EraserCollisionState : EraserStateBase
         
         return targetPosition;
     }
-
+    
     //移动到目标位置
     private void MoveEraserToTarget()
     {   
@@ -87,15 +87,23 @@ public class EraserCollisionState : EraserStateBase
                 if (N == 3)
                 {
                     //嘲讽动画
+                    m_EntityEraser.m_Animator.SetBool("Collision",false);
+                    m_EntityEraser.m_Animator.SetBool("Idle",true);
+                   
                     ChangeState<EraserIdleState>(m_Fsm);
                 }
                 else if (N == 4)
                 {
                     //特殊动作
+                    m_EntityEraser.m_Animator.SetBool("Collision",false);
+                    m_EntityEraser.m_Animator.SetBool("Idle",true);
                     ChangeState<EraserSpecialState>(m_Fsm);
                 }
                 else
-                {
+                {   
+                    m_EntityEraser.m_Animator.SetBool("Collision",false);
+                    m_EntityEraser.m_Animator.SetBool("Idle",true);
+                    m_flip = !m_flip;
                     ChangeState<EraserCollisionWaitState>(m_Fsm);
                 }
             }
@@ -106,6 +114,10 @@ public class EraserCollisionState : EraserStateBase
         }
     }
 
+    public void Flip()
+    {
+        //m_EntityEraser.m_SpriteRenderer.flipX = m_flip;
+    }
 
     public static EraserCollisionState Create()
     {

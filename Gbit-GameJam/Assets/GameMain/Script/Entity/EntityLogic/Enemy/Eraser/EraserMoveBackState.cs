@@ -35,7 +35,10 @@ public class EraserMoveBackState : EraserStateBase
         m_Timer += elapseSeconds;
         MoveBack();
         if (m_Timer >= 1.5f)
-        {
+        {       
+            m_EntityEraser.m_Animator.SetBool("MoveBack",false);
+            m_EntityEraser.m_Animator.SetBool("Idle",true);
+           
             ChangeState<EraserCollisionWaitState>(fsm);
         }
     }
@@ -56,6 +59,9 @@ public class EraserMoveBackState : EraserStateBase
             {   
                 Debug.Log("已到达边界，停");
                 m_EntityEraser.m_Rigidbody.velocity = Vector3.zero;
+                m_EntityEraser.m_Animator.SetBool("MoveBack",false);
+                m_EntityEraser.m_Animator.SetBool("Idle",true);
+    
             }
         }
         else if ((int)forwardDirection.x == -1)
@@ -65,6 +71,9 @@ public class EraserMoveBackState : EraserStateBase
             {   
                 Debug.Log("已到达边界，停");
                 m_EntityEraser.m_Rigidbody.velocity = Vector3.zero;
+                m_EntityEraser.m_Animator.SetBool("MoveBack",false);
+                m_EntityEraser.m_Animator.SetBool("Idle",true);
+
                 //这里播放idle动画得了
             }
         }

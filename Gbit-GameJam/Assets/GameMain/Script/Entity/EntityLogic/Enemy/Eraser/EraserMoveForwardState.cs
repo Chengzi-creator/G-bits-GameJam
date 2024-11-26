@@ -35,7 +35,9 @@ public class EraserMoveForwardState : EraserStateBase
         m_Timer += elapseSeconds;
         MoveToPlayer();
         if (m_Timer >= 1.5f)
-        {
+        {   
+            m_EntityEraser.m_Animator.SetBool("MoveForward",false);
+            m_EntityEraser.m_Animator.SetBool("Idle",true);
             ChangeState<EraserCollisionWaitState>(fsm);
         }
     }
@@ -51,6 +53,9 @@ public class EraserMoveForwardState : EraserStateBase
             {   
                 Debug.Log("撞到人了，停");
                 m_EntityEraser.m_Rigidbody.velocity = Vector2.zero;
+                m_EntityEraser.m_Animator.SetBool("MoveForward",false);
+                m_EntityEraser.m_Animator.SetBool("Idle",true);
+                
             }
         }
     }

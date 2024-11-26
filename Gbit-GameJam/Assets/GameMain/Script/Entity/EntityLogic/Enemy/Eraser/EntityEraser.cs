@@ -18,6 +18,9 @@ public class EntityEraser : EntityEnemy
     {
         base.OnShow(userData);
         Debug.Log("成功了");
+        m_Animator = GetComponent<Animator>();
+        if(m_Animator == null)
+            Debug.Log("没找到动画");
         List<FsmState<EntityEraser>> states = new List<FsmState<EntityEraser>>()
         {
             EraserIdleState.Create(),
@@ -26,6 +29,7 @@ public class EntityEraser : EntityEnemy
             EraserMoveBackState.Create(),
             EraserMoveForwardState.Create(),
             EraserCollisionWaitState.Create(),
+            EraserAnimState.Create()
         };
         fsm = GameEntry.Fsm.CreateFsm<EntityEraser>((EnemyId++).ToString(), this, states);
         fsm.Start<EraserIdleState>();
