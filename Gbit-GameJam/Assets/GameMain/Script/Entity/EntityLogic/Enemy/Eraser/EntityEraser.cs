@@ -6,10 +6,8 @@ using UnityEngine;
 using UnityGameFramework.Runtime;
 
 
-public class EntityEraser : EntityEnemy
+public class EntityEraser : EntityEnemy<EntityEraser>
 {
-    private IFsm<EntityEraser> fsm;
-
     public float m_Speed { get; private set; }
     public float m_CollisionSpeed { get; private set; }
     public Animator m_Animator { get; private set; }
@@ -34,5 +32,4 @@ public class EntityEraser : EntityEnemy
         fsm = GameEntry.Fsm.CreateFsm<EntityEraser>((EnemyId++).ToString(), this, states);
         fsm.Start<EraserIdleState>();
     }
-
 }

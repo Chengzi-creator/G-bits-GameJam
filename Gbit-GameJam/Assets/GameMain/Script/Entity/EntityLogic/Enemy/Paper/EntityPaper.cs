@@ -7,9 +7,8 @@ using UnityEngine;
 using UnityGameFramework.Runtime;
 
 
-public class EntityPaper : EntityEnemy
+public class EntityPaper : EntityEnemy<EntityPaper>
 {  
-   private IFsm<EntityPaper> fsm;
    private EntityPaperData PaperData;
    private GameObject m_BulletPrefab;
    public Animator m_Animator { get; private set; }
