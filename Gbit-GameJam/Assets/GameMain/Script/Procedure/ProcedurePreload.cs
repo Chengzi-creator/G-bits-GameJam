@@ -23,6 +23,7 @@ public class ProcedurePreload : ProcedureBase
         GameEntry.Entity.AddEntityGroup("MissileGroup",0,0,0,0);
         Physics2D.gravity = new Vector2(0, -32f);
 
+        GameEntry.UI.AddUIGroup("Default",11);
         GameEntry.UI.AddUIGroup("Boardcast",10);
         GameEntry.UI.AddUIGroup("BattleUI",9);
         
@@ -46,7 +47,7 @@ public class ProcedurePreload : ProcedureBase
     protected override void OnUpdate(IFsm<IProcedureManager> procedureOwner, float elapseSeconds, float realElapseSeconds)
     {
         base.OnUpdate(procedureOwner, elapseSeconds, realElapseSeconds);
-        ChangeState<ProcedureBoardcast>(procedureOwner);
+        ChangeState<ProcedureTitleView>(procedureOwner);
     }
 
     private void OnLoadSceneSuccess(object sender, GameEventArgs e)

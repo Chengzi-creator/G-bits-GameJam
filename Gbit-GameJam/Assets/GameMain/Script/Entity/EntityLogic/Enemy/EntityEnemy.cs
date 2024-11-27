@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using GameFramework;
 using GameFramework.Fsm;
 using UnityEngine;
 using UnityGameFramework.Runtime;
 
-public class EntityEnemy : EntityLogic
+public class EntityEnemy: EntityLogic
 {
-    public static int EnemyId = 20001;
     
-    private IFsm<EntityEnemy> fsm;
-
-    public List<FsmState<EntityEnemy>> m_States { get; private set;}
+    public static int EnemyId = 20001;
     public CharacterInfo m_StatusInfo { get; private set;}
     public Animator m_Animator { get; private set; }
     public Rigidbody2D m_Rigidbody { get; private set; }
@@ -180,5 +178,19 @@ public class EntityEnemy : EntityLogic
             return 0;
         }
     }
-    
+}
+
+public class EntityEnemy<T>:EntityEnemy where T : EntityEnemy
+{
+    protected IFsm<T> fsm;
+
+    private void OnDestroy()
+    {
+        FsmState<T>[] states = fsm.GetAllStates();
+        GameEntry.Fsm.DestroyFsm(fsm);
+        foreach (var state in states)
+        {
+            ReferencePool.Release((IReference)state);
+        }
+    }
 }

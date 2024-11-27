@@ -18,27 +18,31 @@ public class ProcedureBoardcast : ProcedureBase
         //注册事件
         GameEntry.Event.Subscribe(LoadSceneSuccessEventArgs.EventId, OnLoadSceneSuccess);
         GameEntry.Event.Subscribe(BoardCastEndEventArgs.EventId, OnBoardCastEnd);
-        
+
         //Debug
-        GameEntry.UI.OpenUIForm("Assets/GameMain/Prefabs/UI/SleepValue.prefab", "BattleUI");
         GameEntry.UI.OpenUIForm("Assets/GameMain/Prefabs/UI/PlayerInfo.prefab", "BattleUI");
-        
+
         //播放拨片
         GameEntry.UI.OpenUIForm("Assets/GameMain/Prefabs/UI/SampleBoardcast.prefab", "Boardcast");
-        
-        
-        
-        
-        
-        GameEntry.Scene.LoadScene("Assets/GameMain/Scene/Battle.unity",this);
+
+
+        GameEntry.Scene.LoadScene("Assets/GameMain/Scene/Battle.unity", this);
     }
 
-    protected override void OnUpdate(IFsm<IProcedureManager> procedureOwner, float elapseSeconds, float realElapseSeconds)
+    protected override void OnUpdate(IFsm<IProcedureManager> procedureOwner, float elapseSeconds,
+        float realElapseSeconds)
     {
         base.OnUpdate(procedureOwner, elapseSeconds, realElapseSeconds);
-        
-        if(isBoardcastEnd&&isSceneLoaded)
+
+
+        if (isBoardcastEnd && isSceneLoaded)
         {
+            if (GameEntry.Scene.HasScene("Assets/GameMain/Scene/GameStart.unity"))
+            {
+                GameEntry.Scene.UnloadScene("Assets/GameMain/Scene/GameStart.unity");
+            }
+
+            GameEntry.Scene.RefreshMainCamera();
             ChangeState<ProcedureBattle>(procedureOwner);
             Log.Debug("Battle start!");
         }
@@ -56,15 +60,15 @@ public class ProcedureBoardcast : ProcedureBase
     private void OnLoadSceneSuccess(object sender, GameEventArgs e)
     {
         LoadSceneSuccessEventArgs ne = e as LoadSceneSuccessEventArgs;
-        if(ne.UserData != this)
+        if (ne.UserData != this)
         {
             return;
         }
-        
+
         isSceneLoaded = true;
-        Log.Info("Load scene {0} success",ne.SceneAssetName);
+        Log.Info("Load scene {0} success", ne.SceneAssetName);
     }
-    
+
     private void OnBoardCastEnd(object sender, GameEventArgs e)
     {
         isBoardcastEnd = true;
