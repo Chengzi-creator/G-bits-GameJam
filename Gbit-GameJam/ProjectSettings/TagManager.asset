@@ -16,7 +16,7 @@ TagManager:
   - Window
   - Player
   - Enemy
-  - 
+  - Front
   - 
   - 
   - 
@@ -41,4 +41,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Front
+    uniqueID: 4233471203
     locked: 0

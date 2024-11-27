@@ -23,11 +23,15 @@ public class CameraControl : MonoBehaviour
     
     private void LateUpdate()
     {   
-        //
-        if (GameObject.FindWithTag("Player") != null)
+        if (target == null)
         {
-            targetPos = GameObject.FindWithTag("Player").transform.position;
+            if (GameObject.FindWithTag("Player") != null)
+            {
+                target = GameObject.FindWithTag("Player").transform;
+                Debug.Log("Find");
+            }
         }
+
         if (target != null)
         {
           
