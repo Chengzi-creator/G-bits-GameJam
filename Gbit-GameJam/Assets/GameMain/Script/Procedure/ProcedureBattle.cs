@@ -18,13 +18,7 @@ public class ProcedureBattle : ProcedureBase
         GameEntry.Entity.ShowEntity<EntityWindow>(EntityWindow.WindowId,
             "Assets/GameMain/Prefabs/Windows/WindowExample.prefab",
             "Window");
-         
-        GameEntry.Entity.ShowEntity<EntityPaper>(EntityEnemy.EnemyId, "Assets/GameMain/Prefabs/Enemy/Paper.prefab",
-            "Enemy", EntityEnemyData.Create(Vector2.zero));
-        
-        // GameEntry.Entity.ShowEntity<EntityEraser>(EntityEnemy.EnemyId, "Assets/GameMain/Prefabs/Enemy/Eraser.prefab",
-        //     "Enemy", EntityEnemyData.Create(Vector2.zero));
-        
+      
         // GameEntry.Entity.ShowEntity<EntityPaper>(EntityEnemy.EnemyId, "Assets/GameMain/Prefabs/Enemy/Paper.prefab",
         //     "Enemy", EntityEnemyData.Create(Vector2.zero));
         
@@ -33,6 +27,5 @@ public class ProcedureBattle : ProcedureBase
         //
         GameObject enemyManagerObject = new GameObject("EnemyManager");
         EnemyManager enemyManager = enemyManagerObject.AddComponent<EnemyManager>();
->>>>>>> Stashed changes
     }
 }

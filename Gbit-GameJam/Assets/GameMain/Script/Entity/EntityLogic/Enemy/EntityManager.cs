@@ -4,7 +4,7 @@ using UnityGameFramework.Runtime;
 
 public class EnemyManager : MonoBehaviour
 {
-    public float spawnInterval = 100f; //怪物生成间隔
+    public float spawnInterval = 20f; //怪物生成间隔
     public Vector2 spawnAreaMin = new Vector2(-10f, -5f);
     public Vector2 spawnAreaMax = new Vector2(10f, 5f);
 
@@ -26,7 +26,7 @@ public class EnemyManager : MonoBehaviour
 
     void SpawnRandomEnemy()
     {
-        int randomValue = Random.Range(0, 1);
+        int randomValue = Random.Range(0, 2);
         string prefabPath;
         System.Type entityType;
         
