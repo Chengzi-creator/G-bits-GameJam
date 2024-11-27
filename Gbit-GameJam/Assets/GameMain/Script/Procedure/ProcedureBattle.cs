@@ -25,5 +25,6 @@ public class ProcedureBattle : ProcedureBase
         // GameEntry.Entity.ShowEntity<EntityEraser>(EntityEnemy.EnemyId, "Assets/GameMain/Prefabs/Enemy/Eraser.prefab",
         //     "Enemy", EntityEnemyData.Create(Vector2.zero));
         
+>>>>>>> Stashed changes
     }
 }

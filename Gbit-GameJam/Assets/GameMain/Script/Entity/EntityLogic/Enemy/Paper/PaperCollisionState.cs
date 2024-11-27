@@ -66,6 +66,9 @@ public class PaperCollisionState:PaperStateBase
             {   
                 Debug.Log("已到达边界，停");
                 m_EntityPaper.m_Rigidbody.velocity = Vector3.zero;
+                m_EntityPaper.m_Animator.SetBool("MoveRight",false);
+                m_EntityPaper.m_Animator.SetBool("MoveLeft",false);
+                m_EntityPaper.m_Animator.SetBool("Idle",true);
                 ChangeState<PaperIdleState>(m_Fsm);
             }
         }

@@ -8,11 +8,13 @@ public class PaperRemoteState : PaperStateBase,IHasObjectPool
 {
     protected ObjectPool<MyObjectBase, Bullet> m_BulletPool;
     protected IFsm<EntityPaper> m_Fsm;
-    protected GameObject m_BulletTemplate;
-    protected Vector2 Position;
-    protected Vector2 Direction;
-    protected bool Horizontal;
-    protected bool Parabola;
+    protected Vector2 playerPosition;
+    protected Vector2 paperPositon;
+    // protected GameObject m_BulletTemplate;
+    // protected Vector2 Position;
+    // protected Vector2 Direction;
+    // protected bool Horizontal;
+    // protected bool Parabola;
     
     
     protected override void OnEnter(IFsm<EntityPaper> fsm)
@@ -21,8 +23,9 @@ public class PaperRemoteState : PaperStateBase,IHasObjectPool
         Debug.Log("Remote");
         m_Fsm = fsm;
         m_BulletPool = new ObjectPool<MyObjectBase, Bullet>(20, "ShotgunBulletPool", this);
+        paperPositon = m_EntityPaper.transform.position;
+        playerPosition = m_EntityPaper.player.transform.position;
         FireBullet();
-       
     }
 
     private void FireBullet()
@@ -36,27 +39,35 @@ public class PaperRemoteState : PaperStateBase,IHasObjectPool
         data.Position = m_EntityPaper.transform.position;
         data.Horizontal = false;
         data.Parabola = false;
-        Vector2 x = new Vector2((Position.x - m_EntityPaper.player.transform.position.x),0);
-        float length = x.magnitude; 
-        Vector2 normalizedVector = x / length;
+        // Vector2 x = new Vector2((data.Position.x - m_EntityPaper.player.transform.position.x),0);
+        // float length = x.magnitude; 
+        // Vector2 normalizedVector = x / length;
+        
+        if (playerPosition.x - paperPositon.x >= 0)
+        {
+            data.Direction = new Vector3(1,0,0);
+        }
+        else
+        {
+            data.Direction = new Vector3(-1,0,0);
+        }
         switch (rand)
         {
             case 1:
-                Horizontal = true;
-                Direction = normalizedVector;
-                Debug.Log("水平");
+                data.Horizontal = true;
+                //Debug.Log("水平");
                 break;
             
             case 2:
-                Parabola = true;
-                Debug.Log("抛物线");
+                data.Parabola = true;
+                //Debug.Log("抛物线");
                 break;
         }
         
         
         m_BulletPool.Spawn(data);//子弹生成
         // GameEntry.Entity.ShowEntity<Bullet>(Bullet.BulletId++, "Assets/GameMain/Prefabs/Enemy/Bullet.prefab",
-        //     "Enemy", BulletData.Create(Position,Direction,Horizontal,Parabola));
+        //     "Enemy", BulletData.Create(Position));
         //Debug.Log(Position);
         ChangeState<PaperIdleState>(m_Fsm);
     }

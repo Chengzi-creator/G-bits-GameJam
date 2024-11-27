@@ -9,7 +9,7 @@ public class BulletData : IReference
     public float Speed;
     public float AliveTime;
     public float ScaleFactor = 1;
-    public Vector2 Direction;
+    public Vector3 Direction;
     public bool Horizontal = false;
     public bool Parabola = false;
     public Vector2 InitPosition { get; set; }

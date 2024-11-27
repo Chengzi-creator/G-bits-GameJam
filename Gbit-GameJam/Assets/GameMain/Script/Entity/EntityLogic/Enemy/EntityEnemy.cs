@@ -26,7 +26,7 @@ public class EntityEnemy : EntityLogic
     
     protected bool spawnSuccess = false;
     protected bool recycled = false;
-    protected EnemySpawner m_Spawner;
+    //protected EnemySpawner m_Spawner;
     protected string m_Name;
     
 
@@ -71,7 +71,7 @@ public class EntityEnemy : EntityLogic
         {
             //GameBase.Instance.OnEnemyDie();
             recycled = true;
-            m_Spawner.Unspawn(this);
+            //m_Spawner.Unspawn(this);
         }
     }
     

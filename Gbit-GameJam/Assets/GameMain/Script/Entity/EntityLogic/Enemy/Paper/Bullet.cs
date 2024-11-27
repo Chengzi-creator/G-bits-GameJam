@@ -11,7 +11,7 @@ public class Bullet : MonoBehaviour, IMyObject// EntityLogic//MonoBehaviour, IMy
     protected bool m_Parabola;
     protected int m_Damage;
     protected float m_Speed = 10f;
-    protected Vector2 m_Direction;
+    protected Vector3 m_Direction;
     protected float m_AliveTime = 10f;
     protected float m_AliveTimer;
     protected Vector3 m_OriginalScale;
@@ -45,6 +45,7 @@ public class Bullet : MonoBehaviour, IMyObject// EntityLogic//MonoBehaviour, IMy
             Debug.Log("Player Null");
             return;
         }
+        
     }
 
     public virtual void OnShow(object userData)
@@ -54,19 +55,20 @@ public class Bullet : MonoBehaviour, IMyObject// EntityLogic//MonoBehaviour, IMy
         m_ThroughAble = data.ThroughAble;
         m_Damage = data.Damage;
         m_Speed = data.Speed;
-        //m_Direction = data.Direction;
+        m_Direction = data.Direction;
         m_AliveTime = data.AliveTime;
         transform.position = data.Position;
-        Debug.Log(data.Position);
-        Debug.Log(transform.position);
-        transform.localScale = m_OriginalScale * data.ScaleFactor;
-        transform.right = m_Direction;
+        //Debug.Log(data.Position);
+        //Debug.Log(transform.position);
+        //transform.localScale = m_OriginalScale * data.ScaleFactor;
+        //transform.right = m_Direction;
+        
         m_Parabola = data.Parabola;
         m_Horizontal = data.Horizontal;
         recycled = false;
         m_playerPosition = Player.transform.position;
-        m_Direction = ((Vector2)m_playerPosition - (Vector2)transform.position).normalized;
-        m_Direction.y = 0;
+        //m_Direction = ((Vector2)m_playerPosition - (Vector2)transform.position).normalized;
+        //m_Direction.y = 0;
 
         startPosition = transform.position;
         endPosition = m_playerPosition;
@@ -97,7 +99,7 @@ public class Bullet : MonoBehaviour, IMyObject// EntityLogic//MonoBehaviour, IMy
         m_AliveTimer += Time.deltaTime;
         if (m_Parabola)
         {
-            Debug.Log("真抛物线");
+            //Debug.Log("真抛物线");
             float deltaTime = Time.deltaTime;
             
             //更新位置
@@ -130,7 +132,8 @@ public class Bullet : MonoBehaviour, IMyObject// EntityLogic//MonoBehaviour, IMy
 
         if (m_Horizontal)
         {   
-            Debug.Log("真水平");
+            Debug.Log(m_Direction);
+            //Debug.Log("真水平");
             transform.Translate(m_Direction * (m_Speed * Time.deltaTime));
             if (Vector2.Distance(transform.position, m_playerPosition) < 0.1f)
             {

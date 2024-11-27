@@ -12,13 +12,15 @@ public class EntityPaper : EntityEnemy
    private IFsm<EntityPaper> fsm;
    private EntityPaperData PaperData;
    private GameObject m_BulletPrefab;
- 
+   public Animator m_Animator { get; private set; }
+   
    protected override void OnShow(object userData)
    {
       //PaperData = (EntityPaperData)userData;
       //m_BulletPrefab = PaperData.BulletPrefab;
       m_BulletPrefab = Resources.Load<GameObject>("Bullet");
       base.OnShow(userData);
+      m_Animator = GetComponent<Animator>();
       Debug.Log("成功了");
       List<FsmState<EntityPaper>> states = new List<FsmState<EntityPaper>>()
       {
@@ -32,6 +34,6 @@ public class EntityPaper : EntityEnemy
 
    public GameObject SpawnBullet()
    {  
-      return Instantiate(m_BulletPrefab);
+         return Instantiate(m_BulletPrefab);
    }
 }

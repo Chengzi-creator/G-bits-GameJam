@@ -19,6 +19,7 @@ public class PaperIdleState : PaperStateBase
         time++;
         paperPositon = m_EntityPaper.transform.position;
         Debug.Log("Idle");
+        m_EntityPaper.m_Animator.SetBool("Idle",true);
     }
     
     protected override void OnUpdate(IFsm<EntityPaper> fsm, float elapseSeconds, float realElapseSeconds)
@@ -31,12 +32,23 @@ public class PaperIdleState : PaperStateBase
 
         if (m_Timer >= 2f && (time % 2) == 1)
         {
+            m_EntityPaper.m_Animator.SetBool("Idle",false);
+            if (playerPosition.x - paperPositon.x >= 0)
+            {
+                m_EntityPaper.m_Animator.SetBool("MoveRight", true);
+            }
+            else
+            {
+                m_EntityPaper.m_Animator.SetBool("MoveLeft", true);
+            }
             ChangeState<PaperCollisionState>(fsm);
             m_Timer = 0f;
         }
 
         if (m_Timer >= 3f && (time % 2) == 0)
-        {
+        {   
+            m_EntityPaper.m_Animator.SetBool("Idle",false);
+            m_EntityPaper.m_Animator.SetTrigger("Bullet");
             ChangeState<PaperRemoteState>(fsm);
             m_Timer = 0f;
         }
@@ -46,11 +58,13 @@ public class PaperIdleState : PaperStateBase
     {
         if (playerPosition.x - paperPositon.x >= 0)
         {
-            m_EntityPaper.m_SpriteRenderer.flipX = false;
+            //m_EntityPaper.m_SpriteRenderer.flipX = false;
+            m_EntityPaper.transform.localScale = new Vector3(1,1,1);
         }
         else
         {
-            m_EntityPaper.m_SpriteRenderer.flipX = true;
+            //m_EntityPaper.m_SpriteRenderer.flipX = true;
+            m_EntityPaper.transform.localScale = new Vector3(-1,1,1);
         }
         
     }
