@@ -9,7 +9,6 @@ using UnityGameFramework.Runtime;
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(PlayerAttackComponent))]
 [RequireComponent(typeof(Animator))]
-[RequireComponent(typeof(Animator))]
 public class EntityPlayer : EntityLogic, IAttackAble
 {
     public static int PlayerId = 1001;
@@ -19,7 +18,7 @@ public class EntityPlayer : EntityLogic, IAttackAble
     private IFsm<EntityPlayer> fsm;
 
 
-    public KeyCode ATTACK_COMMAND = KeyCode.Space;
+    public KeyCode ATTACK_COMMAND = KeyCode.Mouse0;
     public KeyCode JUMP_COMMAND = KeyCode.W;
     public KeyCode DODGE_COMMAND = KeyCode.LeftShift;
 
@@ -39,6 +38,8 @@ public class EntityPlayer : EntityLogic, IAttackAble
     public float DodgeLength { get; private set; }
     public float DodgeSpeed { get; private set; }
 
+
+    //HP
     public int MaxHP { get; private set; }
 
     private int m_Hp;
@@ -59,6 +60,21 @@ public class EntityPlayer : EntityLogic, IAttackAble
         }
     }
 
+    //Axe Count
+    public int MaxAxeCount { get; private set; }
+    private int m_AxeCount;
+
+    public int AxeCount
+    {
+        get => m_AxeCount;
+        set
+        {
+            GameEntry.Event.Fire(this, PlayerAxeCountChangeEventArgs.Create(m_AxeCount, value));
+            m_AxeCount = value;
+        }
+    }
+    public float AxeRecoverTime { get; private set; }
+    private float m_AxeRecoverTimer = 0f;
     public Vector2 MoveDirection { get; private set; }
 
     public bool isRight = true;
@@ -100,6 +116,8 @@ public class EntityPlayer : EntityLogic, IAttackAble
         }
 
         MaxHP = 100;
+        MaxAxeCount = 4;
+        AxeRecoverTime = 1f;
     }
 
     protected override void OnShow(object userData)
@@ -118,6 +136,8 @@ public class EntityPlayer : EntityLogic, IAttackAble
         fsm.Start<PlayerIdelState>();
 
         Hp = 0;
+        AxeCount = MaxAxeCount;
+        m_AxeRecoverTimer = 0f;
     }
 
     protected override void OnUpdate(float elapseSeconds, float realElapseSeconds)
@@ -134,6 +154,18 @@ public class EntityPlayer : EntityLogic, IAttackAble
             isRight = false;
             transform.localRotation = Quaternion.Euler(0, 180, 0);
         }
+        
+        
+        //斧头数量恢复
+        if(AxeCount<MaxAxeCount)
+        {
+            m_AxeRecoverTimer += elapseSeconds;
+            if (m_AxeRecoverTimer >= AxeRecoverTime)
+            {
+                m_AxeRecoverTimer = 0f;
+                RecoverAxe();
+            }
+        }
     }
 
     private void OnDestroy()
@@ -146,6 +178,10 @@ public class EntityPlayer : EntityLogic, IAttackAble
         }
     }
 
+    /// <summary>
+    /// 地面检测
+    /// </summary>
+    /// <returns></returns>
     public bool OnGround()
     {
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 1.35f, LayerMask.GetMask("Land"));
@@ -157,5 +193,27 @@ public class EntityPlayer : EntityLogic, IAttackAble
         //TODO:处理受击逻辑
         int damage = Math.Clamp(data.Damage, 0, MaxHP - Hp);
         Hp += damage;
+    }
+    
+    
+    public bool CanThrowAxe()
+    {
+        return AxeCount > 0;
+    }
+    public bool ThrowAxe()
+    {
+        if(AxeCount>0)
+        {
+            AxeCount--;
+            return true;
+        }
+        return false;
+    }
+    public void RecoverAxe()
+    {
+        if(AxeCount<MaxAxeCount)
+        {
+            AxeCount++;
+        }
     }
 }

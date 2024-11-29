@@ -48,6 +48,9 @@ public class ProcedureBattle : ProcedureBase
         if (isGameOver)
         {
             ChangeState<ProcedureLevelCompelete>(procedureOwner);
+            VarInt32 varMinute = (int)m_LiveSeconds;
+
+            GameEntry.DataNode.GetOrAddNode("UI").SetData(varMinute);
         }
     }
 
@@ -65,6 +68,5 @@ public class ProcedureBattle : ProcedureBase
         VarInt32 varSecond = (int)m_LiveSeconds % 60;
         GameEntry.DataNode.GetOrAddNode("LevelInfo").GetOrAddChild("Minute").SetData(varMinute);
         GameEntry.DataNode.GetOrAddNode("LevelInfo").GetOrAddChild("Second").SetData(varSecond);
-        
     }
 }
