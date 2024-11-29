@@ -1,13 +1,18 @@
-using GameMain.Script.Event;
-using TMPro;
+﻿//------------------------------------------------------------
+// 此文件由工具自动生成
+// 生成时间：2:56:58
+//------------------------------------------------------------
+
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityGameFramework.Runtime;
 
 namespace GameMain
 {
-    public partial class SettingsUI : UIFormLogic
-    {
+    public partial class SettingUIForm : UIFormLogic
+    {   
         [SerializeField] private GameObject PauseMasks;
 
         [SerializeField] private GameObject VolumeMasks;
@@ -19,25 +24,30 @@ namespace GameMain
         [SerializeField] private Button volumeButton;
         [SerializeField] private Button settingsButton;
         [SerializeField] private Toggle _toggle;
-
         [SerializeField] private Slider _slider;
-
-        //[SerializeField] private AudioSource audioSource;
+        
         private AudioSource currentSource; //正在播放的音频
         private bool isPaused = false;
-
         protected override void OnInit(object userData)
         {
             base.OnInit(userData);
-            GetBindComponents(gameObject);
+            //GetBindComponents(gameObject);
         }
 
         protected override void OnOpen(object userData)
         {
             base.OnOpen(userData);
-            PauseMasks.SetActive(false); //先隐藏
-            VolumeMasks.SetActive(false);
-            //exitButton.onClick.AddListener(OnexitButtonClick); //监听
+            RegisterEvents();
+        }
+
+        protected override void OnClose(bool isShutdown, object userData)
+        {
+            base.OnClose(isShutdown, userData);
+            RemoveEvents();
+        }
+
+        private void RegisterEvents()
+        {
             restartButton.onClick.AddListener(OnrestartButtonClick);
             backButton.onClick.AddListener(OnbackButtonClick);
             homeButton.onClick.AddListener(OnhomeButtonClick);
@@ -45,10 +55,19 @@ namespace GameMain
             settingsButton.onClick.AddListener(TogglePause);
             _toggle.onValueChanged.AddListener(isOn => ControlAudio());
             _slider.onValueChanged.AddListener(value => Volume(value));
-            //currentSource = audioSource;
         }
-        
 
+        private void RemoveEvents()
+        {
+
+            restartButton.onClick.RemoveListener(OnrestartButtonClick);
+            backButton.onClick.RemoveListener(OnbackButtonClick);
+            homeButton.onClick.RemoveListener(OnhomeButtonClick);
+            volumeButton.onClick.RemoveListener(OnvolumeButtonClick);
+            settingsButton.onClick.RemoveListener(TogglePause);
+            _toggle.onValueChanged.RemoveListener(isOn => ControlAudio());
+            _slider.onValueChanged.RemoveListener(value => Volume(value));
+        }
         protected override void OnUpdate(float elapseSeconds, float realElapseSeconds)
         {
             base.OnUpdate(elapseSeconds, realElapseSeconds);
@@ -133,5 +152,4 @@ namespace GameMain
         {
         }
     }
-
 }

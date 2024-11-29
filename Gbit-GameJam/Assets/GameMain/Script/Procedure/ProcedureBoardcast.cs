@@ -1,6 +1,7 @@
 ﻿using GameFramework.Event;
 using GameFramework.Fsm;
 using GameFramework.Procedure;
+using GameMain;
 using UnityEngine;
 using UnityGameFramework.Runtime;
 
@@ -23,8 +24,9 @@ public class ProcedureBoardcast : ProcedureBase
         GameEntry.UI.OpenUIForm("Assets/GameMain/Prefabs/UI/PlayerInfo.prefab", "BattleUI");
 
         //播放拨片
-        GameEntry.UI.OpenUIForm("Assets/GameMain/Prefabs/UI/SampleBoardcast.prefab", "Boardcast");
-
+        // GameEntry.UI.OpenUIForm("Assets/GameMain/Prefabs/UI/SampleBoardcast.prefab", "Boardcast");
+        GameEntry.UI.OpenUIForm(UIFormId.SampleBoardcast);
+        GameEntry.UI.OpenUIForm("Assets/GameMain/Prefabs/UI/Settings.prefab", "Settings");
 
         GameEntry.Scene.LoadScene("Assets/GameMain/Scene/Battle.unity", this);
     }
