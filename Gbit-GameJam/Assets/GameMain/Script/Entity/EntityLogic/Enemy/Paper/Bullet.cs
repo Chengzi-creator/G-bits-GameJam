@@ -9,7 +9,7 @@ public class Bullet : MonoBehaviour, IMyObject// EntityLogic//MonoBehaviour, IMy
     protected bool m_ThroughAble;
     protected bool m_Horizontal;
     protected bool m_Parabola;
-    protected int m_Damage;
+    protected int m_Damage = 1;
     protected float m_Speed = 10f;
     protected Vector3 m_Direction;
     protected float m_AliveTime = 10f;
