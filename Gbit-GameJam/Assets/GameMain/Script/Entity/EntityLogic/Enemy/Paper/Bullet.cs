@@ -39,7 +39,7 @@ public class Bullet : MonoBehaviour, IMyObject// EntityLogic//MonoBehaviour, IMy
     {
         m_OriginalScale = transform.localScale;
         //m_PublicObjectPool = GameBase.Instance.GetObjectPool();
-        Player = FindObjectOfType<EntityPlayer>();
+       
         if (Player == null)
         {
             Debug.Log("Player Null");
@@ -52,6 +52,7 @@ public class Bullet : MonoBehaviour, IMyObject// EntityLogic//MonoBehaviour, IMy
     {
         data = userData as BulletData;
         
+        Player = FindObjectOfType<EntityPlayer>();
         m_ThroughAble = data.ThroughAble;
         m_Damage = data.Damage;
         m_Speed = data.Speed;

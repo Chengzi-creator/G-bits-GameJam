@@ -16,6 +16,10 @@ public class CameraControl : MonoBehaviour
     private float minY = 1.395f;
     private float maxY = 1.4f;
 
+    private void Awake()
+    {
+        transform.position = new Vector3(0f, 1.4f, -10f);
+    }
     private void Update()
     {
         
