@@ -14,7 +14,7 @@ public class PlayerIdelState : PlayerStateBase
     protected override void OnUpdate(IFsm<EntityPlayer> fsm, float elapseSeconds, float realElapseSeconds)
     {
         base.OnUpdate(fsm, elapseSeconds, realElapseSeconds);
-        if(m_EntityPlayer.MoveDirection.magnitude  > Mathf.Epsilon)
+        if (m_EntityPlayer.MoveDirection.magnitude > Mathf.Epsilon)
         {
             ChangeState<PlayerMoveState>(fsm);
         }
@@ -22,16 +22,16 @@ public class PlayerIdelState : PlayerStateBase
         {
             ChangeState<PlayerJumpState>(fsm);
         }
-        else if(Input.GetKeyDown(m_EntityPlayer.ATTACK_COMMAND))
+        else if (Input.GetKeyDown(m_EntityPlayer.ATTACK_COMMAND) && m_EntityPlayer.CanThrowAxe())
         {
             ChangeState<PlayerAttackState>(fsm);
         }
-        else if(Input.GetKeyDown(m_EntityPlayer.DODGE_COMMAND))
+        else if (Input.GetKeyDown(m_EntityPlayer.DODGE_COMMAND))
         {
             ChangeState<PlayerDodgeState>(fsm);
         }
     }
-    
+
 
     public static PlayerIdelState Create()
     {

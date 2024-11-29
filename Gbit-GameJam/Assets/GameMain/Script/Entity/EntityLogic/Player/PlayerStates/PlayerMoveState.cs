@@ -25,7 +25,7 @@ public class PlayerMoveState : PlayerStateBase
         {
             ChangeState<PlayerJumpState>(fsm);
         }
-        else if(Input.GetKeyDown(m_EntityPlayer.ATTACK_COMMAND))
+        else if(Input.GetKeyDown(m_EntityPlayer.ATTACK_COMMAND) && m_EntityPlayer.CanThrowAxe())
         {
             ChangeState<PlayerAttackState>(fsm);
         }

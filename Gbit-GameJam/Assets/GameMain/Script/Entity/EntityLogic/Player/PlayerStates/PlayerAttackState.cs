@@ -59,8 +59,6 @@ public class PlayerAttackState : PlayerStateBase
             {
                 m_DodgeBuffer = true;
             }
-            
-            
         }
         //后摇
         else if (timer<waitTime+attackDuration+exitTime)
@@ -71,7 +69,7 @@ public class PlayerAttackState : PlayerStateBase
                 hasAttacked = false;
             }
             
-            if(Input.GetKeyDown(m_EntityPlayer.ATTACK_COMMAND)|| m_AttackBuffer)
+            if((Input.GetKeyDown(m_EntityPlayer.ATTACK_COMMAND) || m_AttackBuffer) && m_EntityPlayer.CanThrowAxe())
             {
                 ChangeState<PlayerAttackState>(fsm);
             }
@@ -95,6 +93,7 @@ public class PlayerAttackState : PlayerStateBase
     
     void AttackStart()
     {
+        m_EntityPlayer.ThrowAxe();
         m_EntityPlayer.attackComponent.AttackStart(m_EntityPlayer.transform.position,m_EntityPlayer.isRight);
     }
     void AttackEnd()
