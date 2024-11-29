@@ -9,7 +9,7 @@ public class Bullet : MonoBehaviour, IMyObject// EntityLogic//MonoBehaviour, IMy
     protected bool m_ThroughAble;
     protected bool m_Horizontal;
     protected bool m_Parabola;
-    protected int m_Damage;
+    protected int m_Damage = 1;
     protected float m_Speed = 10f;
     protected Vector3 m_Direction;
     protected float m_AliveTime = 10f;
@@ -39,7 +39,7 @@ public class Bullet : MonoBehaviour, IMyObject// EntityLogic//MonoBehaviour, IMy
     {
         m_OriginalScale = transform.localScale;
         //m_PublicObjectPool = GameBase.Instance.GetObjectPool();
-        Player = FindObjectOfType<EntityPlayer>();
+       
         if (Player == null)
         {
             Debug.Log("Player Null");
@@ -52,6 +52,7 @@ public class Bullet : MonoBehaviour, IMyObject// EntityLogic//MonoBehaviour, IMy
     {
         data = userData as BulletData;
         
+        Player = FindObjectOfType<EntityPlayer>();
         m_ThroughAble = data.ThroughAble;
         m_Damage = data.Damage;
         m_Speed = data.Speed;

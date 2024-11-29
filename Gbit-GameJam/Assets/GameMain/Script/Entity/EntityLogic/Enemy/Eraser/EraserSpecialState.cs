@@ -91,7 +91,7 @@ public class EraserSpecialState : EraserStateBase
             //Debug.Log("下砸");
             //Debug.Log(m_EntityEraser.transform.localScale);
             //下砸至当前位置,应该不管速度就行，会自由落体，然后管理缩放大小
-            isGround = Physics2D.OverlapCircle(eraserPositon - new Vector2(0, 0f), 2f,
+            isGround = Physics2D.OverlapCircle(eraserPositon - new Vector2(0, 0f), 5f,
                 LayerMask.GetMask("Land"));
             if (isGround)//地面检测吧还是
             {   

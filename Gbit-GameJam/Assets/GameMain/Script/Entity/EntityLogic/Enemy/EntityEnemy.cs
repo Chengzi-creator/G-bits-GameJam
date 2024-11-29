@@ -6,7 +6,7 @@ using GameFramework.Fsm;
 using UnityEngine;
 using UnityGameFramework.Runtime;
 
-public class EntityEnemy: EntityLogic
+public class EntityEnemy: EntityLogic,IAttackAble
 {
     
     public static int EnemyId = 20001;
@@ -20,27 +20,32 @@ public class EntityEnemy: EntityLogic
     
     public EntityPlayer player;
     
-    
+    public int MaxHP { get; private set; }
+    private int m_Hp;
+
+    public int Hp
+    {
+        get => m_Hp;
+        set
+        {
+            m_Hp = value;
+        }
+    }
     
     protected bool spawnSuccess = false;
-    protected bool recycled = false;
-    //protected EnemySpawner m_Spawner;
-    protected string m_Name;
     
-
-    //protected Player player => GameBase.Instance.GetPlayer();//获取玩家位置信息
     public float m_IdleDist = 1;
     public float m_TrackDist = 3;
+    
     protected override void OnInit(object userData)
     {   
         //初始化
         base.OnInit(userData);
         EntityEnemyData enemyData = userData as EntityEnemyData;
-        
         m_Collider = GetComponent<Collider2D>();
-        //m_Spawner = (EnemySpawner)userData;
+        
         //m_StatusInfo = new CharacterInfo(1, 2);
-        //m_Animator = GetComponent<Animator>();
+        m_Animator = GetComponent<Animator>();
         m_SpriteRenderer = GetComponent<SpriteRenderer>();
         m_Rigidbody = GetComponent<Rigidbody2D>();
         player = FindObjectOfType<EntityPlayer>();
@@ -54,64 +59,26 @@ public class EntityEnemy: EntityLogic
      //敌人生成时调用的
     protected override void OnShow(object userData)
     {
-        // m_Collider.enabled = false;
-        //
-        // PlayAnim("Spawn");
-        // spawnSuccess = false;
-        // recycled = false;
-    }
-
-    public Action<object> RecycleAction { get; set; }//回收
-
-    public virtual void RecycleSelf()
-    {
-        if (!recycled)
-        {
-            //GameBase.Instance.OnEnemyDie();
-            recycled = true;
-            //m_Spawner.Unspawn(this);
-        }
+        
     }
     
-    //通过名字生成
-    public void SetName(string name)
-    {
-        m_Name = name;
-    }
-
-    public string GetName()
-    {
-        return m_Name;
-    }
-
-    
-    //生成成功时调用
-    public virtual void OnSpawnSuccess()
-    {
-        spawnSuccess = true;
-        m_Collider.enabled = true;
-    }
-
     //死亡调用
     public virtual void OnDead()
     {
-        if (!spawnSuccess) return;
-        m_Animator.Play("Die");
+        m_Animator.Play("Dead");
         m_Collider.enabled = false;
         m_Rigidbody.velocity = Vector2.zero;
+        //GameEntry.Entity.HideEntity();
         // Destroy(gameObject);
     }
     
     //受击
     public virtual void OnAttacked(AttackData data)
     {
-        OnDead();
-    }
-    
-    //动画播放
-    public void PlayAnim(string animName)
-    {
-        m_Animator.Play(animName);
+        int damage = data.Damage;
+        Hp -= damage;
+        if(Hp == 0)
+            OnDead();
     }
     
     //被攻击时？
@@ -123,11 +90,11 @@ public class EntityEnemy: EntityLogic
     //敌人通过碰撞攻击
     private void OnCollisionEnter2D(Collision2D other)
     {
-        // if (other.gameObject.CompareTag("Player"))
-        // {
-        //     other.gameObject.GetComponent<IAttackAble>()
-        //         .OnAttacked(new AttackData(1, transform.position - other.transform.position));
-        // }
+        if (other.gameObject.CompareTag("Player"))
+        {
+            other.gameObject.GetComponent<IAttackAble>()
+                .OnAttacked(new AttackData(1, transform.position - other.transform.position));
+        }
     }
     
     //受伤后坐力
