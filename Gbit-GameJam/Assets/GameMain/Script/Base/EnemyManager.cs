@@ -1,27 +1,40 @@
-using System.Collections;
+using GameFramework.Event;
 using UnityEngine;
 using UnityGameFramework.Runtime;
 
-public class EnemyManager : MonoBehaviour
+public class EnemyManager : GameFrameworkComponent
 {
     public float spawnInterval = 20f; //怪物生成间隔
     public Vector2 spawnAreaMin = new Vector2(-10f, -5f);
     public Vector2 spawnAreaMax = new Vector2(10f, 5f);
-
+    
     private float nextSpawnTime;
 
-    void Start()
+    public bool isWorking = false;
+
+    private void Start()
     {
-        nextSpawnTime = Time.time;
+        GameEntry.Event.Subscribe(LevelStartEventArgs.EventId, StartWorking);
+        GameEntry.Event.Subscribe(PlayerHpRunOutEventArgs.EventId, StopWorking);
     }
+
 
     void Update()
     {
-        if (Time.time >= nextSpawnTime)
+        if (isWorking)
         {
-            SpawnRandomEnemy();
-            nextSpawnTime = Time.time + spawnInterval;
+            if (Time.time >= nextSpawnTime)
+            {
+                SpawnRandomEnemy();
+                nextSpawnTime = Time.time + spawnInterval;
+            }
         }
+    }
+
+    private void OnDestroy()
+    {
+        GameEntry.Event.Unsubscribe(LevelStartEventArgs.EventId, StartWorking);
+        GameEntry.Event.Unsubscribe(PlayerHpRunOutEventArgs.EventId, StopWorking);
     }
 
     void SpawnRandomEnemy()
@@ -56,5 +69,15 @@ public class EnemyManager : MonoBehaviour
         );
 
         Debug.Log($"Spawned {entityType.Name} at {spawnPosition}");
+    }
+    public void StartWorking(object sender, GameEventArgs gameEventArgs)
+    {
+        isWorking = true;
+        nextSpawnTime = Time.time;
+    }
+    
+    public void StopWorking(object sender, GameEventArgs gameEventArgs)
+    {
+        isWorking = false;
     }
 }

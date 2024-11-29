@@ -28,18 +28,22 @@ public class ProcedureBattle : ProcedureBase
         GameEntry.Entity.ShowEntity<EntityPlayer>(EntityPlayer.PlayerId, "Assets/GameMain/Prefabs/Player.prefab",
             "Player", EntityPlayerData.Create(Vector2.zero));
 
-        GameEntry.Entity.ShowEntity<EntityWindow>(EntityWindow.WindowId,
-            "Assets/GameMain/Prefabs/Windows/WindowExample.prefab",
-            "Window");
-      
+        // GameEntry.Entity.ShowEntity<EntityWindow>(EntityWindow.WindowId,
+        //     "Assets/GameMain/Prefabs/Windows/WindowExample.prefab",
+        //     "Window");
+
+
+        GameEntry.Event.Fire(this,LevelStartEventArgs.Create());
+
+
         // GameEntry.Entity.ShowEntity<EntityPaper>(EntityEnemy.EnemyId, "Assets/GameMain/Prefabs/Enemy/Paper.prefab",
         //     "Enemy", EntityEnemyData.Create(Vector2.zero));
-        
+
         // GameEntry.Entity.ShowEntity<EntityEraser>(EntityEnemy.EnemyId, "Assets/GameMain/Prefabs/Enemy/Eraser.prefab",
         //     "Enemy", EntityEnemyData.Create(Vector2.zero));
         //
-        GameObject enemyManagerObject = new GameObject("EnemyManager");
-        EnemyManager enemyManager = enemyManagerObject.AddComponent<EnemyManager>();
+
+
     }
     protected override void OnUpdate(IFsm<IProcedureManager> procedureOwner, float elapseSeconds, float realElapseSeconds)
     {
