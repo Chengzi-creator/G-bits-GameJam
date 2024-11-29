@@ -5,28 +5,27 @@ public class PlayerAxeData : IReference
 {
     public Vector3 InitPosition { get; private set; }
     public float RotateSpeed { get; private set; }
-    public float FlyHeight { get; private set; }
-    public float FlyLength { get; private set; }
+    public Vector2 FlyDirection { get; private set; }
     
-    public bool IsRight { get; private set; }
+    public float Speed { get; private set; }
+
     
-    public static PlayerAxeData Create(Vector3 initPosition, float rotateSpeed, float flyHeight, float flyLength , bool isRight = true)
+    public static PlayerAxeData Create(Vector3 initPosition, float rotateSpeed, Vector2 flyDirection, float speed)
     {
         PlayerAxeData d = ReferencePool.Acquire<PlayerAxeData>();
         
         d.InitPosition = initPosition;
         d.RotateSpeed = rotateSpeed;
-        d.FlyHeight = flyHeight;
-        d.FlyLength = flyLength;
-        d.IsRight = isRight;
+        d.FlyDirection = flyDirection;
+        d.Speed = speed;
+        
         return d;
     }
-
     public void Clear()
     {
         InitPosition = Vector3.zero;
         RotateSpeed = 0;
-        FlyHeight = 0;
-        FlyLength = 0;
+        FlyDirection = Vector2.zero;
+        Speed = 0;
     }
 }

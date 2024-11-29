@@ -24,6 +24,8 @@ public class PlayerAttackComponent : MonoBehaviour
     public float AxeFlyLength { get; private set; }
     public float AxeRotateSpeed { get; private set; }
 
+    public float AxeSpeed = 20f;
+
     private void Awake()
     {
         MeleeAttackHitBox.SetActive(false);
@@ -34,9 +36,10 @@ public class PlayerAttackComponent : MonoBehaviour
         AxeFlyHeight = 3f;
         AxeFlyLength = 10f;
         AxeRotateSpeed = -720f;
+        
     }
 
-    public void AttackStart(Vector3 position , bool isRight = true)
+    public void AttackStart(Vector3 position ,Vector2 direction)
     {
         switch (currentAttackType)
         {
@@ -44,9 +47,10 @@ public class PlayerAttackComponent : MonoBehaviour
                 MeleeAttackHitBox.SetActive(true);
                 break;
             case AttackType.Axe:
+
                 GameEntry.Entity.ShowEntity<PlayerAxe>(PlayerAxe.PlayerAxeId++, "Assets/GameMain/Prefabs/Axe.prefab",
                     "MissileGroup",
-                    PlayerAxeData.Create(position, AxeRotateSpeed, AxeFlyHeight, AxeFlyLength, isRight));
+                    PlayerAxeData.Create(position, AxeRotateSpeed, direction, AxeSpeed));
                 break;
         }
     }

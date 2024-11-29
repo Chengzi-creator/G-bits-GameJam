@@ -7,7 +7,7 @@ using UnityGameFramework.Runtime;
 public class SettingsUI : UIFormLogic
 {
     [SerializeField] private GameObject PauseMasks;
-    [SerializeField] private G
+    // [SerializeField] private G
     [SerializeField] private Button exitButton;
     [SerializeField] private Button backButton;
     [SerializeField] private Button restartButton;

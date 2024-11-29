@@ -15,7 +15,9 @@ public class PlayerAttackState : PlayerStateBase
     private bool m_AttackBuffer;
     private bool m_JumpBuffer;
     private bool m_DodgeBuffer;
-    
+
+    private Vector2 m_FlyDirection;
+
     protected override void OnEnter(IFsm<EntityPlayer> fsm)
     {
         base.OnEnter(fsm);
@@ -24,6 +26,19 @@ public class PlayerAttackState : PlayerStateBase
         m_AttackBuffer = false;
         m_JumpBuffer = false;
         m_DodgeBuffer = false;
+
+        m_FlyDirection = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - m_EntityPlayer.transform.position)
+            .normalized;
+        m_EntityPlayer.isAttack = true;
+
+        if (m_FlyDirection.x >= 0)
+        {
+            m_EntityPlayer.isRight = true;
+        }
+        else
+        {
+            m_EntityPlayer.isRight = false;
+        }
     }
 
     protected override void OnUpdate(IFsm<EntityPlayer> fsm, float elapseSeconds, float realElapseSeconds)
@@ -31,7 +46,7 @@ public class PlayerAttackState : PlayerStateBase
         base.OnUpdate(fsm, elapseSeconds, realElapseSeconds);
         timer += elapseSeconds;
         //前腰
-        if (timer<=waitTime)
+        if (timer <= waitTime)
         {
             if (Input.GetKeyDown(m_EntityPlayer.DODGE_COMMAND))
             {
@@ -39,69 +54,74 @@ public class PlayerAttackState : PlayerStateBase
             }
         }
         //攻击播片
-        else if (timer<=waitTime+attackDuration)
+        else if (timer <= waitTime + attackDuration)
         {
             if (!hasAttacked)
             {
                 AttackStart();
                 hasAttacked = true;
             }
-            
-            if(Input.GetKeyDown(m_EntityPlayer.ATTACK_COMMAND))
+
+            if (Input.GetKeyDown(m_EntityPlayer.ATTACK_COMMAND))
             {
                 m_AttackBuffer = true;
             }
-            else if(Input.GetKeyDown(m_EntityPlayer.JUMP_COMMAND))
+            else if (Input.GetKeyDown(m_EntityPlayer.JUMP_COMMAND))
             {
                 m_JumpBuffer = true;
             }
-            else if(Input.GetKeyDown(m_EntityPlayer.DODGE_COMMAND))
+            else if (Input.GetKeyDown(m_EntityPlayer.DODGE_COMMAND))
             {
                 m_DodgeBuffer = true;
             }
         }
         //后摇
-        else if (timer<waitTime+attackDuration+exitTime)
+        else if (timer < waitTime + attackDuration + exitTime)
         {
             if (hasAttacked)
             {
                 AttackEnd();
                 hasAttacked = false;
             }
-            
-            if((Input.GetKeyDown(m_EntityPlayer.ATTACK_COMMAND) || m_AttackBuffer) && m_EntityPlayer.CanThrowAxe())
+
+            if ((Input.GetKeyDown(m_EntityPlayer.ATTACK_COMMAND) || m_AttackBuffer) && m_EntityPlayer.CanThrowAxe())
             {
                 ChangeState<PlayerAttackState>(fsm);
             }
-            else if(Input.GetKeyDown(m_EntityPlayer.JUMP_COMMAND)|| m_JumpBuffer)
+            else if (Input.GetKeyDown(m_EntityPlayer.JUMP_COMMAND) || m_JumpBuffer)
             {
                 ChangeState<PlayerJumpState>(fsm);
             }
-            else if(Input.GetKeyDown(m_EntityPlayer.DODGE_COMMAND)|| m_DodgeBuffer)
+            else if (Input.GetKeyDown(m_EntityPlayer.DODGE_COMMAND) || m_DodgeBuffer)
             {
                 ChangeState<PlayerDodgeState>(fsm);
             }
-            
-            
         }
         //退出
-        else 
+        else
         {
             ChangeState<PlayerMoveState>(fsm);
         }
     }
-    
+
+    protected override void OnLeave(IFsm<EntityPlayer> fsm, bool isShutdown)
+    {
+        base.OnLeave(fsm, isShutdown);
+        m_EntityPlayer.isAttack = false;
+    }
+
     void AttackStart()
     {
         m_EntityPlayer.ThrowAxe();
-        m_EntityPlayer.attackComponent.AttackStart(m_EntityPlayer.transform.position,m_EntityPlayer.isRight);
+
+        m_EntityPlayer.attackComponent.AttackStart(m_EntityPlayer.transform.position, m_FlyDirection);
     }
+
     void AttackEnd()
     {
         m_EntityPlayer.attackComponent.AttackEnd();
     }
-    
-    
+
 
     public static PlayerAttackState Create()
     {

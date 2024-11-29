@@ -11,10 +11,10 @@ public class PlayerAxe : EntityLogic
     
     private Rigidbody2D rb;
     public float RotateSpeed { get; private set; }
-    public float FlyHeight { get; private set; }
-    public float FlyLength { get; private set; }
     
-    public bool IsRight { get; private set; }
+    public Vector2 FlyDirection { get; private set; }
+    
+    public float Speed { get; private set; }
 
     private Vector3 rotate;
 
@@ -28,17 +28,16 @@ public class PlayerAxe : EntityLogic
             Log.Error("Player axe data is invalid.");
             return;
         }
+        FlyDirection = data.FlyDirection;
+        Speed = data.Speed;
 
         rb = GetComponent<Rigidbody2D>();
         
         
         transform.position = data.InitPosition;
         RotateSpeed = data.RotateSpeed;
-        FlyHeight = data.FlyHeight;
-        FlyLength = data.FlyLength;
-        IsRight = data.IsRight;
 
-        if (IsRight)
+        if (FlyDirection.x >= 0)
         {
             transform.localRotation = Quaternion.Euler(0, 0, 0);
         }
@@ -54,17 +53,14 @@ public class PlayerAxe : EntityLogic
     {
         base.OnShow(userData);
         //计算初速度
-        float t = Mathf.Sqrt(2 * FlyHeight / Mathf.Abs(Physics2D.gravity.y));
-        float velocityX = (FlyLength / 2) / t;
-        float velocityY = t * Mathf.Abs(Physics2D.gravity.y);
-        rb.velocity = IsRight ? new Vector2(velocityX, velocityY) : new Vector2(-velocityX, velocityY);
+
+        rb.velocity = Speed * FlyDirection;
     }
 
     protected override void OnUpdate(float elapseSeconds, float realElapseSeconds)
     {
         base.OnUpdate(elapseSeconds, realElapseSeconds);
         transform.Rotate(rotate * elapseSeconds);
-        
     }
 
     private void OnCollisionEnter2D(Collision2D other)

@@ -38,6 +38,7 @@ public class EntityPlayer : EntityLogic, IAttackAble
     public float DodgeLength { get; private set; }
     public float DodgeSpeed { get; private set; }
 
+    
 
     //HP
     public int MaxHP { get; private set; }
@@ -78,6 +79,7 @@ public class EntityPlayer : EntityLogic, IAttackAble
     public Vector2 MoveDirection { get; private set; }
 
     public bool isRight = true;
+    public bool isAttack = false;
 
     protected override void OnInit(object userData)
     {
@@ -144,17 +146,27 @@ public class EntityPlayer : EntityLogic, IAttackAble
     {
         base.OnUpdate(elapseSeconds, realElapseSeconds);
         MoveDirection = new Vector2(Input.GetAxis("Horizontal"), 0f);
-        if (MoveDirection.x > 0)
+
+        if (!isAttack)
         {
-            isRight = true;
+            if (MoveDirection.x > 0)
+            {
+                isRight = true;
+            }
+            else if (MoveDirection.x < 0)
+            {
+                isRight = false;
+            }
+        }
+
+        if (isRight)
+        {
             transform.localRotation = Quaternion.Euler(0, 0, 0);
         }
-        else if (MoveDirection.x < 0)
+        else
         {
-            isRight = false;
             transform.localRotation = Quaternion.Euler(0, 180, 0);
         }
-        
         
         //斧头数量恢复
         if(AxeCount<MaxAxeCount)
