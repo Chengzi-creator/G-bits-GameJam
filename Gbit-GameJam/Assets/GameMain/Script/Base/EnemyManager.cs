@@ -1,6 +1,8 @@
+using System;
 using GameFramework.Event;
 using UnityEngine;
 using UnityGameFramework.Runtime;
+using Random = UnityEngine.Random;
 
 public class EnemyManager : GameFrameworkComponent
 {
@@ -31,12 +33,11 @@ public class EnemyManager : GameFrameworkComponent
         }
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         GameEntry.Event.Unsubscribe(LevelStartEventArgs.EventId, StartWorking);
         GameEntry.Event.Unsubscribe(PlayerHpRunOutEventArgs.EventId, StopWorking);
     }
-
     void SpawnRandomEnemy()
     {
         int randomValue = Random.Range(0, 2);

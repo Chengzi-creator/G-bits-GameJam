@@ -32,6 +32,13 @@ public class PlayerAirState : PlayerStateBase
         MoveInAir();
     }
 
+    protected override void OnLeave(IFsm<EntityPlayer> fsm, bool isShutdown)
+    {
+        base.OnLeave(fsm, isShutdown);
+        m_EntityPlayer.anim.SetBool("Jump", false);
+        m_EntityPlayer.anim.speed = 1;
+    }
+
     private void MoveInAir()
     {
         float speedX = m_EntityPlayer.rb.velocity.x +

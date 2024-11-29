@@ -11,6 +11,8 @@ public class PlayerJumpState : PlayerStateBase
     {
         base.OnEnter(fsm);
         m_EntityPlayer.rb.velocity = new Vector2(m_EntityPlayer.rb.velocity.x, JumpSpeed);
+        m_EntityPlayer.anim.SetBool("Jump", true);
+        m_EntityPlayer.anim.speed = 3;
     }
 
     protected override void OnUpdate(IFsm<EntityPlayer> fsm, float elapseSeconds, float realElapseSeconds)
