@@ -8,6 +8,10 @@ using UnityEngine.SceneManagement;
 public class CameraControl : MonoBehaviour
 {
     public Transform target;
+    
+    public float leftBoundary { get; private set; }
+    public float rightBoundary { get; private set; }
+    
     private Vector3 targetPos;
     private float smooothSpeed = 5f;
     
@@ -15,16 +19,25 @@ public class CameraControl : MonoBehaviour
     private float maxX = 5.1f;
     private float minY = 1.395f;
     private float maxY = 1.4f;
+    
+    public Camera cam;
 
+    
     private void Awake()
     {
         transform.position = new Vector3(0f, 1.4f, -10f);
     }
-    private void Update()
+    
+    void Start()
     {
         
     }
-    
+
+    private void Update()
+    {
+       
+    }
+
     private void LateUpdate()
     {   
         if (target == null)
@@ -51,6 +64,19 @@ public class CameraControl : MonoBehaviour
             {
                 transform.position = Vector3.Lerp(transform.position, targetPosition, smooothSpeed * Time.deltaTime);
             }
+        }
+        
+        if (cam != null)
+        {
+            float cameraHeight = 2f * cam.orthographicSize;
+            float cameraWidth = cameraHeight * cam.aspect;
+
+            Vector3 cameraPosition = cam.transform.position;
+
+
+            leftBoundary = cameraPosition.x - cameraWidth / 2f;
+            rightBoundary = cameraPosition.x + cameraWidth / 2f;
+            
         }
     }
 }

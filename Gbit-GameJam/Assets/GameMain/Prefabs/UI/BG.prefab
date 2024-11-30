@@ -346,6 +346,7 @@ GameObject:
   - component: {fileID: 7471696324328077450}
   - component: {fileID: 5477876967416987361}
   - component: {fileID: 5701036032682899857}
+  - component: {fileID: 4681417323376647517}
   m_Layer: 5
   m_Name: Cloud
   m_TagString: Untagged
@@ -411,6 +412,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &4681417323376647517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3193098699875881631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cbf83a15724aff44849d79a32045c6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scrollSpeed: 2
 --- !u!1 &5254192684435135621
 GameObject:
   m_ObjectHideFlags: 0

@@ -93,7 +93,7 @@ public class EntityEnemy: EntityLogic,IAttackAble
         if (other.gameObject.CompareTag("Player"))
         {
             other.gameObject.GetComponent<IAttackAble>()
-                .OnAttacked(new AttackData(1, transform.position - other.transform.position));
+                .OnAttacked(new AttackData(1, other.transform.position - transform.position));
         }
     }
     

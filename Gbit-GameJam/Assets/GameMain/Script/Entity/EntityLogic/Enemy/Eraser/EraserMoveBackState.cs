@@ -11,12 +11,14 @@ public class EraserMoveBackState : EraserStateBase
     protected Vector2 eraserPositon;
     protected Vector2 forwardDirection;
     protected IFsm<EntityEraser> m_Fsm;
+    private CameraControl m_CameraControl;
     
     protected override void OnEnter(IFsm<EntityEraser> fsm)
     {
         base.OnEnter(fsm);
         Debug.Log("MoveBack");
         
+        m_CameraControl = Camera.main.GetComponent<CameraControl>();
         m_Timer = 0f;
         playerPosition = m_EntityEraser.player.transform.position;
         eraserPositon = m_EntityEraser.transform.position;
@@ -50,12 +52,12 @@ public class EraserMoveBackState : EraserStateBase
     
     private void MoveBack()
     {
-        Bounds bounds = GetBound();
         Vector2 nextPosition = m_EntityEraser.m_Rigidbody.position - forwardDirection.normalized * m_EntityEraser.moveSpeed * Time.deltaTime;
         if ((int)forwardDirection.x == 1)//面朝右边，向左边退
         {
             m_EntityEraser.m_Rigidbody.MovePosition(nextPosition);
-            if ((int)m_EntityEraser.transform.position.x == (int)bounds.min.x)
+            if (Mathf.Abs((int)m_EntityEraser.transform.position.x - (int)m_CameraControl.leftBoundary)<= 1f 
+                || Mathf.Abs((int)m_EntityEraser.transform.position.x - (int)playerPosition.x) <= 1F)
             {   
                 Debug.Log("已到达边界，停");
                 m_EntityEraser.m_Rigidbody.velocity = Vector3.zero;
@@ -67,14 +69,13 @@ public class EraserMoveBackState : EraserStateBase
         else if ((int)forwardDirection.x == -1)
         {
             m_EntityEraser.m_Rigidbody.MovePosition(nextPosition);
-            if ((int)m_EntityEraser.transform.position.x == (int)bounds.max.x)
+            if (Mathf.Abs((int)m_EntityEraser.transform.position.x - (int)m_CameraControl.rightBoundary)<= 1f 
+                || Mathf.Abs((int)m_EntityEraser.transform.position.x - (int)playerPosition.x) <= 1F)
             {   
                 Debug.Log("已到达边界，停");
                 m_EntityEraser.m_Rigidbody.velocity = Vector3.zero;
                 m_EntityEraser.m_Animator.SetBool("MoveBack",false);
                 m_EntityEraser.m_Animator.SetBool("Idle",true);
-
-                //这里播放idle动画得了
             }
         }
     }

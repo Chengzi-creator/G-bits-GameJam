@@ -6,15 +6,16 @@ using UnityEngine;
 
 public class EraserSpecialState : EraserStateBase
 {   
-    protected float m_Timer;
     protected Vector2 playerPosition;
     protected Vector2 eraserPositon;
     protected Vector2 forwardDirection;
     protected Vector2 targetPosition;
     protected Vector3 targetScale;
     protected float scaleSpeed;//缩放速度
-    protected Bounds m_Bounds;
+    protected float m_Timer;
+    protected float m_CountTime;
     protected bool isGround;
+    protected Bounds m_Bounds;
     protected IFsm<EntityEraser> m_Fsm;
 
     protected override void OnEnter(IFsm<EntityEraser> fsm)
@@ -30,7 +31,7 @@ public class EraserSpecialState : EraserStateBase
         m_Bounds = GetBounds();
         //嘲讽动画
         //烟雾消失动画
-        Flip();
+        
     }
 
     protected override void OnUpdate(IFsm<EntityEraser> fsm, float elapseSeconds, float realElapseSeconds)
@@ -42,7 +43,7 @@ public class EraserSpecialState : EraserStateBase
         //暂时不考虑动画效果
         if (m_Timer < 1f)
         {   
-            
+            Flip();
         }
         else if(m_Timer <= 2f && m_Timer >= 1f)
         {
@@ -50,9 +51,9 @@ public class EraserSpecialState : EraserStateBase
             m_EntityEraser.m_Animator.SetBool("Fade",true);
         }
         else if (m_Timer <= 3f && m_Timer >= 2f )
-        {
-            FollowPlayer();
+        {   
             m_EntityEraser.m_Animator.SetBool("Fade",false);
+            FollowPlayer();
         }
         else if(m_Timer > 3f)
         {
@@ -86,24 +87,30 @@ public class EraserSpecialState : EraserStateBase
     private void Smash()
     {   
         if (m_EntityEraser.transform.localScale.x >= 1.9f || isGround)
-        {
+        {   
+            m_EntityEraser.m_Animator.SetBool("Fade",false);
+            m_CountTime += Time.deltaTime;
             m_EntityEraser.m_Rigidbody.constraints = RigidbodyConstraints2D.None;
-            //Debug.Log("下砸");
-            //Debug.Log(m_EntityEraser.transform.localScale);
+          
             //下砸至当前位置,应该不管速度就行，会自由落体，然后管理缩放大小
             isGround = Physics2D.OverlapCircle(eraserPositon - new Vector2(0, 0f), 5f,
                 LayerMask.GetMask("Land"));
             if (isGround)//地面检测吧还是
             {   
                 Debug.Log("Land");
-                m_EntityEraser.transform.localScale = Vector3.Lerp(m_EntityEraser.transform.localScale, new Vector3(1,1,1),
+                //Debug.Log(m_CountTime);
+                m_EntityEraser.transform.localScale = Vector3.Lerp(m_EntityEraser.transform.localScale, new Vector3(0.8f,0.8f,0.8f),
                     scaleSpeed * Time.deltaTime);
-                if (m_EntityEraser.transform.localScale.x <= 1.1f)
-                {
+                if (m_EntityEraser.transform.localScale.x <= 1f)
+                {   
+                    //Debug.Log("Smash finish");
                     //站立动画
                     //Debug.Log("Again");
                     N = 0;
-                    m_Timer = 0f;
+                    // m_Timer = 0f;
+                    //
+                    // m_Timer += Time.deltaTime;
+                    // if(m_Timer >= 1f)
                     ChangeState<EraserIdleState>(m_Fsm);
                 }            
             }

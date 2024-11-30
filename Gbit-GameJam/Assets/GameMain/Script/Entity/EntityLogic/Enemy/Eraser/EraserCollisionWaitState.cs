@@ -17,6 +17,7 @@ public class EraserCollisionWaitState : EraserStateBase
         m_Timer = 0f;
         Debug.Log("Wait");
         Debug.Log(N);
+        m_EntityEraser.m_Animator.SetBool("Idle",true);
         playerPosition = m_EntityEraser.player.transform.position;
         eraserPositon = m_EntityEraser.transform.position;
         Flip();
@@ -27,7 +28,6 @@ public class EraserCollisionWaitState : EraserStateBase
     protected override void OnUpdate(IFsm<EntityEraser> fsm, float elapseSeconds, float realElapseSeconds)
     {
         base.OnUpdate(fsm, elapseSeconds, realElapseSeconds);
-        
         m_Timer += elapseSeconds;
         if (m_Timer >= 1.5f)
         {   
@@ -40,18 +40,13 @@ public class EraserCollisionWaitState : EraserStateBase
     
     protected void Flip()
     {
-        // if (playerPosition.x - eraserPositon.x >= 0)
-        // {
-        //     m_EntityEraser.m_SpriteRenderer.flipX = true;
-        // }
-        // else
-        // {
-        //     m_EntityEraser.m_SpriteRenderer.flipX = false;
-        // }
-        m_EntityEraser.m_SpriteRenderer.flipX = m_flip;
-        if (N == 3)
+        if (playerPosition.x - eraserPositon.x >= 0)
         {
-            m_EntityEraser.m_SpriteRenderer.flipX = !m_flip;
+            m_EntityEraser.m_SpriteRenderer.flipX = true;
+        }
+        else
+        {
+            m_EntityEraser.m_SpriteRenderer.flipX = false;
         }
     }
 

@@ -1,4 +1,4 @@
 ﻿#	角色配置表									
 #	id	Speed	JumpHeight	AirDuration	AirSpeedRate	AttackWaitDuration	AttackDuration	AttackEixtDuration	DodgeLength	DodgeSpeed
 #		速度	跳跃高度	空中检测延迟	空中速度衰减率	攻击前摇	攻击时间	攻击后摇	闪避距离	闪避速度
-	1	6	4	0.1	0.5	0.36	0.12	0.12	3	10
+	1	6	8	0.1	0.5	0.2	0.2	0.2	3	10
