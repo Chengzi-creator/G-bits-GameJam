@@ -453,10 +453,10 @@
     "m_Guid": {
         "m_GuidSerialized": "2f9df737-e4cc-478a-9111-6dac42ff9fbd"
     },
-    "m_Name": "MianTex",
+    "m_Name": "MainTex",
     "m_DefaultRefNameVersion": 1,
-    "m_RefNameGeneratedByDisplayName": "MianTex",
-    "m_DefaultReferenceName": "_MianTex",
+    "m_RefNameGeneratedByDisplayName": "MainTex",
+    "m_DefaultReferenceName": "_MainTex",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
     "m_UseCustomSlotLabel": false,
@@ -557,7 +557,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Texture2DMaterialSlot",
     "m_ObjectId": "37beadaa04064d92800735b817a050a2",
     "m_Id": 0,
-    "m_DisplayName": "MianTex",
+    "m_DisplayName": "MainTex",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",
