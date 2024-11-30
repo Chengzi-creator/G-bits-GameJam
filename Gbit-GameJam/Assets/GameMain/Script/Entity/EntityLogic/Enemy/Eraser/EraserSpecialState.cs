@@ -90,8 +90,8 @@ public class EraserSpecialState : EraserStateBase
         {   
             m_EntityEraser.m_Animator.SetBool("Fade",false);
             m_CountTime += Time.deltaTime;
-            m_EntityEraser.m_Rigidbody.constraints = RigidbodyConstraints2D.None;
-          
+            m_EntityEraser.m_Rigidbody.constraints &= ~RigidbodyConstraints2D.FreezePositionY;
+            m_EntityEraser.m_Rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
             //下砸至当前位置,应该不管速度就行，会自由落体，然后管理缩放大小
             isGround = Physics2D.OverlapCircle(eraserPositon - new Vector2(0, 0f), 5f,
                 LayerMask.GetMask("Land"));

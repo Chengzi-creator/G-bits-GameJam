@@ -20,7 +20,7 @@ public class EntityEnemy: EntityLogic,IAttackAble
     
     public EntityPlayer player;
     
-    public int MaxHP { get; private set; }
+    public int MaxHP { get; set; }
     private int m_Hp;
 
     public int Hp
@@ -65,7 +65,6 @@ public class EntityEnemy: EntityLogic,IAttackAble
     //死亡调用
     public virtual void OnDead()
     {
-        m_Animator.Play("Dead");
         m_Collider.enabled = false;
         m_Rigidbody.velocity = Vector2.zero;
         //GameEntry.Entity.HideEntity();
