@@ -3,7 +3,6 @@ using GameFramework.Event;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityGameFramework.Runtime;
-using Image = Microsoft.Unity.VisualStudio.Editor.Image;
 
 public class PlayerInfoUI : UIFormLogic
 {

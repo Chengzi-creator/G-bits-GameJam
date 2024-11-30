@@ -257,7 +257,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentAttackType: 1
   MeleeAttackHitBox: {fileID: 5756109117283676464}
-  AxeSpeed: 20
+  AxeSpeed: 25
 --- !u!95 &5921540914491860593
 Animator:
   serializedVersion: 5

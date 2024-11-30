@@ -28,5 +28,16 @@ namespace GameMain
         {
             return Utility.Text.Format("{0}/Prefabs/UI/{1}.prefab", ResRootPath, assetName);
         }
+        
+        
+        public static string GetMP3Asset(string assetName)
+        {
+            return Utility.Text.Format("{0}/Sound/Sounds/{1}.mp3", ResRootPath, assetName);
+        }
+        
+        public static string GetWAVAsset(string assetName)
+        {
+            return Utility.Text.Format("{0}/Sound/Sounds/{1}.wav", ResRootPath, assetName);
+        }
     }
 }

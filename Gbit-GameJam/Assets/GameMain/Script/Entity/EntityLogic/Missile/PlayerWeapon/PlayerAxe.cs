@@ -1,6 +1,8 @@
 ﻿using System;
+using GameMain;
 using UnityEngine;
 using UnityGameFramework.Runtime;
+using Random = UnityEngine.Random;
 
 
 [RequireComponent(typeof(Collider2D))]
@@ -59,6 +61,8 @@ public class PlayerAxe : EntityLogic
     }
     Vector2 AdjustDirection(Vector2 dir, float minAngle)
     {
+        if(dir.y<0)
+            dir = new Vector2(dir.x, -dir.y);
         // 计算当前角度（与水平线的夹角，单位为弧度）
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
 
@@ -83,18 +87,38 @@ public class PlayerAxe : EntityLogic
     {
         if (other != null)
         {
+            //随机播放斧头碰撞音效
+            int index = Random.Range(1, 4);
+            
             if (other.gameObject.CompareTag("Enemy"))
             {
                 IAttackAble attackAble = other.gameObject.GetComponent<IAttackAble>();
                 attackAble.OnAttacked(new AttackData(1));
                 GameEntry.Entity.HideEntity(Entity);
                 Log.Debug("Axe hit the enemy.");
+
+                if (index == 1)
+                {
+                    GameEntry.Sound.PlaySound(AssetUtility.GetMP3Asset("Axe" + index));
+                }
+                else
+                {
+                    GameEntry.Sound.PlaySound(AssetUtility.GetWAVAsset("Axe" + index));
+                }
             }
             
             if (other.gameObject.CompareTag("Land"))
             {
                 GameEntry.Entity.HideEntity(Entity);
                 Log.Debug("Axe hit the land.");
+                if (index == 1)
+                {
+                    GameEntry.Sound.PlaySound(AssetUtility.GetMP3Asset("Axe" + index));
+                }
+                else
+                {
+                    GameEntry.Sound.PlaySound(AssetUtility.GetWAVAsset("Axe" + index));
+                }
             }
         }
     }
