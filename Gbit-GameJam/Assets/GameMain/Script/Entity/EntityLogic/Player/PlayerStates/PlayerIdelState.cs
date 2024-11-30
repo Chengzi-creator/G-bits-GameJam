@@ -14,6 +14,17 @@ public class PlayerIdelState : PlayerStateBase
     protected override void OnUpdate(IFsm<EntityPlayer> fsm, float elapseSeconds, float realElapseSeconds)
     {
         base.OnUpdate(fsm, elapseSeconds, realElapseSeconds);
+        
+        if (m_EntityPlayer.isDead && m_EntityPlayer.isAlive)
+        {
+            ChangeState<PlayerDeadState>(fsm);
+        }
+        else
+        if(m_EntityPlayer.isHit && m_EntityPlayer.isAlive)
+        {
+            ChangeState<PlayerHitState>(fsm);
+        }
+        else
         if (m_EntityPlayer.MoveDirection.magnitude > Mathf.Epsilon)
         {
             ChangeState<PlayerMoveState>(fsm);

@@ -38,7 +38,6 @@ public class EntityPlayer : EntityLogic, IAttackAble
     public float DodgeLength { get; private set; }
     public float DodgeSpeed { get; private set; }
 
-    
 
     //HP
     public int MaxHP { get; private set; }
@@ -51,10 +50,12 @@ public class EntityPlayer : EntityLogic, IAttackAble
         set
         {
             GameEntry.Event.Fire(this, PlayerHealthChangeEventArgs.Create(m_Hp, value, value * 1.0f / MaxHP));
+            isDead = false;
 
             if (value == MaxHP)
             {
                 GameEntry.Event.Fire(this, PlayerHpRunOutEventArgs.Create());
+                isDead = true;
             }
 
             m_Hp = value;
@@ -74,12 +75,20 @@ public class EntityPlayer : EntityLogic, IAttackAble
             m_AxeCount = value;
         }
     }
+
     public float AxeRecoverTime { get; private set; }
     private float m_AxeRecoverTimer = 0f;
     public Vector2 MoveDirection { get; private set; }
 
+    public float HitTime = 0.2f;
+
     public bool isRight = true;
     public bool isAttack = false;
+
+    public bool isHit = false;
+    public bool isBack = false; //是否背后受伤
+    public bool isDead = false;
+    public bool isAlive;
 
     protected override void OnInit(object userData)
     {
@@ -133,13 +142,17 @@ public class EntityPlayer : EntityLogic, IAttackAble
             PlayerJumpState.Create(),
             PlayerDodgeState.Create(),
             PlayerAirState.Create(),
+            PlayerHitState.Create(),
+            PlayerDeadState.Create(),
         };
         fsm = GameEntry.Fsm.CreateFsm<EntityPlayer>(PlayerId.ToString(), this, states);
-        fsm.Start<PlayerIdelState>();
 
         Hp = 0;
         AxeCount = MaxAxeCount;
         m_AxeRecoverTimer = 0f;
+        anim.SetBool("Dead", false);
+        isAlive = true;        
+        fsm.Start<PlayerIdelState>();
     }
 
     protected override void OnUpdate(float elapseSeconds, float realElapseSeconds)
@@ -167,9 +180,9 @@ public class EntityPlayer : EntityLogic, IAttackAble
         {
             transform.localRotation = Quaternion.Euler(0, 180, 0);
         }
-        
+
         //斧头数量恢复
-        if(AxeCount<MaxAxeCount)
+        if (AxeCount < MaxAxeCount)
         {
             m_AxeRecoverTimer += elapseSeconds;
             if (m_AxeRecoverTimer >= AxeRecoverTime)
@@ -202,28 +215,46 @@ public class EntityPlayer : EntityLogic, IAttackAble
 
     public void OnAttacked(AttackData data)
     {
-        //TODO:处理受击逻辑
-        int damage = Math.Clamp(data.Damage, 0, MaxHP - Hp);
-        Hp += damage;
+        Vector2 dir = data.AttackDirection.x >= 0 ? Vector2.right : Vector2.left;
+        if (!isHit)
+        {
+            int damage = Math.Clamp(data.Damage, 0, MaxHP - Hp);
+            Hp += damage;
+            isHit = true;
+            //判断是否是背后受敌
+            if ((isRight && dir.x >= 0) || (!isRight && dir.x < 0))
+            {
+                isBack = true;
+            }
+            else
+            {
+                isBack = false;
+            }
+
+            rb.AddForce(dir * 5f, ForceMode2D.Impulse);
+        }
     }
-    
-    
+
+
     public bool CanThrowAxe()
     {
         return AxeCount > 0;
     }
+
     public bool ThrowAxe()
     {
-        if(AxeCount>0)
+        if (AxeCount > 0)
         {
             AxeCount--;
             return true;
         }
+
         return false;
     }
+
     public void RecoverAxe()
     {
-        if(AxeCount<MaxAxeCount)
+        if (AxeCount < MaxAxeCount)
         {
             AxeCount++;
         }

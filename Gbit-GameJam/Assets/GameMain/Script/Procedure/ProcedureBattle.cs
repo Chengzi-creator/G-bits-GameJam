@@ -23,6 +23,7 @@ public class ProcedureBattle : ProcedureBase
         
         
         GameEntry.Event.Subscribe(PlayerHpRunOutEventArgs.EventId, OnPlayerHpRunOut);
+        GameEntry.Event.Subscribe(LevelCompeleteEventArgs.EventId,OnLevelCompelete);
         
         
         GameEntry.Entity.ShowEntity<EntityPlayer>(EntityPlayer.PlayerId, "Assets/GameMain/Prefabs/Player.prefab",
@@ -45,16 +46,18 @@ public class ProcedureBattle : ProcedureBase
 
 
     }
+
+
+
     protected override void OnUpdate(IFsm<IProcedureManager> procedureOwner, float elapseSeconds, float realElapseSeconds)
     {
         base.OnUpdate(procedureOwner, elapseSeconds, realElapseSeconds);
         m_LiveSeconds += elapseSeconds;
+        VarInt32 varMinute = (int)m_LiveSeconds;
+        GameEntry.DataNode.GetOrAddNode("UI").SetData(varMinute);
         if (isGameOver)
         {
             ChangeState<ProcedureLevelCompelete>(procedureOwner);
-            VarInt32 varMinute = (int)m_LiveSeconds;
-
-            GameEntry.DataNode.GetOrAddNode("UI").SetData(varMinute);
         }
     }
 
@@ -62,15 +65,19 @@ public class ProcedureBattle : ProcedureBase
     {
         base.OnLeave(procedureOwner, isShutdown);
         GameEntry.Event.Unsubscribe(PlayerHpRunOutEventArgs.EventId, OnPlayerHpRunOut);
+        GameEntry.Event.Unsubscribe(LevelCompeleteEventArgs.EventId,OnLevelCompelete);
     }
 
 
     private void OnPlayerHpRunOut(object sender, GameEventArgs e)
     {
-        isGameOver = true;
         VarInt32 varMinute = (int)m_LiveSeconds/ 60;
         VarInt32 varSecond = (int)m_LiveSeconds % 60;
         GameEntry.DataNode.GetOrAddNode("LevelInfo").GetOrAddChild("Minute").SetData(varMinute);
         GameEntry.DataNode.GetOrAddNode("LevelInfo").GetOrAddChild("Second").SetData(varSecond);
+    }
+    private void OnLevelCompelete(object sender, GameEventArgs e)
+    {
+        isGameOver = true;
     }
 }

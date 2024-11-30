@@ -24,6 +24,14 @@ public class PlayerInfoUI : UIFormLogic
         base.OnClose(isShutdown, userData);
         GameEntry.Event.Unsubscribe(PlayerHealthChangeEventArgs.EventId, OnPlayerHealthChange);
         GameEntry.Event.Unsubscribe(PlayerAxeCountChangeEventArgs.EventId, OnPlayerAxeCountChange);
+        
+        //清空UI
+        int n  = axeList.Count;
+        for (int i = 0; i < n; i++)
+        {
+            Destroy(axeList[axeList.Count - 1]);
+            axeList.RemoveAt(axeList.Count - 1);
+        }
     }
 
 
@@ -36,19 +44,19 @@ public class PlayerInfoUI : UIFormLogic
     private void OnPlayerAxeCountChange(object sender, GameEventArgs e)
     {
         PlayerAxeCountChangeEventArgs ne = e as PlayerAxeCountChangeEventArgs;
-        int latest = ne.LatestAxeCount;
         int current = ne.CurrentAxeCount;
-        if(latest > current)
+        int n = axeList.Count;
+        if(n > current)
         {
-            for (int i = 0; i < latest - current; i++)
+            for (int i = 0; i < n - current; i++)
             {
                 Destroy(axeList[axeList.Count - 1]);
                 axeList.RemoveAt(axeList.Count - 1);
             }
         }
-        else if(latest < current)
+        else if(n < current)
         {
-            for (int i = 0; i < current - latest; i++)
+            for (int i = 0; i < current - n; i++)
             {
                 GameObject axe = Instantiate(axePrefab, axeGroup.transform);
                 axeList.Add(axe);

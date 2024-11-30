@@ -1,4 +1,5 @@
-﻿using GameMain.Script.Event;
+﻿using GameMain;
+using GameMain.Script.Event;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;

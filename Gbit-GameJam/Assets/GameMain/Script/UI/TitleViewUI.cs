@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using GameMain;
+using UnityEngine;
 using UnityEngine.UI;
 using UnityGameFramework.Runtime;
 

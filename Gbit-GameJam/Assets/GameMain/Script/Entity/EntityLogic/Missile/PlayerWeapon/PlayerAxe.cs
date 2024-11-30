@@ -54,7 +54,7 @@ public class PlayerAxe : EntityLogic
         base.OnShow(userData);
         //计算初速度
 
-        rb.velocity = Speed * FlyDirection;
+        rb.velocity = Speed * FlyDirection.normalized;
     }
 
     protected override void OnUpdate(float elapseSeconds, float realElapseSeconds)
