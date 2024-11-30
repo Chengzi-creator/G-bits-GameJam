@@ -39,7 +39,7 @@ public class PlayerAttackComponent : MonoBehaviour
         
     }
 
-    public void AttackStart(Vector3 position ,Vector2 direction)
+    public void AttackStart(Vector3 position ,Vector2 targetPosition)
     {
         switch (currentAttackType)
         {
@@ -47,10 +47,9 @@ public class PlayerAttackComponent : MonoBehaviour
                 MeleeAttackHitBox.SetActive(true);
                 break;
             case AttackType.Axe:
-
                 GameEntry.Entity.ShowEntity<PlayerAxe>(PlayerAxe.PlayerAxeId++, "Assets/GameMain/Prefabs/Axe.prefab",
                     "MissileGroup",
-                    PlayerAxeData.Create(position, AxeRotateSpeed, direction, AxeSpeed));
+                    PlayerAxeData.Create(position, AxeRotateSpeed, targetPosition, AxeSpeed));
                 break;
         }
     }

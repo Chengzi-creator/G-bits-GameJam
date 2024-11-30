@@ -2,6 +2,7 @@
 using GameFramework.Fsm;
 using MyTimer;
 using UnityEngine;
+using UnityGameFramework.Runtime;
 
 public class PlayerAttackState : PlayerStateBase
 {
@@ -16,7 +17,7 @@ public class PlayerAttackState : PlayerStateBase
     private bool m_JumpBuffer;
     private bool m_DodgeBuffer;
 
-    private Vector2 m_FlyDirection;
+    private Vector2 m_TargetPosition;
 
     protected override void OnEnter(IFsm<EntityPlayer> fsm)
     {
@@ -26,12 +27,13 @@ public class PlayerAttackState : PlayerStateBase
         m_AttackBuffer = false;
         m_JumpBuffer = false;
         m_DodgeBuffer = false;
-
-        m_FlyDirection = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - m_EntityPlayer.transform.position)
-            .normalized;
+        
+        
+        m_TargetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         m_EntityPlayer.isAttack = true;
+        m_EntityPlayer.anim.SetBool("Attack", true);
 
-        if (m_FlyDirection.x >= 0)
+        if (m_TargetPosition.x >= m_EntityPlayer.transform.position.x)
         {
             m_EntityPlayer.isRight = true;
         }
@@ -83,10 +85,10 @@ public class PlayerAttackState : PlayerStateBase
                 AttackEnd();
                 hasAttacked = false;
             }
-
-            if ((Input.GetKeyDown(m_EntityPlayer.ATTACK_COMMAND) || m_AttackBuffer) && m_EntityPlayer.CanThrowAxe())
+            
+            if(m_EntityPlayer.MoveDirection.magnitude> Mathf.Epsilon)
             {
-                ChangeState<PlayerAttackState>(fsm);
+                ChangeState<PlayerMoveState>(fsm);
             }
             else if (Input.GetKeyDown(m_EntityPlayer.JUMP_COMMAND) || m_JumpBuffer)
             {
@@ -108,13 +110,14 @@ public class PlayerAttackState : PlayerStateBase
     {
         base.OnLeave(fsm, isShutdown);
         m_EntityPlayer.isAttack = false;
+        m_EntityPlayer.anim.SetBool("Attack", false);
     }
 
     void AttackStart()
     {
         m_EntityPlayer.ThrowAxe();
 
-        m_EntityPlayer.attackComponent.AttackStart(m_EntityPlayer.transform.position, m_FlyDirection);
+        m_EntityPlayer.attackComponent.AttackStart(m_EntityPlayer.transform.position, m_TargetPosition);
     }
 
     void AttackEnd()

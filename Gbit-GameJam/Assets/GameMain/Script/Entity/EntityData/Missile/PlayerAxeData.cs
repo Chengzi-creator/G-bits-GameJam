@@ -5,7 +5,7 @@ public class PlayerAxeData : IReference
 {
     public Vector3 InitPosition { get; private set; }
     public float RotateSpeed { get; private set; }
-    public Vector2 FlyDirection { get; private set; }
+    public Vector2 TargetPosition { get; private set; }
     
     public float Speed { get; private set; }
 
@@ -16,7 +16,7 @@ public class PlayerAxeData : IReference
         
         d.InitPosition = initPosition;
         d.RotateSpeed = rotateSpeed;
-        d.FlyDirection = flyDirection;
+        d.TargetPosition = flyDirection;
         d.Speed = speed;
         
         return d;
@@ -25,7 +25,7 @@ public class PlayerAxeData : IReference
     {
         InitPosition = Vector3.zero;
         RotateSpeed = 0;
-        FlyDirection = Vector2.zero;
+        TargetPosition = Vector2.zero;
         Speed = 0;
     }
 }
