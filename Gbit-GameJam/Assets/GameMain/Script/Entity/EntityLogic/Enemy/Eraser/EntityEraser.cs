@@ -15,7 +15,7 @@ public class EntityEraser : EntityEnemy<EntityEraser>
     protected override void OnShow(object userData)
     {
         base.OnShow(userData);
-        Debug.Log("成功了");
+        //Debug.Log("成功了");
         m_Animator = GetComponent<Animator>();
         if(m_Animator == null)
             Debug.Log("没找到动画");

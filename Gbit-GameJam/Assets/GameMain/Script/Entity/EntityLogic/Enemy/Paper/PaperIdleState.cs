@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class PaperIdleState : PaperStateBase
 {
-    protected static int time = 0;
+    protected int time = 0;
     protected float m_Timer;
     protected Vector2 playerPosition;
     protected Vector2 paperPositon;

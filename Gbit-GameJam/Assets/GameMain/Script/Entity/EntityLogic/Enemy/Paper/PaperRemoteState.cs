@@ -10,6 +10,8 @@ public class PaperRemoteState : PaperStateBase,IHasObjectPool
     protected IFsm<EntityPaper> m_Fsm;
     protected Vector2 playerPosition;
     protected Vector2 paperPositon;
+
+    protected float m_Timer;
     // protected GameObject m_BulletTemplate;
     // protected Vector2 Position;
     // protected Vector2 Direction;
@@ -25,7 +27,17 @@ public class PaperRemoteState : PaperStateBase,IHasObjectPool
         m_BulletPool = new ObjectPool<MyObjectBase, Bullet>(20, "ShotgunBulletPool", this);
         paperPositon = m_EntityPaper.transform.position;
         playerPosition = m_EntityPaper.player.transform.position;
-        FireBullet();
+        m_Timer = 0f;
+    }
+
+    protected override void OnUpdate(IFsm<EntityPaper> fsm, float elapseSeconds, float realElapseSeconds)
+    {
+        base.OnUpdate(fsm, elapseSeconds, realElapseSeconds);
+        m_Timer += elapseSeconds;
+        if (m_Timer >= 0.5f)
+        {
+            FireBullet();
+        }
     }
 
     private void FireBullet()

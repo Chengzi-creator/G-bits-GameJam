@@ -13,21 +13,22 @@ public class EraserIdleState : EraserStateBase
     protected float deskLength;
     protected float distance;
     protected IFsm<EntityEraser> m_Fsm;
+    private CameraControl m_CameraControl;
     
     protected override void OnEnter(IFsm<EntityEraser> fsm)
     {
         base.OnEnter(fsm);
+        m_EntityEraser.m_Animator.SetBool("Idle",true);
         m_Fsm = fsm;
         m_EntityEraser.m_Rigidbody.velocity = Vector2.zero;//Idle一开始禁止
-        
+        m_CameraControl = Camera.main.GetComponent<CameraControl>();
         //一个计时，初始化位置用于下面判断（计数放在Collision）
         m_Timer = 0f;
         playerPosition = m_EntityEraser.player.transform.position;
         eraserPositon = m_EntityEraser.transform.position;
         distance = System.Math.Abs(playerPosition.x - eraserPositon.x);
-        CalculateLength(GetBound());
+        CalculateLength();
         Debug.Log("EraserIdle");
-        m_EntityEraser.m_Animator.SetBool("Idle",true);
     }
     
     
@@ -57,15 +58,10 @@ public class EraserIdleState : EraserStateBase
         
     }
     
-    private Bounds GetBound()
-    {   
-        return new Bounds(Vector2.zero, new Vector2(10, 10));
-    }
-    
-    private void CalculateLength(Bounds bound)
+    private void CalculateLength()
     {
         //计算桌面长度
-        deskLength = bound.max.x - bound.min.x;
+        deskLength = m_CameraControl.rightBoundary - m_CameraControl.leftBoundary;
     }
 
     private void StateChoose()

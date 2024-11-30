@@ -9,7 +9,7 @@ public class EnemyManager : GameFrameworkComponent
     public float spawnInterval = 20f; //怪物生成间隔
     public Vector2 spawnAreaMin = new Vector2(-10f, -5f);
     public Vector2 spawnAreaMax = new Vector2(10f, 5f);
-    
+    public float Timer;
     private float nextSpawnTime;
 
     public bool isWorking = false;
@@ -18,14 +18,17 @@ public class EnemyManager : GameFrameworkComponent
     {
         GameEntry.Event.Subscribe(LevelStartEventArgs.EventId, StartWorking);
         GameEntry.Event.Subscribe(PlayerHpRunOutEventArgs.EventId, StopWorking);
+        Timer = 0f;
     }
 
 
     void Update()
     {
         if (isWorking)
-        {
-            if (Time.time >= nextSpawnTime)
+        {   
+            Timer += Time.deltaTime;
+            //if (Time.time >= nextSpawnTime) 
+            if (Timer >= nextSpawnTime)
             {
                 SpawnRandomEnemy();
                 nextSpawnTime = Time.time + spawnInterval;

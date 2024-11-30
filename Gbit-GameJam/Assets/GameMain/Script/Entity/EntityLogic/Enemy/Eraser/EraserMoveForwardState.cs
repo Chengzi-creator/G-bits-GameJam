@@ -12,11 +12,14 @@ public class EraserMoveForwardState : EraserStateBase
     protected Vector2 eraserPositon;
     protected Vector2 forwardDirection;
     protected IFsm<EntityEraser> m_Fsm;
+    private CameraControl m_CameraControl;
 
     protected override void OnEnter(IFsm<EntityEraser> fsm)
     {
         base.OnEnter(fsm);
         Debug.Log("MoveForward");
+        
+        m_CameraControl = Camera.main.GetComponent<CameraControl>();
         m_Timer = 0f;
         playerPosition = m_EntityEraser.player.transform.position;
         eraserPositon = m_EntityEraser.transform.position;
@@ -49,7 +52,9 @@ public class EraserMoveForwardState : EraserStateBase
         {
             m_EntityEraser.m_Rigidbody.MovePosition(nextPosition);
             
-            if ((int)m_EntityEraser.transform.position.x == (int)playerPosition.x)
+            if (Mathf.Abs((int)m_EntityEraser.transform.position.x - (int)playerPosition.x) <= 1F 
+                || Mathf.Abs((int)m_EntityEraser.transform.position.x - (int)m_CameraControl.leftBoundary)<= 1f 
+                || Mathf.Abs((int)m_EntityEraser.transform.position.x - (int)m_CameraControl.rightBoundary)<= 1f )
             {   
                 Debug.Log("撞到人了，停");
                 m_EntityEraser.m_Rigidbody.velocity = Vector2.zero;
