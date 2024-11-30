@@ -8,6 +8,8 @@ using UnityGameFramework.Runtime;
 
 public class EntityEraser : EntityEnemy<EntityEraser>
 {
+    public bool Hide = false;
+    public float m_Timer;
     public float m_Speed { get; private set; }
     public float m_CollisionSpeed { get; private set; }
     public Rigidbody2D m_Rigidbody;
@@ -15,9 +17,10 @@ public class EntityEraser : EntityEnemy<EntityEraser>
    
     protected override void OnShow(object userData)
     {
-        MaxHP = 1;
+        MaxHP = 3;
         Hp = MaxHP;
         base.OnShow(userData);
+        m_Timer = 0f;
         //Debug.Log("成功了");
         m_Animator = GetComponent<Animator>();
         m_Rigidbody = GetComponent<Rigidbody2D>();
@@ -38,10 +41,24 @@ public class EntityEraser : EntityEnemy<EntityEraser>
         fsm.Start<EraserIdleState>();
     }
 
+    protected override void OnUpdate(float elapseSeconds, float realElapseSeconds)
+    {
+        base.OnUpdate(elapseSeconds, realElapseSeconds);
+        //Debug.Log(m_Timer);
+        if(Hide)
+            m_Timer += Time.deltaTime;
+        if (m_Timer >= 1f)
+        {
+            Hide = false;
+            m_Timer = 0f;
+            GameEntry.Entity.HideEntity(Entity);
+        }
+    }
+
     public override void OnDead()
     {
         base.OnDead();
         m_Animator.SetTrigger("Dead");
-        GameEntry.Entity.HideEntity(EntityEnemy.EnemyId);
+        Hide = true;
     }
 }

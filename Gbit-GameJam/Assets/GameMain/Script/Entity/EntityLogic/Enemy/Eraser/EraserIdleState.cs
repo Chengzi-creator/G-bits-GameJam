@@ -1,5 +1,6 @@
 using GameFramework;
 using GameFramework.Fsm;
+using GameMain;
 using MyTimer;
 using UnityEngine.UI;
 using UnityEngine;
@@ -29,6 +30,7 @@ public class EraserIdleState : EraserStateBase
         distance = System.Math.Abs(playerPosition.x - eraserPositon.x);
         CalculateLength();
         Debug.Log("EraserIdle");
+        GameEntry.Sound.PlaySound(AssetUtility.GetWAVAsset("Smile"));
     }
     
     

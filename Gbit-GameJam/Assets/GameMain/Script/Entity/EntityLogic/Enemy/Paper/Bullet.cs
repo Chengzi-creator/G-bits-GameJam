@@ -16,7 +16,6 @@ public class Bullet : MonoBehaviour, IMyObject// EntityLogic//MonoBehaviour, IMy
     protected float m_AliveTimer;
     protected Vector3 m_OriginalScale;
     private bool recycled = false;
-    //protected PublicObjectPool m_PublicObjectPool;
     protected BulletData data;
 
     public EntityPlayer Player;
@@ -28,8 +27,6 @@ public class Bullet : MonoBehaviour, IMyObject// EntityLogic//MonoBehaviour, IMy
     public float initialVelocity = 10f; 
     public float gravity = 9.81f;
     private Vector3 velocity; // 子弹初始速度
-    //private bool isLaunched = false;
-    
     private Vector3 controlPoint;  //贝赛尔曲线的控制点
     private float duration;        //运动时长
     private float elapsedTime = 0; //当前运行时间
@@ -37,8 +34,6 @@ public class Bullet : MonoBehaviour, IMyObject// EntityLogic//MonoBehaviour, IMy
     
     public virtual void OnInit(object userData)
     {
-        m_OriginalScale = transform.localScale;
-        //m_PublicObjectPool = GameBase.Instance.GetObjectPool();
        
         if (Player == null)
         {
@@ -68,8 +63,6 @@ public class Bullet : MonoBehaviour, IMyObject// EntityLogic//MonoBehaviour, IMy
         m_Horizontal = data.Horizontal;
         recycled = false;
         m_playerPosition = Player.transform.position;
-        //m_Direction = ((Vector2)m_playerPosition - (Vector2)transform.position).normalized;
-        //m_Direction.y = 0;
 
         startPosition = transform.position;
         endPosition = m_playerPosition;
@@ -90,9 +83,6 @@ public class Bullet : MonoBehaviour, IMyObject// EntityLogic//MonoBehaviour, IMy
             }
         }
         
-        // 计算贝赛尔曲线控制点和时长
-        //controlPoint = CalculateControlPoint(startPosition, endPosition, initialVelocity, gravity);
-        //duration = CalculateDuration(startPosition, endPosition, initialVelocity);
     }
 
     protected virtual void Update()
@@ -116,19 +106,6 @@ public class Bullet : MonoBehaviour, IMyObject// EntityLogic//MonoBehaviour, IMy
                 //GameEntry.Entity.HideEntity(this);
                 //OnHide(true,data);
             }
-            // elapsedTime += Time.deltaTime;
-            // //计算当前时间t
-            // float t = elapsedTime / duration;
-            // //贝塞尔插值计算当前位置
-            // Vector3 currentPosition = CalculateBezierPosition(t, startPosition, controlPoint, endPosition);
-            // //更新子弹位置
-            // transform.position = currentPosition;
-            // //判断是否到达目标位置
-            // if (Vector3.Distance(transform.position, endPosition) < 0.1f)
-            // {
-            //     m_Parabola = false; // 停止运动
-            //     RecycleSelf(); // 回收子弹
-            // }
         }
 
         if (m_Horizontal)
@@ -261,9 +238,10 @@ public class Bullet : MonoBehaviour, IMyObject// EntityLogic//MonoBehaviour, IMy
             if (other.TryGetComponent<IAttackAble>(out var attackable))
             {
                 attackable.OnAttacked(new AttackData(m_Damage));
+                RecycleSelf();
             }
 
-            if (!m_ThroughAble)  RecycleSelf();//OnHide(true,data);//OnRecycle();//RecycleSelf();
+            if (!m_ThroughAble)  RecycleSelf();
         }
     }
 
@@ -278,7 +256,6 @@ public class Bullet : MonoBehaviour, IMyObject// EntityLogic//MonoBehaviour, IMy
         m_AliveTimer = 0;
         gameObject.SetActive(false);
         RecycleAction(this);
-    
     }
     
 

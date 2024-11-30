@@ -27,11 +27,13 @@ public class EnemyManager : GameFrameworkComponent
         if (isWorking)
         {   
             Timer += Time.deltaTime;
+            //Debug.Log(Timer);
+            //Debug.Log(nextSpawnTime);
             //if (Time.time >= nextSpawnTime) 
             if (Timer >= nextSpawnTime)
             {
                 SpawnRandomEnemy();
-                nextSpawnTime = Time.time + spawnInterval;
+                nextSpawnTime = Timer + spawnInterval;
             }
         }
     }
@@ -43,7 +45,7 @@ public class EnemyManager : GameFrameworkComponent
     }
     void SpawnRandomEnemy()
     {
-        int randomValue = Random.Range(0, 2);
+        int randomValue = Random.Range(1, 2);
         string prefabPath;
         System.Type entityType;
         

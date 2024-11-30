@@ -19,7 +19,8 @@ public class CameraControl : MonoBehaviour
     private float maxX = 5.1f;
     private float minY = 1.395f;
     private float maxY = 1.4f;
-    
+
+    public Vector3 targetPosition;
     public Camera cam;
 
     
@@ -51,15 +52,12 @@ public class CameraControl : MonoBehaviour
 
         if (target != null)
         {
-          
             targetPos = target.position + new Vector3(0f, 0, 0f);
             
             float clampedX = Mathf.Clamp(targetPos.x, minX, maxX);
             float clampedY = Mathf.Clamp(targetPos.y, minY, maxY);
             
-            
-            Vector3 targetPosition = new Vector3(clampedX, clampedY, transform.position.z);
-            
+            targetPosition = new Vector3(clampedX, clampedY, transform.position.z);
             if (transform.position != targetPosition)
             {
                 transform.position = Vector3.Lerp(transform.position, targetPosition, smooothSpeed * Time.deltaTime);

@@ -83,7 +83,9 @@ public class EraserCollisionState : EraserStateBase
             // 获取边界
             m_EntityEraser.m_Rigidbody.MovePosition(nextPosition);
             
-            if (Mathf.Abs((int)eraserPositon.x - (int)targetPosition.x) <= 3f)
+            if (Mathf.Abs((int)eraserPositon.x - (int)targetPosition.x) <= 3f
+                ||(Mathf.Abs((int)eraserPositon.x - (int)playerPosition.x) <= 2f 
+                   &&(Mathf.Abs((int)eraserPositon.y - (int)playerPosition.y) <= 0.5f)))
             {   
                 Debug.Log("已到达边界，停");
                 m_EntityEraser.m_Rigidbody.velocity = Vector3.zero;

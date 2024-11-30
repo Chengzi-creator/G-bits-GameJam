@@ -15,7 +15,7 @@ public class EntityPaper : EntityEnemy<EntityPaper>
    
    protected override void OnShow(object userData)
    {
-      MaxHP = 1;
+      MaxHP = 2;
       Hp = MaxHP;
       //PaperData = (EntityPaperData)userData;
       //m_BulletPrefab = PaperData.BulletPrefab;
@@ -37,7 +37,7 @@ public class EntityPaper : EntityEnemy<EntityPaper>
    {
       base.OnDead();
       //m_Animator.SetBool("Dead",true);
-      GameEntry.Entity.HideEntity(EntityEnemy.EnemyId);
+      GameEntry.Entity.HideEntity(Entity);
    }
    
    public GameObject SpawnBullet()

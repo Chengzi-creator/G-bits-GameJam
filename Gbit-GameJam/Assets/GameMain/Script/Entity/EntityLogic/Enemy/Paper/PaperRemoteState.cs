@@ -1,7 +1,9 @@
 ﻿using GameFramework;
+using GameMain;
 using GameFramework.Fsm;
 using Unity.VisualScripting;
 using UnityEngine;
+using AssetUtility = GameMain.AssetUtility;
 using Random = UnityEngine.Random;
 
 public class PaperRemoteState : PaperStateBase,IHasObjectPool
@@ -36,6 +38,7 @@ public class PaperRemoteState : PaperStateBase,IHasObjectPool
         m_Timer += elapseSeconds;
         if (m_Timer >= 0.5f)
         {
+            GameEntry.Sound.PlaySound(AssetUtility.GetWAVAsset("Bullet1"));
             FireBullet();
         }
     }
@@ -44,7 +47,7 @@ public class PaperRemoteState : PaperStateBase,IHasObjectPool
     {
         int rand = Random.Range(1, 3);
         Debug.Log(rand);
-        BulletData data = new BulletData(Bullet.BulletId,true,1,10,10);
+        BulletData data = new BulletData(Bullet.BulletId,true,1,15,10);
         // Position = m_EntityPaper.transform.position;
         // Horizontal = false;
         // Parabola = false;

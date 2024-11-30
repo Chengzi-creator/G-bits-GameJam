@@ -1,5 +1,6 @@
 using GameFramework;
 using GameFramework.Fsm;
+using GameMain;
 using MyTimer;
 using UnityEngine.UI;
 using UnityEngine;
@@ -17,12 +18,14 @@ public class EraserSpecialState : EraserStateBase
     protected bool isGround;
     protected Bounds m_Bounds;
     protected IFsm<EntityEraser> m_Fsm;
+    private CameraShake m_CameraShake;
 
     protected override void OnEnter(IFsm<EntityEraser> fsm)
     {
         base.OnEnter(fsm);
         Debug.Log("Special");
         m_Fsm = fsm;
+        m_CameraShake = Camera.main.GetComponent<CameraShake>();
         m_Timer = 0f;
         scaleSpeed = 1f;
         playerPosition = m_EntityEraser.player.transform.position;
@@ -88,8 +91,9 @@ public class EraserSpecialState : EraserStateBase
     {   
         if (m_EntityEraser.transform.localScale.x >= 1.9f || isGround)
         {   
+            GameEntry.Sound.PlaySound(AssetUtility.GetWAVAsset("Smash"));
             m_EntityEraser.m_Animator.SetBool("Fade",false);
-            m_CountTime += Time.deltaTime;
+            //m_CountTime += Time.deltaTime;
             m_EntityEraser.m_Rigidbody.constraints &= ~RigidbodyConstraints2D.FreezePositionY;
             m_EntityEraser.m_Rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
             //下砸至当前位置,应该不管速度就行，会自由落体，然后管理缩放大小
@@ -97,6 +101,7 @@ public class EraserSpecialState : EraserStateBase
                 LayerMask.GetMask("Land"));
             if (isGround)//地面检测吧还是
             {   
+                m_CameraShake.TriggerShake(0.1f,0.1f);
                 Debug.Log("Land");
                 //Debug.Log(m_CountTime);
                 m_EntityEraser.transform.localScale = Vector3.Lerp(m_EntityEraser.transform.localScale, new Vector3(0.8f,0.8f,0.8f),
@@ -119,6 +124,7 @@ public class EraserSpecialState : EraserStateBase
         {
             //Debug.Log("膨胀");
             m_EntityEraser.m_Rigidbody.constraints = RigidbodyConstraints2D.FreezePositionY;
+            GameEntry.Sound.PlaySound(AssetUtility.GetWAVAsset("CountTime"));
             m_EntityEraser.transform.localScale = Vector3.Lerp(m_EntityEraser.transform.localScale, targetScale,
                 scaleSpeed * Time.deltaTime);
             //同时播放倒计时动画，要把时间给卡好吧

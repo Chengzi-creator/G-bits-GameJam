@@ -65,7 +65,6 @@ public class EntityEnemy: EntityLogic,IAttackAble
     //死亡调用
     public virtual void OnDead()
     {
-        m_Collider.enabled = false;
         m_Rigidbody.velocity = Vector2.zero;
         //GameEntry.Entity.HideEntity();
         // Destroy(gameObject);
@@ -76,6 +75,7 @@ public class EntityEnemy: EntityLogic,IAttackAble
     {
         int damage = data.Damage;
         Hp -= damage;
+        m_Animator.SetTrigger("Attacked");
         if(Hp == 0)
             OnDead();
     }
