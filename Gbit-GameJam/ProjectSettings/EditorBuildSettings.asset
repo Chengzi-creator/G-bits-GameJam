@@ -6,24 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/GameMain/Scene/Battle.unity
-    guid: 73a9c9d7a5139bd418b4157d2c129c41
-  - enabled: 1
     path: Assets/GameMain/Scene/GameEntry.unity
     guid: 4cdbe3c2d6aaa7e4a82c81ae2e698097
+  - enabled: 1
+    path: Assets/GameMain/Scene/Battle.unity
+    guid: 73a9c9d7a5139bd418b4157d2c129c41
   - enabled: 1
     path: Assets/GameMain/Scene/GameStart.unity
     guid: d4a7ef0fec7ecaf488a6ea5a2e946dd6
   - enabled: 1
     path: Assets/GameMain/Scene/Test.unity
     guid: ce35b961ecb31cc468e9fb7e7ce38e5f
-  - enabled: 1
-    path: Assets/Settings/Scenes/URP2DSceneTemplate.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 1
-    path: Packages/com.unity.render-pipelines.universal/Editor/SceneTemplates/Basic.unity
-    guid: e026d555eae824f65922633f37a14385
-  - enabled: 1
-    path: Packages/com.unity.render-pipelines.universal/Editor/SceneTemplates/Standard.unity
-    guid: 5cae0d87369a2405eaa962b8d920b947
   m_configObjects: {}

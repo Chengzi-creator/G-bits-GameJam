@@ -2,14 +2,19 @@ using GameFramework.DataTable;
 using GameFramework.Event;
 using GameFramework.Fsm;
 using GameFramework.Procedure;
-using GameMain;
 using Party;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityGameFramework.Runtime;
+using AssetUtility = GameMain.AssetUtility;
+
 public class ProcedurePreload : ProcedureBase
 {
     private bool isSceneLoaded = false;
+    
     private bool isPlayerDataTableLoaded = false;
+
+    private float timer = 0f;
     
     //预加载流程
     protected override void OnEnter(GameFramework.Fsm.IFsm<GameFramework.Procedure.IProcedureManager> procedureOwner)
@@ -47,13 +52,17 @@ public class ProcedurePreload : ProcedureBase
         }
 
         Log.Info("Data table {0} loaded", ne.DataTableAssetName);
-        isPlayerDataTableLoaded = true;
     }
 
     protected override void OnUpdate(IFsm<IProcedureManager> procedureOwner, float elapseSeconds, float realElapseSeconds)
     {
         base.OnUpdate(procedureOwner, elapseSeconds, realElapseSeconds);
-        ChangeState<ProcedureTitleView>(procedureOwner);
+        
+        timer += elapseSeconds;
+        if (timer > 1f)
+        {
+            ChangeState<ProcedureTitleView>(procedureOwner);
+        }
     }
 
     private void OnLoadSceneSuccess(object sender, GameEventArgs e)

@@ -17,6 +17,17 @@ public class PlayerMoveState : PlayerStateBase
         base.OnUpdate(fsm, elapseSeconds, realElapseSeconds);
         Move();
         
+        
+        if (m_EntityPlayer.isDead && m_EntityPlayer.isAlive)
+        {
+            ChangeState<PlayerDeadState>(fsm);
+        }
+        else
+        if(m_EntityPlayer.isHit)
+        {
+            ChangeState<PlayerHitState>(fsm);
+        }
+        else
         if(m_EntityPlayer.MoveDirection.magnitude<=Mathf.Epsilon)
         {
             ChangeState<PlayerIdelState>(fsm);

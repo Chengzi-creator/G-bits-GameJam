@@ -1,6 +1,7 @@
 ﻿using GameFramework.Event;
 using GameFramework.Fsm;
 using GameFramework.Procedure;
+using GameMain;
 using GameMain.Script.Event;
 using UnityEngine;
 using UnityGameFramework.Runtime;
@@ -32,7 +33,7 @@ public class ProcedureLevelCompelete : ProcedureBase
         m_Minute = (VarInt32)GameEntry.DataNode.GetNode("LevelInfo").GetChild("Minute").GetData();
         m_Second = (VarInt32)GameEntry.DataNode.GetNode("LevelInfo").GetChild("Second").GetData();
 
-        GameEntry.UI.OpenUIForm("Assets/GameMain/Prefabs/UI/LevelCompelete.prefab", "Default",
+        GameEntry.UI.OpenUIForm(UIFormId.LevelCompelete,
             new Vector2Int(m_Minute, m_Second));
     }
 

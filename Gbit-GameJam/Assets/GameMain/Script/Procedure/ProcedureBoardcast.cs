@@ -21,7 +21,7 @@ public class ProcedureBoardcast : ProcedureBase
         GameEntry.Event.Subscribe(BoardCastEndEventArgs.EventId, OnBoardCastEnd);
 
         //Debug
-        GameEntry.UI.OpenUIForm("Assets/GameMain/Prefabs/UI/PlayerInfo.prefab", "BattleUI");
+        GameEntry.UI.OpenUIForm(UIFormId.PlayerInfo);
 
         //播放拨片
         // GameEntry.UI.OpenUIForm("Assets/GameMain/Prefabs/UI/SampleBoardcast.prefab", "Boardcast");

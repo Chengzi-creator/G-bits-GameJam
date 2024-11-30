@@ -16,7 +16,20 @@ public class PlayerDebugger : GameFrameworkComponent
             IAttackAble attackAble = GameEntry.Entity.GetEntity(EntityPlayer.PlayerId).Logic as IAttackAble;
             if (attackAble != null)
             {
-                attackAble.OnAttacked(new AttackData(10));
+                attackAble.OnAttacked(new AttackData(10,Vector2.left));
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            if (!GameEntry.Entity.HasEntity(EntityPlayer.PlayerId))
+            {
+                Log.Error("Player entity not exist!");
+                return;
+            }
+            IAttackAble attackAble = GameEntry.Entity.GetEntity(EntityPlayer.PlayerId).Logic as IAttackAble;
+            if (attackAble != null)
+            {
+                attackAble.OnAttacked(new AttackData(10,Vector2.right));
             }
         }
     }

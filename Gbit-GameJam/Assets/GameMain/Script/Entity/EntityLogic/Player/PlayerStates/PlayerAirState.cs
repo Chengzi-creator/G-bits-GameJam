@@ -6,6 +6,13 @@ public class PlayerAirState : PlayerStateBase
 {
 
     private float timer = 0;
+    protected override void OnEnter(IFsm<EntityPlayer> fsm)
+    {
+        base.OnEnter(fsm);
+        timer = 0;
+        m_EntityPlayer.anim.SetBool("Jump", true);
+    }
+
     protected override void OnUpdate(IFsm<EntityPlayer> fsm, float elapseSeconds, float realElapseSeconds)
     {
         base.OnUpdate(fsm, elapseSeconds, realElapseSeconds);
@@ -17,8 +24,17 @@ public class PlayerAirState : PlayerStateBase
         else if (m_EntityPlayer.rb.velocity.y < 0)
         {
         }
-        
-        if (timer >= m_EntityPlayer.AirDuration)
+
+        if (m_EntityPlayer.isDead && m_EntityPlayer.isAlive)
+        {
+            ChangeState<PlayerDeadState>(fsm);
+        }
+        else
+        if(m_EntityPlayer.isHit)
+        {
+            ChangeState<PlayerHitState>(fsm);
+        }
+        else if (timer >= m_EntityPlayer.AirDuration)
         {
             if (m_EntityPlayer.OnGround())
             {

@@ -1,6 +1,8 @@
 ﻿using GameFramework.Event;
 using GameFramework.Fsm;
 using GameFramework.Procedure;
+using GameMain;
+using UnityGameFramework.Runtime;
 
 
 /// <summary>
@@ -19,16 +21,19 @@ public class ProcedureTitleView : ProcedureBase
         
         //卸载所有场景
         string[] loadedSceneAssetNames = GameEntry.Scene.GetLoadedSceneAssetNames();
+        GameEntry.UI.CloseAllLoadedUIForms();
+        GameEntry.UI.CloseAllLoadingUIForms();
+        
+        GameEntry.Entity.HideAllLoadedEntities();
+        GameEntry.Entity.HideAllLoadingEntities();
         foreach (var s in loadedSceneAssetNames)
         {
             GameEntry.Scene.UnloadScene(s);
         }
-        
-        
-        
         //打开标题界面
         GameEntry.Scene.LoadScene("Assets/GameMain/Scene/GameStart.unity", this);
-        GameEntry.UI.OpenUIForm("Assets/GameMain/Prefabs/UI/TitleView.prefab", "Default");
+        GameEntry.UI.OpenUIForm(UIFormId.TitleView);
+        Log.Debug("TitleView start!");
     }
 
 

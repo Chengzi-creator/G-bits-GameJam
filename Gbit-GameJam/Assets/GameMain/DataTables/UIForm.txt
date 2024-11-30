@@ -4,3 +4,6 @@
 #	界面编号	策划备注	资源名称	界面组名称	是否允许多个界面实例	是否暂停被其覆盖的界面
 	101	设置	SettingUIForm	Setting	FALSE	FALSE
 	102	SampleBoardcast	SampleBoardcast	Boardcast	FALSE	FALSE
+	103	LevelCompelete	LevelCompelete	BattleUI	FALSE	FALSE
+	104	PlayerInfo	PlayerInfo	BattleUI	FALSE	FALSE
+	105	TitleView	TitleView	Default	FALSE	FALSE
