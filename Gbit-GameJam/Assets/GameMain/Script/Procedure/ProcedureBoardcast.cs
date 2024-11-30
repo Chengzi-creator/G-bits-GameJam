@@ -26,7 +26,8 @@ public class ProcedureBoardcast : ProcedureBase
         //播放拨片
         // GameEntry.UI.OpenUIForm("Assets/GameMain/Prefabs/UI/SampleBoardcast.prefab", "Boardcast");
         GameEntry.UI.OpenUIForm(UIFormId.SampleBoardcast);
-        GameEntry.UI.OpenUIForm("Assets/GameMain/Prefabs/UI/Settings.prefab", "Settings");
+        GameEntry.UI.OpenUIForm(UIFormId.SettingUIForm);
+        //GameEntry.UI.OpenUIForm("Assets/GameMain/Prefabs/UI/Settings.prefab", "Settings");
 
         GameEntry.Scene.LoadScene("Assets/GameMain/Scene/Battle.unity", this);
     }

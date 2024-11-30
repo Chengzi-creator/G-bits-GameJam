@@ -31,7 +31,7 @@ namespace GameMain
         protected override void OnInit(object userData)
         {
             base.OnInit(userData);
-            //GetBindComponents(gameObject);
+            GetBindComponents(gameObject);
         }
 
         protected override void OnOpen(object userData)

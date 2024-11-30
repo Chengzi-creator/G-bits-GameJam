@@ -2,7 +2,7 @@ using Autobind;
 using UnityEngine;
 using UnityEngine.UI;
 
-//自动生成于：2024/11/30 3:05:49
+//自动生成于：2024/11/30 10:14:14
 namespace GameMain
 {
 
@@ -14,6 +14,8 @@ namespace GameMain
 		private Button m_btn_Home;
 		private Button m_btn_Volume;
 		private Button m_btn_Back;
+		private Toggle m_tog_Ison;
+		private Slider m_slider_Volume;
 
 		private void GetBindComponents(GameObject go)
 		{
@@ -24,6 +26,8 @@ namespace GameMain
 			m_btn_Home = autoBindTool.GetBindComponent<Button>(2);
 			m_btn_Volume = autoBindTool.GetBindComponent<Button>(3);
 			m_btn_Back = autoBindTool.GetBindComponent<Button>(4);
+			m_tog_Ison = autoBindTool.GetBindComponent<Toggle>(5);
+			m_slider_Volume = autoBindTool.GetBindComponent<Slider>(6);
 		}
 
 		private void ReleaseBindComponents()
