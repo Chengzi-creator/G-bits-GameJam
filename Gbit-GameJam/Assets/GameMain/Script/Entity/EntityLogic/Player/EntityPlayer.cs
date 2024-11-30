@@ -26,6 +26,7 @@ public class EntityPlayer : EntityLogic, IAttackAble
     public PlayerAttackComponent attackComponent { get; private set; }
     public Animator anim { get; private set; }
 
+    public SpriteRenderer spriteRenderer { get; private set; }
 
     public float Speed { get; private set; }
     public float JumpHeight { get; private set; }
@@ -105,6 +106,7 @@ public class EntityPlayer : EntityLogic, IAttackAble
         rb = GetComponent<Rigidbody2D>();
         attackComponent = GetComponent<PlayerAttackComponent>();
         anim = GetComponent<Animator>();
+        spriteRenderer = transform.Find("Sprite").GetComponent<SpriteRenderer>();
 
         IDataTable<DRPlayer> dt = GameEntry.DataTable.GetDataTable<DRPlayer>();
 
@@ -151,7 +153,7 @@ public class EntityPlayer : EntityLogic, IAttackAble
         AxeCount = MaxAxeCount;
         m_AxeRecoverTimer = 0f;
         anim.SetBool("Dead", false);
-        isAlive = true;        
+        isAlive = true;
         fsm.Start<PlayerIdelState>();
     }
 

@@ -34,6 +34,8 @@ public class ProcedureTitleView : ProcedureBase
         GameEntry.Scene.LoadScene("Assets/GameMain/Scene/GameStart.unity", this);
         GameEntry.UI.OpenUIForm(UIFormId.TitleView);
         Log.Debug("TitleView start!");
+
+        GameEntry.Sound.PlayMusic(AssetUtility.GetMP3Asset("bgm"));
     }
 
 

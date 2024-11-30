@@ -1,5 +1,6 @@
 ﻿using GameFramework;
 using GameFramework.Fsm;
+using UnityEngine;
 
 public class PlayerHitState : PlayerStateBase
 {
@@ -7,12 +8,15 @@ public class PlayerHitState : PlayerStateBase
     
     private float m_HitTimer = 0f;
 
+    Color hitColor = new Color(1f,0.4f,0.4f,1f);
+    private Color normalColor = new Color(1f, 1f, 1f, 1f);
     protected override void OnEnter(IFsm<EntityPlayer> fsm)
     {
         base.OnEnter(fsm);
         m_HitTimer = 0f;
         m_EntityPlayer.anim.SetBool("Back",m_EntityPlayer.isBack);
         m_EntityPlayer.anim.SetBool("Hit",true);
+        m_EntityPlayer.spriteRenderer.color = hitColor;
     }
 
     protected override void OnUpdate(IFsm<EntityPlayer> fsm, float elapseSeconds, float realElapseSeconds)
@@ -37,6 +41,7 @@ public class PlayerHitState : PlayerStateBase
         base.OnLeave(fsm, isShutdown);
         m_EntityPlayer.isHit = false;
         m_EntityPlayer.anim.SetBool("Hit",false);
+        m_EntityPlayer.spriteRenderer.color = normalColor;
     }
 
     public static PlayerHitState Create()
