@@ -315,13 +315,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 476d0c50772a69844b4a20c0222870aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainCameraObject: {fileID: 0}
   spawnIntervalPaper: 20
   spawnIntervalEraser: 60
+  CameraControl: {fileID: 0}
   spawnAreaMin: {x: -10, y: -5}
   spawnAreaMax: {x: 10, y: 5}
   TimerPaper: 0
   TimerEraser: 0
   isWorking: 0
+  Found: 0
 --- !u!1001 &889210609
 PrefabInstance:
   m_ObjectHideFlags: 0

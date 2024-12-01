@@ -17,6 +17,10 @@ public class PlayerHitState : PlayerStateBase
         m_EntityPlayer.anim.SetBool("Back",m_EntityPlayer.isBack);
         m_EntityPlayer.anim.SetBool("Hit",true);
         m_EntityPlayer.spriteRenderer.color = hitColor;
+        
+        //受击碰撞体取消并固定y轴
+        m_EntityPlayer.collider2D.enabled = false;
+        m_EntityPlayer.rb.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
     }
 
     protected override void OnUpdate(IFsm<EntityPlayer> fsm, float elapseSeconds, float realElapseSeconds)
@@ -42,6 +46,11 @@ public class PlayerHitState : PlayerStateBase
         m_EntityPlayer.isHit = false;
         m_EntityPlayer.anim.SetBool("Hit",false);
         m_EntityPlayer.spriteRenderer.color = normalColor;
+        
+        
+        //受击碰撞体取消并固定y轴
+        m_EntityPlayer.collider2D.enabled = true;
+        m_EntityPlayer.rb.constraints = RigidbodyConstraints2D.FreezeRotation;
     }
 
     public static PlayerHitState Create()

@@ -64,7 +64,7 @@ public class ProcedureBattle : ProcedureBase
         
         //Debug
         debugTimer += elapseSeconds;
-        if (debugTimer > 5)
+        if (debugTimer > 20)
         {
             GameEntry.UI.OpenUIForm(UIFormId.TestWindow);
             debugTimer = 0;

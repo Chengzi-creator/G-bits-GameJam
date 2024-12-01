@@ -1,10 +1,6 @@
-﻿using System;
-using GameMain;
-using TreeEditor;
+﻿using GameMain;
 using UnityEngine;
 using UnityGameFramework.Runtime;
-using Random = UnityEngine.Random;
-
 
 [RequireComponent(typeof(Collider2D))]
 [RequireComponent(typeof(Rigidbody2D))]
