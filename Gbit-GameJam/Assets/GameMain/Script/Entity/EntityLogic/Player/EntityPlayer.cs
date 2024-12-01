@@ -154,7 +154,7 @@ public class EntityPlayer : EntityLogic, IAttackAble
         m_AxeRecoverTimer = 0f;
         anim.SetBool("Dead", false);
         isAlive = true;
-        fsm.Start<PlayerIdelState>();
+        fsm.Start<PlayerAirState>();
     }
 
     protected override void OnUpdate(float elapseSeconds, float realElapseSeconds)

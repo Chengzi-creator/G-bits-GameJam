@@ -1,5 +1,6 @@
 ﻿using System;
 using GameMain;
+using TreeEditor;
 using UnityEngine;
 using UnityGameFramework.Runtime;
 using Random = UnityEngine.Random;
@@ -54,31 +55,65 @@ public class PlayerAxe : EntityLogic
     {
         base.OnShow(userData);
         //计算初速度
-        
-        Vector2 dir = (TargetPosition - (Vector2) transform.position).normalized;
+        float angle;
+        Vector2 dir = (TargetPosition - (Vector2)transform.position + 2 * Vector2.up).normalized;
 
-        rb.velocity = Speed * AdjustDirection(dir,30f);
-    }
-    Vector2 AdjustDirection(Vector2 dir, float minAngle)
-    {
-        if(dir.y<0)
-            dir = new Vector2(dir.x, -dir.y);
-        // 计算当前角度（与水平线的夹角，单位为弧度）
-        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-
-        // 将最小角度转换为正负范围
-        float minAngleRad = Mathf.Abs(minAngle);
-
-        // 如果角度小于最小角度，调整角度
-        if (angle > -minAngleRad && angle < minAngleRad)
+        Vector2 thorwDir = new Vector2(1, 1).normalized;
+        if (TargetPosition.x > transform.position.x)
         {
-            angle = angle >= 0 ? minAngleRad : -minAngleRad;
+            angle = CalculateLaunchAngle(dir, Speed, -Physics2D.gravity.y);
+            thorwDir = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
+        }
+        else
+        {
+            angle = CalculateLaunchAngle(new Vector2(-dir.x, dir.y), Speed, -Physics2D.gravity.y);
+            thorwDir = new Vector2(-Mathf.Cos(angle), Mathf.Sin(angle));
         }
 
-        // 根据调整后的角度计算新的方向
-        float angleRad = angle * Mathf.Deg2Rad;
-        return new Vector2(Mathf.Cos(angleRad), Mathf.Sin(angleRad));
+        Log.Warning(angle * Mathf.Rad2Deg);
+
+        rb.velocity = Speed * thorwDir;
     }
+
+    /// <summary>
+    /// 计算从 (0, 0) 到指定终点的初速度方向角
+    /// </summary>
+    /// <param name="endPoint">终点位置</param>
+    /// <param name="initialSpeed">初速度大小</param>
+    /// <param name="gravity">重力加速度</param>
+    /// <returns>初速度方向角（弧度），返回负数表示无法到达目标</returns>
+    public static float CalculateLaunchAngle(Vector2 endPoint, float initialSpeed, float gravity)
+    {
+        // 提取终点的坐标
+        float x = endPoint.x;
+        float y = endPoint.y;
+
+        // 检查水平位移是否为正
+        if (x <= 0)
+        {
+            Debug.LogError("终点必须在起点右侧！");
+            return 45f * Mathf.Deg2Rad;
+        }
+
+        // 计算速度方向的两个可能解
+        float speedSquared = initialSpeed * initialSpeed;
+        float discriminant = speedSquared * speedSquared - gravity * (gravity * x * x + 2 * y * speedSquared);
+
+        // 检查是否有解
+        if (discriminant < 0)
+        {
+            return 45f * Mathf.Deg2Rad;
+        }
+
+        // 计算两个可能的角度解
+        float sqrtDiscriminant = Mathf.Sqrt(discriminant);
+        float angle1 = Mathf.Atan((speedSquared + sqrtDiscriminant) / (gravity * x));
+        float angle2 = Mathf.Atan((speedSquared - sqrtDiscriminant) / (gravity * x));
+
+        // 返回较小角度（低抛解）
+        return Mathf.Min(angle1, angle2);
+    }
+
     private void OnCollisionEnter2D(Collision2D other)
     {
     }
@@ -89,7 +124,7 @@ public class PlayerAxe : EntityLogic
         {
             //随机播放斧头碰撞音效
             int index = Random.Range(1, 4);
-            
+
             if (other.gameObject.CompareTag("Enemy"))
             {
                 IAttackAble attackAble = other.gameObject.GetComponent<IAttackAble>();
@@ -106,7 +141,7 @@ public class PlayerAxe : EntityLogic
                     GameEntry.Sound.PlaySound(AssetUtility.GetWAVAsset("Axe" + index));
                 }
             }
-            
+
             if (other.gameObject.CompareTag("Land"))
             {
                 GameEntry.Entity.HideEntity(Entity);

@@ -5,6 +5,8 @@ using UnityGameFramework.Runtime;
 
 public class TitleViewUI : UIFormLogic
 {
+    private bool isClose;
+    
     public GameObject MainMasks;
     public GameObject VolumeMasks;
     public Button startButton;
@@ -17,6 +19,8 @@ public class TitleViewUI : UIFormLogic
     protected override void OnOpen(object userData)
     {
         base.OnOpen(userData);
+        isClose = false;
+        
         MainMasks.SetActive(true);
         VolumeMasks.SetActive(false);
         startButton.onClick.AddListener(OnStartButtonClick);
@@ -36,6 +40,12 @@ public class TitleViewUI : UIFormLogic
         }
     }
 
+    protected override void OnClose(bool isShutdown, object userData)
+    {
+        base.OnClose(isShutdown, userData);
+        isClose = true;
+    }
+
     private void OnExitButtonClick()
     {
         Application.Quit();
@@ -53,7 +63,10 @@ public class TitleViewUI : UIFormLogic
 
     private void OnStartButtonClick()
     {
-        GameEntry.UI.CloseUIForm(UIForm);
+        if (!isClose)
+        {
+            GameEntry.UI.CloseUIForm(UIForm);
+        }
         GameEntry.Event.Fire(this, GameStartEventArgs.Create());
     }
     
