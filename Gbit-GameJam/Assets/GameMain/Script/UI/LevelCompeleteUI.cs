@@ -23,7 +23,7 @@ public class LevelCompeleteUI : UIFormLogic
             Vector2Int d = (Vector2Int)userData;
             m_Minute = d.x;
             m_Second = d.y;
-            timeText.text = $"You sleep {m_Minute} minutes {m_Second} seconds";
+            timeText.text = $"You sleep {m_Minute} minutes {m_Second} seconds.Back to class,NOW!";
             RetryButton.onClick.AddListener(OnRetryButtonClick);
             ExitButton.onClick.AddListener(OnExitButtonClick);
         }
