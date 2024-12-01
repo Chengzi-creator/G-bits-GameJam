@@ -7,8 +7,8 @@ using Random = UnityEngine.Random;
 public class EnemyManager : GameFrameworkComponent
 {   
     public GameObject mainCameraObject;
-    public float spawnIntervalPaper = 5f; //怪物生成间隔
-    public float spawnIntervalEraser = 15f; //怪物生成间隔
+    public float spawnIntervalPaper = 8f; //怪物生成间隔
+    public float spawnIntervalEraser = 25f; //怪物生成间隔
     public CameraControl CameraControl;
     public Vector2 spawnAreaMin;
     public Vector2 spawnAreaMax;
@@ -215,8 +215,8 @@ public class EnemyManager : GameFrameworkComponent
     public void StartWorking(object sender, GameEventArgs gameEventArgs)
     {
         isWorking = true;
-        nextSpawnTimePaper = 0f;
-        nextSpawnTimeEraser = Time.time;
+        nextSpawnTimePaper = 5f;
+        nextSpawnTimeEraser = 25f;
     }
     
     public void StopWorking(object sender, GameEventArgs gameEventArgs)

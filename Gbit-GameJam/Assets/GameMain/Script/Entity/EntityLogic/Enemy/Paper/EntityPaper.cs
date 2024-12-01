@@ -75,8 +75,11 @@ public class EntityPaper : EntityEnemy<EntityPaper>
    {
        if (other.gameObject.CompareTag("Player"))
        {
-           other.gameObject.GetComponent<IAttackAble>()
-               .OnAttacked(new AttackData(10, other.transform.position - transform.position));
+           if (Collision)
+           {
+               other.gameObject.GetComponent<IAttackAble>()
+                   .OnAttacked(new AttackData(10, other.transform.position - transform.position));
+           }
        }
    }
 
