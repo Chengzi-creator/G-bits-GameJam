@@ -26,7 +26,7 @@ namespace GameMain
         [SerializeField] private Toggle _toggle;
         [SerializeField] private Slider _slider;
         
-        private AudioSource currentSource; //正在播放的音频
+        //public AudioSource currentSource; //正在播放的音频
         private bool isPaused = false;
         protected override void OnInit(object userData)
         {
@@ -50,7 +50,7 @@ namespace GameMain
         {
             restartButton.onClick.AddListener(OnrestartButtonClick);
             backButton.onClick.AddListener(OnbackButtonClick);
-            homeButton.onClick.AddListener(OnhomeButtonClick);
+            homeButton.onClick.AddListener(OnexitButtonClick);
             volumeButton.onClick.AddListener(OnvolumeButtonClick);
             settingsButton.onClick.AddListener(TogglePause);
             _toggle.onValueChanged.AddListener(isOn => ControlAudio());
@@ -83,17 +83,21 @@ namespace GameMain
             if (_toggle.isOn)
             {
                 //currentSource.Play();
+                GameEntry.Sound.PlayMusic(AssetUtility.GetMP3Asset("bgm"));
             }
             else
             {
                 //currentSource.Stop();
+                GameEntry.Sound.StopAllLoadedSounds();
+                GameEntry.Sound.StopAllLoadingSounds();
             }
         }
 
 
         private void Volume(float value)
         {
-            currentSource.volume = value;
+            //currentSource.volume = value;
+            GameEntry.Sound.SetVolume("Music",value);
         }
 
         //两次按ESC
@@ -122,7 +126,6 @@ namespace GameMain
 
         private void OnexitButtonClick()
         {
-            //当点击退出
             Application.Quit();
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;

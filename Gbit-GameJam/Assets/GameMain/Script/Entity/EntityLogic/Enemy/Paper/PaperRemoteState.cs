@@ -38,7 +38,7 @@ public class PaperRemoteState : PaperStateBase,IHasObjectPool
         m_Timer += elapseSeconds;
         if (m_Timer >= 0.5f)
         {
-            GameEntry.Sound.PlaySound(AssetUtility.GetWAVAsset("Bullet1"));
+            GameEntry.Sound.PlaySound(AssetUtility.GetMP3Asset("Bullet2"));
             FireBullet();
         }
     }
