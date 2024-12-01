@@ -16,7 +16,7 @@ public class EntityEnemy: EntityLogic,IAttackAble
     public Collider2D m_Collider { get; private set; }
     public SpriteRenderer m_SpriteRenderer { get; private set; }
     
-    public float moveSpeed { get; set; }
+    //public float moveSpeed { get; set; }
     
     public EntityPlayer player;
     
@@ -43,7 +43,7 @@ public class EntityEnemy: EntityLogic,IAttackAble
         base.OnInit(userData);
         EntityEnemyData enemyData = userData as EntityEnemyData;
         m_Collider = GetComponent<Collider2D>();
-        
+        transform.position = enemyData.InitPosition;
         //m_StatusInfo = new CharacterInfo(1, 2);
         m_Animator = GetComponent<Animator>();
         m_SpriteRenderer = GetComponent<SpriteRenderer>();
@@ -75,7 +75,6 @@ public class EntityEnemy: EntityLogic,IAttackAble
     {
         int damage = data.Damage;
         Hp -= damage;
-        m_Animator.SetTrigger("Attacked");
         if(Hp == 0)
             OnDead();
     }
@@ -87,13 +86,9 @@ public class EntityEnemy: EntityLogic,IAttackAble
     }
     
     //敌人通过碰撞攻击
-    private void OnCollisionEnter2D(Collision2D other)
+    public virtual void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            other.gameObject.GetComponent<IAttackAble>()
-                .OnAttacked(new AttackData(1, other.transform.position - transform.position));
-        }
+        
     }
     
     //受伤后坐力

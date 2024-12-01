@@ -23,7 +23,6 @@ public class EraserMoveForwardState : EraserStateBase
         m_Timer = 0f;
         playerPosition = m_EntityEraser.player.transform.position;
         eraserPositon = m_EntityEraser.transform.position;
-        m_EntityEraser.moveSpeed = 3f;
         if ((playerPosition.x - eraserPositon.x) > 0)
             forwardDirection.x = 1;
         else
@@ -47,7 +46,7 @@ public class EraserMoveForwardState : EraserStateBase
 
     private void MoveToPlayer()
     {
-        Vector2 nextPosition = m_EntityEraser.m_Rigidbody.position + forwardDirection.normalized * m_EntityEraser.moveSpeed * Time.deltaTime;
+        Vector2 nextPosition = m_EntityEraser.m_Rigidbody.position + forwardDirection.normalized * m_EntityEraser.Speed * Time.deltaTime;
         if (m_EntityEraser.m_Rigidbody != null)
         {
             m_EntityEraser.m_Rigidbody.MovePosition(nextPosition);

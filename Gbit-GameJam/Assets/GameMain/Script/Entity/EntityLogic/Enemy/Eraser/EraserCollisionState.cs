@@ -17,11 +17,11 @@ public class EraserCollisionState : EraserStateBase
     protected override void OnEnter(IFsm<EntityEraser> fsm)
     {
         base.OnEnter(fsm);
+        m_EntityEraser.Collision = true;
         Debug.Log("Collision");
         m_CameraControl = Camera.main.GetComponent<CameraControl>();
         m_Fsm = fsm;
         m_EntityEraser.m_Rigidbody.velocity = Vector2.zero;
-        m_EntityEraser.moveSpeed = 16f;
         //一个计时，一个计数，初始化位置用于下面判断
         m_Timer = 0f;
         //Flip();
@@ -42,19 +42,19 @@ public class EraserCollisionState : EraserStateBase
     //根据当前方向和Bound边缘来确定敌人应该移动到的点
     private Vector3 CalculateTargetPosition()
     {
-        if(Mathf.Abs((int)m_EntityEraser.transform.position.x - (int)m_CameraControl.rightBoundary)<= 3f )
-        {
-            targetPosition.x = m_CameraControl.leftBoundary;
-            forwardDirection.x = -1f;
-            //Debug.Log("向左");
-        }
-        else if (Mathf.Abs((int)m_EntityEraser.transform.position.x - (int)m_CameraControl.leftBoundary)<= 3f )
-        {
-            targetPosition.x = m_CameraControl.rightBoundary;
-            forwardDirection.x = 1f;
-            //Debug.Log("向右");
-        }
-        else
+        // if(Mathf.Abs((int)m_EntityEraser.transform.position.x - (int)m_CameraControl.rightBoundary)<= 3f && forwardDirection.x == 1f)
+        // {
+        //     targetPosition.x = m_CameraControl.leftBoundary;
+        //     forwardDirection.x = -1f;
+        //     //Debug.Log("向左");
+        // }
+        // else if (Mathf.Abs((int)m_EntityEraser.transform.position.x - (int)m_CameraControl.leftBoundary)<= 3f )
+        // {
+        //     targetPosition.x = m_CameraControl.rightBoundary;
+        //     forwardDirection.x = 1f;
+        //     //Debug.Log("向右");
+        // }
+        //else
         {
             if (eraserPositon.x - playerPosition.x >= 0)
             {
@@ -77,7 +77,7 @@ public class EraserCollisionState : EraserStateBase
     //移动到目标位置
     private void MoveEraserToTarget()
     {   
-        Vector2 nextPosition = m_EntityEraser.m_Rigidbody.position + forwardDirection.normalized * m_EntityEraser.moveSpeed * Time.deltaTime;
+        Vector2 nextPosition = m_EntityEraser.m_Rigidbody.position + forwardDirection.normalized * m_EntityEraser.CollisionSpeed * Time.deltaTime;
         if (m_EntityEraser.m_Rigidbody != null)
         {
             // 获取边界
@@ -94,17 +94,20 @@ public class EraserCollisionState : EraserStateBase
                 {
                     //嘲讽动画
                     m_EntityEraser.m_Animator.SetBool("Collision",false);
+                    m_EntityEraser.Collision = false;
                     ChangeState<EraserIdleState>(m_Fsm);
                 }
                 else if (N == 4)
                 {
                     //特殊动作
                     m_EntityEraser.m_Animator.SetBool("Collision",false);
+                    m_EntityEraser.Collision = false;
                     ChangeState<EraserSpecialState>(m_Fsm);
                 }
                 else
                 {   
                     m_EntityEraser.m_Animator.SetBool("Collision",false);
+                    m_EntityEraser.Collision = false;
                     ChangeState<EraserCollisionWaitState>(m_Fsm);
                 }
             }
