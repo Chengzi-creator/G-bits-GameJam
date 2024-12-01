@@ -6,6 +6,8 @@ using UnityEngine.UI;
 using UnityGameFramework.Runtime;
 public class LevelCompeleteUI : UIFormLogic
 {
+    private bool isClose;
+    
     private int m_Minute;
     private int m_Second;
     public TMP_Text timeText;
@@ -14,6 +16,8 @@ public class LevelCompeleteUI : UIFormLogic
     protected override void OnOpen(object userData)
     {
         base.OnOpen(userData);
+        isClose = false;
+        
         if(userData != null)
         {
             Vector2Int d = (Vector2Int)userData;
@@ -24,16 +28,25 @@ public class LevelCompeleteUI : UIFormLogic
             ExitButton.onClick.AddListener(OnExitButtonClick);
         }
     }
+    
+    protected override void OnClose(bool isShutdown, object userData)
+    {
+        base.OnClose(isShutdown, userData);
+        isClose = true;
+    }
 
     private void OnExitButtonClick()
     {
-        GameEntry.UI.CloseUIForm(UIForm);
+
         GameEntry.Event.Fire(this, LevelExitEventArgs.Create());
     }
 
     private void OnRetryButtonClick()
     {
-        GameEntry.UI.CloseUIForm(UIForm);
+        if (!isClose)
+        {
+            GameEntry.UI.CloseUIForm(UIForm);
+        }
         GameEntry.Event.Fire(this, LevelRetryEventArgs.Create());
     }
 }

@@ -13,7 +13,6 @@ public class PlayerDeadState : PlayerStateBase
         m_EntityPlayer.anim.SetBool("Hit",false);
         m_EntityPlayer.anim.SetBool("Dead",true);
         m_EntityPlayer.isAlive = false;
-        Log.Warning("PlayerDeadState");
     }
 
     protected override void OnUpdate(IFsm<EntityPlayer> fsm, float elapseSeconds, float realElapseSeconds)
