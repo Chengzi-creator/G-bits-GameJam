@@ -9,6 +9,7 @@ using UnityGameFramework.Runtime;
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(PlayerAttackComponent))]
 [RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(Collider2D))]
 public class EntityPlayer : EntityLogic, IAttackAble
 {
     public static int PlayerId = 1001;
@@ -25,6 +26,7 @@ public class EntityPlayer : EntityLogic, IAttackAble
     public Rigidbody2D rb { get; private set; }
     public PlayerAttackComponent attackComponent { get; private set; }
     public Animator anim { get; private set; }
+    public Collider2D collider2D { get; private set; }
 
     public SpriteRenderer spriteRenderer { get; private set; }
 
@@ -81,7 +83,7 @@ public class EntityPlayer : EntityLogic, IAttackAble
     private float m_AxeRecoverTimer = 0f;
     public Vector2 MoveDirection { get; private set; }
 
-    public float HitTime = 0.2f;
+    public float HitTime = 0.5f;
 
     public bool isRight = true;
     public bool isAttack = false;
@@ -107,6 +109,7 @@ public class EntityPlayer : EntityLogic, IAttackAble
         attackComponent = GetComponent<PlayerAttackComponent>();
         anim = GetComponent<Animator>();
         spriteRenderer = transform.Find("Sprite").GetComponent<SpriteRenderer>();
+        collider2D = GetComponent<Collider2D>();
 
         IDataTable<DRPlayer> dt = GameEntry.DataTable.GetDataTable<DRPlayer>();
 
@@ -231,7 +234,8 @@ public class EntityPlayer : EntityLogic, IAttackAble
             {
                 isBack = false;
             }
-            rb.AddForce(dir * 10f, ForceMode2D.Impulse);
+
+            //rb.AddForce(dir * 3f, ForceMode2D.Impulse);
         }
     }
 
