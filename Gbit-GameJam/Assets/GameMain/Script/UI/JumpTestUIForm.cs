@@ -18,27 +18,42 @@ public class JumpTestUIForm : UIFormLogic
 
     public int CorrectAnswerIndex;
 
-    public int increaseHPPerSecond = 5;
-    public int punishHP = 10;
+    public int increaseHPPerSecond = 2;
+    public int punishHP = 5;
 
     private float timer = 0;
 
     private EntityPlayer player;
 
     private bool isClose;
-    
+
     public RectTransform[] buttons; // 按钮数组
-    public float moveInterval = 2.0f; // 按钮移动的时间间隔
+
+    public RectTransform QuestionPanel; // 问题面板
 
     private Vector2[] targetPositions; // 每个按钮的目标位置
     public float moveSpeed = 100f; // 按钮移动速度
 
+    public float questionShowTime = 0.5f;
+    public float questionChangeTime = 0.5f;
+    public Vector2 initialPosition; // 初始位置
+    public Vector2 initialSize; // 初始大小
+    public Vector2 targetPosition; // 目标位置（相对于屏幕左下角）
+    public Vector2 targetSize; // 目标大小（宽度和高度）
+    private float elapsedTime = 0f; // 已经过去的时间
+    private bool isQuestionShow = false;
+    private bool isQuestionInit = false;
+
+    
+    private float punishTimer = 0f;
 
     protected override void OnOpen(object userData)
     {
         base.OnOpen(userData);
-        
+
         isClose = false;
+        isQuestionInit = false;
+        isQuestionShow = false;
 
         //初始化题目
         IDataTable<DRTestHub> dtTestHub = GameEntry.DataTable.GetDataTable<DRTestHub>();
@@ -63,13 +78,17 @@ public class JumpTestUIForm : UIFormLogic
         {
             targetPositions[i] = GetRandomPosition(buttons[i]);
         }
-        
+
         if (!GameEntry.Entity.HasEntity(EntityPlayer.PlayerId))
         {
             Log.Error("Player entity not exist!");
             return;
         }
+
         player = GameEntry.Entity.GetEntity(EntityPlayer.PlayerId).Logic as EntityPlayer;
+
+        QuestionPanel.anchoredPosition = initialPosition;
+        QuestionPanel.sizeDelta = initialSize;
     }
 
     protected override void OnClose(bool isShutdown, object userData)
@@ -98,7 +117,7 @@ public class JumpTestUIForm : UIFormLogic
             Log.Error("Player entity not exist!");
             GameEntry.UI.CloseUIForm(this);
         }
-        
+
         for (int i = 0; i < buttons.Length; i++)
         {
             if (buttons[i] == null) continue;
@@ -116,12 +135,48 @@ public class JumpTestUIForm : UIFormLogic
                 targetPositions[i] = GetRandomPosition(buttons[i]);
             }
         }
+
+        if (!isQuestionShow)
+        {
+            elapsedTime += elapseSeconds;
+            if (elapsedTime >= questionShowTime)
+            {
+                elapsedTime = questionShowTime;
+                isQuestionShow = true;
+                elapsedTime = 0f;
+            }
+        }
+        else if (!isQuestionInit)
+        {
+            elapsedTime += elapseSeconds;
+            if (elapsedTime >= questionChangeTime)
+            {
+                elapsedTime = questionChangeTime;
+                isQuestionInit = true;
+            }
+
+            float t = Mathf.Clamp01(elapsedTime / questionChangeTime);
+
+            // 缓慢移动到目标位置
+            QuestionPanel.anchoredPosition = Vector2.Lerp(initialPosition, targetPosition, t);
+            // 缓慢缩放到目标大小
+            QuestionPanel.sizeDelta = Vector2.Lerp(initialSize, targetSize, t);
+        }
+
+        punishTimer -= elapseSeconds;
+        punishTimer = Mathf.Max(0, punishTimer);
     }
 
     private void OnAnswer1ButtonClick()
     {
+        if(punishTimer > 0)
+        {
+            return;
+        }
+        
         if (CorrectAnswerIndex == 1)
         {
+            GameEntry.Sound.PlaySound(AssetUtility.GetWAVAsset("correct"));
             if (!isClose)
             {
                 GameEntry.UI.CloseUIForm(this);
@@ -129,17 +184,24 @@ public class JumpTestUIForm : UIFormLogic
         }
         else
         {
+            GameEntry.Sound.PlaySound(AssetUtility.GetWAVAsset("wrong"));
             if (player != null)
             {
                 player.AddHP(punishHP);
+                punishTimer = 0.5f;
             }
         }
     }
 
     private void OnAnswer2ButtonClick()
     {
+        if(punishTimer > 0)
+        {
+            return;
+        }
         if (CorrectAnswerIndex == 2)
         {
+            GameEntry.Sound.PlaySound(AssetUtility.GetWAVAsset("correct"));
             if (!isClose)
             {
                 GameEntry.UI.CloseUIForm(this);
@@ -147,17 +209,27 @@ public class JumpTestUIForm : UIFormLogic
         }
         else
         {
+            GameEntry.Sound.PlaySound(AssetUtility.GetWAVAsset("wrong"));
+
             if (player != null)
             {
                 player.AddHP(punishHP);
+                punishTimer = 0.5f;
             }
         }
     }
 
     private void OnAnswer3ButtonClick()
     {
+        if(punishTimer > 0)
+        {
+            return;
+        }
+        
         if (CorrectAnswerIndex == 3)
         {
+            GameEntry.Sound.PlaySound(AssetUtility.GetWAVAsset("correct"));
+
             if (!isClose)
             {
                 GameEntry.UI.CloseUIForm(this);
@@ -165,14 +237,15 @@ public class JumpTestUIForm : UIFormLogic
         }
         else
         {
+            GameEntry.Sound.PlaySound(AssetUtility.GetWAVAsset("wrong"));
+
             if (player != null)
             {
                 player.AddHP(punishHP);
+                punishTimer = 0.5f;
             }
         }
     }
-    
-    
     // 获取屏幕范围内的随机位置
     private Vector2 GetRandomPosition(RectTransform button)
     {

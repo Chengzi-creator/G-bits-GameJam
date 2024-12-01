@@ -231,8 +231,7 @@ public class EntityPlayer : EntityLogic, IAttackAble
             {
                 isBack = false;
             }
-
-            rb.AddForce(dir * 5f, ForceMode2D.Impulse);
+            rb.AddForce(dir * 10f, ForceMode2D.Impulse);
         }
     }
 

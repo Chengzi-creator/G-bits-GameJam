@@ -11,6 +11,10 @@ public class PlayerInfoUI : UIFormLogic
     public GameObject axeGroup;
     public GameObject axePrefab;
     private List<GameObject> axeList = new List<GameObject>();
+    
+    public List<Sprite> sprites = new List<Sprite>();
+    public Image stateImage;
+    public int changeStateValue = 80;
 
     protected override void OnOpen(object userData)
     {
@@ -38,6 +42,14 @@ public class PlayerInfoUI : UIFormLogic
     {
         PlayerHealthChangeEventArgs ne = e as PlayerHealthChangeEventArgs;
         hpSlider.value = ne.CurrentHpRate;
+        if(ne.CurrentHp<=changeStateValue)
+        {
+            stateImage.sprite = sprites[0];
+        }
+        else
+        {
+            stateImage.sprite = sprites[1];
+        }
     }
     
     private void OnPlayerAxeCountChange(object sender, GameEventArgs e)

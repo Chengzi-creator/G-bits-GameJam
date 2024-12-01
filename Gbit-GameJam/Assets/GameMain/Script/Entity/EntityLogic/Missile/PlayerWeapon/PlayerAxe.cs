@@ -8,11 +8,13 @@ using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Collider2D))]
 [RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Animator))]
 public class PlayerAxe : EntityLogic
 {
     public static int PlayerAxeId = 60001;
 
     private Rigidbody2D rb;
+    private Animator anim;
     public float RotateSpeed { get; private set; }
 
     public Vector2 TargetPosition { get; private set; }
@@ -20,6 +22,9 @@ public class PlayerAxe : EntityLogic
     public float Speed { get; private set; }
 
     private Vector3 rotate;
+
+    private bool isDead;
+    private float delayTime = 0f;
 
     protected override void OnInit(object userData)
     {
@@ -36,6 +41,7 @@ public class PlayerAxe : EntityLogic
         Speed = data.Speed;
 
         rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
 
 
         transform.position = data.InitPosition;
@@ -54,6 +60,11 @@ public class PlayerAxe : EntityLogic
     protected override void OnShow(object userData)
     {
         base.OnShow(userData);
+        isDead = false;
+        delayTime = 0f;
+        anim.speed = 1;
+        
+        
         //计算初速度
         float angle;
         Vector2 dir = (TargetPosition - (Vector2)transform.position + 2 * Vector2.up).normalized;
@@ -113,9 +124,29 @@ public class PlayerAxe : EntityLogic
         // 返回较小角度（低抛解）
         return Mathf.Min(angle1, angle2);
     }
+    
+    protected override void OnUpdate(float elapseSeconds, float realElapseSeconds)
+    {
+        if (isDead)
+        {
+            rb.velocity = Vector2.zero;
+            delayTime -= elapseSeconds;
+            if (delayTime <= 0)
+            {
+                GameEntry.Entity.HideEntity(Entity);
+            }
+        }
+    }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
+    }
+
+    public void DeadDelay(float time)
+    {
+        delayTime = time;
+        isDead = true;
+        anim.speed = 0;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -129,7 +160,7 @@ public class PlayerAxe : EntityLogic
             {
                 IAttackAble attackAble = other.gameObject.GetComponent<IAttackAble>();
                 attackAble.OnAttacked(new AttackData(1));
-                GameEntry.Entity.HideEntity(Entity);
+                DeadDelay(0f);
                 Log.Debug("Axe hit the enemy.");
 
                 if (index == 1)
@@ -144,7 +175,7 @@ public class PlayerAxe : EntityLogic
 
             if (other.gameObject.CompareTag("Land"))
             {
-                GameEntry.Entity.HideEntity(Entity);
+                DeadDelay(0.2f);
                 Log.Debug("Axe hit the land.");
                 if (index == 1)
                 {

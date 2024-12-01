@@ -9,6 +9,7 @@ public class PlayerIdelState : PlayerStateBase
         base.OnEnter(fsm);
         m_EntityPlayer.rb.velocity = Vector2.zero;
         m_EntityPlayer.anim.SetBool("Run", false);
+        
     }
 
     protected override void OnUpdate(IFsm<EntityPlayer> fsm, float elapseSeconds, float realElapseSeconds)
@@ -25,21 +26,26 @@ public class PlayerIdelState : PlayerStateBase
             ChangeState<PlayerHitState>(fsm);
         }
         else
-        if (m_EntityPlayer.MoveDirection.magnitude > Mathf.Epsilon)
+        if (m_EntityPlayer.MoveDirection.magnitude > Mathf.Epsilon && m_EntityPlayer.isAlive)
         {
             ChangeState<PlayerMoveState>(fsm);
         }
-        else if (Input.GetKeyDown(m_EntityPlayer.JUMP_COMMAND))
+        else if (Input.GetKeyDown(m_EntityPlayer.JUMP_COMMAND) && m_EntityPlayer.isAlive)
         {
             ChangeState<PlayerJumpState>(fsm);
         }
-        else if (Input.GetKeyDown(m_EntityPlayer.ATTACK_COMMAND) && m_EntityPlayer.CanThrowAxe())
+        else if (Input.GetKeyDown(m_EntityPlayer.ATTACK_COMMAND) && m_EntityPlayer.CanThrowAxe() && m_EntityPlayer.isAlive)
         {
             ChangeState<PlayerAttackState>(fsm);
         }
-        else if (Input.GetKeyDown(m_EntityPlayer.DODGE_COMMAND))
+        else if (Input.GetKeyDown(m_EntityPlayer.DODGE_COMMAND) && m_EntityPlayer.isAlive)
         {
             ChangeState<PlayerDodgeState>(fsm);
+        }
+
+        if (!m_EntityPlayer.isAlive)
+        {
+            m_EntityPlayer.anim.SetBool("Hit", false);
         }
     }
 
