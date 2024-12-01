@@ -17,6 +17,7 @@ public class PaperCollisionState:PaperStateBase
         base.OnEnter(fsm);
         //Debug.Log("Collision");
         m_CameraControl = Camera.main.GetComponent<CameraControl>();
+        m_EntityPaper.Collision = true;
         if (m_CameraControl != null)
         {
             Debug.Log("CANT FIND");
@@ -31,7 +32,7 @@ public class PaperCollisionState:PaperStateBase
             forwardDirection.x = -1;
         }
         
-        m_EntityPaper.moveSpeed = 10f;
+        m_EntityPaper.Speed = 10f;
     }
 
     protected override void OnUpdate(IFsm<EntityPaper> fsm, float elapseSeconds, float realElapseSeconds)
@@ -58,7 +59,7 @@ public class PaperCollisionState:PaperStateBase
     private void MoveEnemyToTarget()
     {   
         targetPosition = CalculateTargetPosition(m_EntityPaper.transform.position, forwardDirection);
-        Vector2 nextPosition = m_EntityPaper.m_Rigidbody.position + forwardDirection.normalized * m_EntityPaper.moveSpeed * Time.deltaTime;
+        Vector2 nextPosition = m_EntityPaper.m_Rigidbody.position + forwardDirection.normalized * m_EntityPaper.Speed * Time.deltaTime;
         if (m_EntityPaper.m_Rigidbody != null)
         {
             // 获取边界
@@ -71,6 +72,7 @@ public class PaperCollisionState:PaperStateBase
                 m_EntityPaper.m_Animator.SetBool("MoveRight",false);
                 m_EntityPaper.m_Animator.SetBool("MoveLeft",false);
                 m_EntityPaper.m_Animator.SetBool("Idle",true);
+                m_EntityPaper.Collision = false;
                 ChangeState<PaperIdleState>(m_Fsm);
             }
         }

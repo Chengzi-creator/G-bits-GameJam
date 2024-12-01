@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraShake : MonoBehaviour
-{
+{   
+    public GameObject mainCameraObject;
     public float shakeDuration = 0f;
     public float shakeMagnitude = 0.1f;
     public float shakeFrequency = 2.0f;
@@ -11,14 +12,30 @@ public class CameraShake : MonoBehaviour
     private CameraControl CameraControl;
     private float currentShakeDuration = 0f;
     private bool trigger;
+    public bool Found = false;
     void Start()
     {
-        CameraControl = Camera.main.GetComponent<CameraControl>();
         
     }
 
     void Update()
-    {
+    {   
+        if (mainCameraObject != null && !Found)
+        {
+            if (CameraControl == null)
+            {
+                CameraControl = mainCameraObject.GetComponent<CameraControl>();
+            }
+            else
+            {
+                Found = true;
+            }
+        }
+        else if(mainCameraObject == null)
+        {
+            mainCameraObject = GameObject.FindWithTag("MainCamera");
+        }
+        
         if (trigger)
         {
             if (currentShakeDuration > 0)

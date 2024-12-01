@@ -10,20 +10,32 @@ public class EntityEraser : EntityEnemy<EntityEraser>
 {
     public bool Hide = false;
     public float m_Timer;
-    public float m_Speed { get; private set; }
-    public float m_CollisionSpeed { get; private set; }
+    public float Speed { get; set; }
+    public float CollisionSpeed { get; set; }
     public Rigidbody2D m_Rigidbody;
     public Animator m_Animator { get; private set; }
-   
+
+    public bool Smash;
+    public bool Collision;
+    public int DeclineHp;
+    
     protected override void OnShow(object userData)
-    {
-        MaxHP = 3;
-        Hp = MaxHP;
+    {   
         base.OnShow(userData);
+        MaxHP = 6;
+        Hp = MaxHP;
+        Speed = 3f;
+        CollisionSpeed = 16f;
+        DeclineHp = 30;
+        
         m_Timer = 0f;
+        Smash = false;
+        Collision = false;
+        
         //Debug.Log("成功了");
         m_Animator = GetComponent<Animator>();
         m_Rigidbody = GetComponent<Rigidbody2D>();
+        m_Rigidbody.constraints = RigidbodyConstraints2D.None;
         m_Rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
         if(m_Animator == null)
             Debug.Log("没找到动画");
@@ -54,11 +66,36 @@ public class EntityEraser : EntityEnemy<EntityEraser>
             GameEntry.Entity.HideEntity(Entity);
         }
     }
+    
+    public override void OnCollisionEnter2D(Collision2D other)
+    {   
+        if (other.gameObject.CompareTag("Player"))
+        {
+            if (!Smash)
+            {
+                other.gameObject.GetComponent<IAttackAble>()
+                    .OnAttacked(new AttackData(15, other.transform.position - transform.position));
+            }
+            if (Smash)
+            {
+                other.gameObject.GetComponent<IAttackAble>()
+                    .OnAttacked(new AttackData(25, other.transform.position - transform.position));
+            }
+        }
+    }
+    
+    public override void OnAttacked(AttackData data)
+    {
+        base.OnAttacked(data);
+        //m_Animator.Play("Attacked");
+    }
 
     public override void OnDead()
     {
         base.OnDead();
         m_Animator.SetTrigger("Dead");
+        player.Hp -= DeclineHp;
+        m_Rigidbody.constraints = RigidbodyConstraints2D.FreezePosition;
         Hide = true;
     }
 }

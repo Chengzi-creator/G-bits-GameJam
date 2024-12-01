@@ -22,7 +22,6 @@ public class EraserMoveBackState : EraserStateBase
         m_Timer = 0f;
         playerPosition = m_EntityEraser.player.transform.position;
         eraserPositon = m_EntityEraser.transform.position;
-        m_EntityEraser.moveSpeed = 3f;
         if ((playerPosition.x - eraserPositon.x) > 0)
             forwardDirection.x = 1;
         else
@@ -52,7 +51,7 @@ public class EraserMoveBackState : EraserStateBase
     
     private void MoveBack()
     {
-        Vector2 nextPosition = m_EntityEraser.m_Rigidbody.position - forwardDirection.normalized * m_EntityEraser.moveSpeed * Time.deltaTime;
+        Vector2 nextPosition = m_EntityEraser.m_Rigidbody.position - forwardDirection.normalized * m_EntityEraser.Speed * Time.deltaTime;
         if ((int)forwardDirection.x == 1)//面朝右边，向左边退
         {
             m_EntityEraser.m_Rigidbody.MovePosition(nextPosition);

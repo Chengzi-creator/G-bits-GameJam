@@ -6,7 +6,8 @@ using UnityEngine.UI;
 using UnityEngine;
 
 public class EraserSpecialState : EraserStateBase
-{   
+{
+    protected GameObject MainCamera;
     protected Vector2 playerPosition;
     protected Vector2 eraserPositon;
     protected Vector2 forwardDirection;
@@ -16,6 +17,7 @@ public class EraserSpecialState : EraserStateBase
     protected float m_Timer;
     protected float m_CountTime;
     protected bool isGround;
+    protected bool Found;
     protected Bounds m_Bounds;
     protected IFsm<EntityEraser> m_Fsm;
     private CameraShake m_CameraShake;
@@ -24,6 +26,7 @@ public class EraserSpecialState : EraserStateBase
     {
         base.OnEnter(fsm);
         Debug.Log("Special");
+        m_EntityEraser.Smash = true;
         m_Fsm = fsm;
         m_CameraShake = Camera.main.GetComponent<CameraShake>();
         m_Timer = 0f;
@@ -32,9 +35,10 @@ public class EraserSpecialState : EraserStateBase
         eraserPositon = m_EntityEraser.transform.position;
         targetScale = new Vector3(2, 2, 2);
         m_Bounds = GetBounds();
+        Found = false;
         //嘲讽动画
         //烟雾消失动画
-        
+
     }
 
     protected override void OnUpdate(IFsm<EntityEraser> fsm, float elapseSeconds, float realElapseSeconds)
@@ -44,6 +48,23 @@ public class EraserSpecialState : EraserStateBase
         eraserPositon = m_EntityEraser.transform.position;
         m_Timer += elapseSeconds;
         //暂时不考虑动画效果
+        
+        if (MainCamera != null && !Found)
+        {
+            if (m_CameraShake == null)
+            {
+                m_CameraShake = MainCamera.GetComponent<CameraShake>();
+            }
+            else
+            {
+                Found = true;
+            }
+        }
+        else if(MainCamera == null)
+        {
+            MainCamera = GameObject.FindWithTag("MainCamera");
+        }
+        
         if (m_Timer < 1f)
         {   
             Flip();
@@ -91,31 +112,30 @@ public class EraserSpecialState : EraserStateBase
     {   
         if (m_EntityEraser.transform.localScale.x >= 1.9f || isGround)
         {   
-            GameEntry.Sound.PlaySound(AssetUtility.GetWAVAsset("Smash"));
             m_EntityEraser.m_Animator.SetBool("Fade",false);
             //m_CountTime += Time.deltaTime;
             m_EntityEraser.m_Rigidbody.constraints &= ~RigidbodyConstraints2D.FreezePositionY;
+
             m_EntityEraser.m_Rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
             //下砸至当前位置,应该不管速度就行，会自由落体，然后管理缩放大小
+            
             isGround = Physics2D.OverlapCircle(eraserPositon - new Vector2(0, 0f), 5f,
                 LayerMask.GetMask("Land"));
             if (isGround)//地面检测吧还是
             {   
-                m_CameraShake.TriggerShake(0.1f,0.1f);
-                Debug.Log("Land");
+                m_CameraShake.TriggerShake(0.2f,0.1f);
+                //Debug.Log("Land");
                 //Debug.Log(m_CountTime);
                 m_EntityEraser.transform.localScale = Vector3.Lerp(m_EntityEraser.transform.localScale, new Vector3(0.8f,0.8f,0.8f),
                     scaleSpeed * Time.deltaTime);
                 if (m_EntityEraser.transform.localScale.x <= 1f)
                 {   
-                    //Debug.Log("Smash finish");
-                    //站立动画
-                    //Debug.Log("Again");
                     N = 0;
                     // m_Timer = 0f;
                     //
                     // m_Timer += Time.deltaTime;
                     // if(m_Timer >= 1f)
+                    m_EntityEraser.Smash = false;
                     ChangeState<EraserIdleState>(m_Fsm);
                 }            
             }
@@ -127,10 +147,9 @@ public class EraserSpecialState : EraserStateBase
             GameEntry.Sound.PlaySound(AssetUtility.GetWAVAsset("CountTime"));
             m_EntityEraser.transform.localScale = Vector3.Lerp(m_EntityEraser.transform.localScale, targetScale,
                 scaleSpeed * Time.deltaTime);
-            //同时播放倒计时动画，要把时间给卡好吧
+            GameEntry.Sound.PlaySound(AssetUtility.GetWAVAsset("Smash"));
         }
     }
-    
 
     private Bounds GetBounds()
     {

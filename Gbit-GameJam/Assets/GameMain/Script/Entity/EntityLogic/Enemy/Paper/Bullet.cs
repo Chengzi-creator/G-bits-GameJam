@@ -242,7 +242,7 @@ public class Bullet : MonoBehaviour, IMyObject// EntityLogic//MonoBehaviour, IMy
             // }
             
             other.gameObject.GetComponent<IAttackAble>()
-                    .OnAttacked(new AttackData(1, other.transform.position - transform.position));
+                    .OnAttacked(new AttackData(10, other.transform.position - transform.position));
             RecycleSelf();
             if (!m_ThroughAble)  RecycleSelf();
         }
