@@ -27,10 +27,10 @@ public class Bullet : MonoBehaviour, IMyObject// EntityLogic//MonoBehaviour, IMy
     public float initialVelocity = 10f; 
     public float gravity = 9.81f;
     private Vector3 velocity; // 子弹初始速度
-    private Vector3 controlPoint;  //贝赛尔曲线的控制点
-    private float duration;        //运动时长
-    private float elapsedTime = 0; //当前运行时间
-    private bool isLaunched = false;
+    //private Vector3 controlPoint;  //贝赛尔曲线的控制点
+    //private float duration;        //运动时长
+    //private float elapsedTime = 0; //当前运行时间
+    //private bool isLaunched = false;
     
     public virtual void OnInit(object userData)
     {

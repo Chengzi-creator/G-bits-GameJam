@@ -53,9 +53,8 @@ public static class Sound
 			Log.Error("Sound group '{0}' is invalid.", soundGroupName);
 			return;
 		}
-
 		soundGroup.Volume = volume;
-
+        
 	//	Component.Setting.SetFloat(string.Format("Setting.{0}Volume", soundGroupName), volume);
 
 	}
