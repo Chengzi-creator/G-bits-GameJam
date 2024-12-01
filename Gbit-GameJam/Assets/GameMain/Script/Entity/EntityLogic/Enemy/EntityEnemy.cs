@@ -14,9 +14,10 @@ public class EntityEnemy: EntityLogic,IAttackAble
     public Animator m_Animator { get; private set; }
     public Rigidbody2D m_Rigidbody { get; private set; }
     public Collider2D m_Collider { get; private set; }
-    public SpriteRenderer m_SpriteRenderer { get; private set; }
+    public SpriteRenderer m_SpriteRenderer { get; set; }
     
     //public float moveSpeed { get; set; }
+    public EnemyManager EnemyManager;
     
     public EntityPlayer player;
     
@@ -49,6 +50,7 @@ public class EntityEnemy: EntityLogic,IAttackAble
         m_SpriteRenderer = GetComponent<SpriteRenderer>();
         m_Rigidbody = GetComponent<Rigidbody2D>();
         player = FindObjectOfType<EntityPlayer>();
+        EnemyManager = FindObjectOfType<EnemyManager>();
         if (player == null)
         {   
             Debug.Log("Player Null");

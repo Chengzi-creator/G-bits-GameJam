@@ -27,7 +27,7 @@ public class EntityEraser : EntityEnemy<EntityEraser>
         MaxHP = 6;
         Hp = MaxHP;
         Speed = 3f;
-        CollisionSpeed = 16f;
+        CollisionSpeed = 25f;
         DeclineHp = 30;
         
         m_Timer1 = 0f;
@@ -40,6 +40,8 @@ public class EntityEraser : EntityEnemy<EntityEraser>
         m_Rigidbody = GetComponent<Rigidbody2D>();
         m_Rigidbody.constraints = RigidbodyConstraints2D.None;
         m_Rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
+        m_SpriteRenderer = GetComponent<SpriteRenderer>();
+        
         if(m_Animator == null)
             Debug.Log("没找到动画");
         List<FsmState<EntityEraser>> states = new List<FsmState<EntityEraser>>()
@@ -100,14 +102,14 @@ public class EntityEraser : EntityEnemy<EntityEraser>
     {
         base.OnAttacked(data);
         //m_Animator.Play("Attacked");
-        m_SpriteRenderer.color = new Color(1, 1, 1, 0.5f);
+        m_SpriteRenderer.color = Color.red;
         Attacked = true;
-        
     }
 
     public override void OnDead()
     {
         base.OnDead();
+        EnemyManager.EraserCount--;
         m_Animator.SetTrigger("Dead");
         player.Hp -= DeclineHp;
         m_Rigidbody.constraints = RigidbodyConstraints2D.FreezePosition;
