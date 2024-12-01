@@ -235,12 +235,15 @@ public class Bullet : MonoBehaviour, IMyObject// EntityLogic//MonoBehaviour, IMy
 
         if (other.CompareTag("Player"))
         {
-            if (other.TryGetComponent<IAttackAble>(out var attackable))
-            {
-                attackable.OnAttacked(new AttackData(m_Damage));
-                RecycleSelf();
-            }
-
+            // if (other.TryGetComponent<IAttackAble>(out var attackable))
+            // {
+            //     attackable.OnAttacked(new AttackData(m_Damage));
+            //     RecycleSelf();
+            // }
+            
+            other.gameObject.GetComponent<IAttackAble>()
+                    .OnAttacked(new AttackData(1, other.transform.position - transform.position));
+            RecycleSelf();
             if (!m_ThroughAble)  RecycleSelf();
         }
     }

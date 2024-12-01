@@ -49,8 +49,8 @@ public class PaperCollisionState:PaperStateBase
             targetPosition.x = m_CameraControl.rightBoundary;
         else  // 朝左
             targetPosition.x = m_CameraControl.leftBoundary;
-        Debug.Log(m_CameraControl.leftBoundary);
-        Debug.Log(m_CameraControl.rightBoundary);
+        //Debug.Log(m_CameraControl.leftBoundary);
+        //Debug.Log(m_CameraControl.rightBoundary);
         return targetPosition;
     }
 
@@ -64,7 +64,7 @@ public class PaperCollisionState:PaperStateBase
             // 获取边界
             m_EntityPaper.m_Rigidbody.MovePosition(nextPosition);
             
-            if ( Mathf.Abs((int)m_EntityPaper.transform.position.x - (int)targetPosition.x) <= 1f)
+            if ( Mathf.Abs((int)m_EntityPaper.transform.position.x - (int)targetPosition.x) <= 2f)
             {   
                 Debug.Log("已到达边界，停");
                 m_EntityPaper.m_Rigidbody.velocity = Vector3.zero;
