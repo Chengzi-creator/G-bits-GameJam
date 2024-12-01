@@ -85,7 +85,7 @@ public class EntityEraser : EntityEnemy<EntityEraser>
     {   
         if (other.gameObject.CompareTag("Player"))
         {
-            if (!Smash)
+            if (Collision)
             {
                 other.gameObject.GetComponent<IAttackAble>()
                     .OnAttacked(new AttackData(15, other.transform.position - transform.position));
