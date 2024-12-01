@@ -20,7 +20,7 @@ public class EntityPlayer : EntityLogic, IAttackAble
 
 
     public KeyCode ATTACK_COMMAND = KeyCode.Mouse0;
-    public KeyCode JUMP_COMMAND = KeyCode.W;
+    public KeyCode JUMP_COMMAND = KeyCode.Space;
     public KeyCode DODGE_COMMAND = KeyCode.LeftShift;
 
     public Rigidbody2D rb { get; private set; }
@@ -133,7 +133,7 @@ public class EntityPlayer : EntityLogic, IAttackAble
 
         MaxHP = 100;
         MaxAxeCount = 4;
-        AxeRecoverTime = 1f;
+        AxeRecoverTime = 3f;
     }
 
     protected override void OnShow(object userData)
@@ -195,6 +195,15 @@ public class EntityPlayer : EntityLogic, IAttackAble
                 m_AxeRecoverTimer = 0f;
                 RecoverAxe();
             }
+        }
+
+        if (Hp > 80)
+        {
+            GameObject.FindObjectOfType<ScreenBlur>().OpenBlur();
+        }
+        else
+        {
+            GameObject.FindObjectOfType<ScreenBlur>().CloseBlur();
         }
     }
 
