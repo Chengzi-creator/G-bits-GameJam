@@ -36,9 +36,7 @@ public class EraserSpecialState : EraserStateBase
         targetScale = new Vector3(2, 2, 2);
         m_Bounds = GetBounds();
         Found = false;
-        //嘲讽动画
-        //烟雾消失动画
-
+        N = 0;
     }
 
     protected override void OnUpdate(IFsm<EntityEraser> fsm, float elapseSeconds, float realElapseSeconds)
@@ -130,7 +128,7 @@ public class EraserSpecialState : EraserStateBase
                     scaleSpeed * Time.deltaTime);
                 if (m_EntityEraser.transform.localScale.x <= 1f)
                 {   
-                    N = 0;
+               
                     // m_Timer = 0f;
                     //
                     // m_Timer += Time.deltaTime;

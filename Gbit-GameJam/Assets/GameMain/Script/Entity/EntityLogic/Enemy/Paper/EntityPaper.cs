@@ -64,6 +64,7 @@ public class EntityPaper : EntityEnemy<EntityPaper>
    public override void OnDead()
    {
       base.OnDead();
+      EnemyManager.PaperCount--;
       m_Animator.Play("PaperDead");
       isPlaying = true;
       m_Rigidbody.constraints = RigidbodyConstraints2D.FreezePosition;

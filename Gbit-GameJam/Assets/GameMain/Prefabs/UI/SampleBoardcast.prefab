@@ -59,7 +59,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -131,6 +131,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SkipTime: 1
   sprites:
+  - {fileID: 21300000, guid: 6e5fc6213ad6bce45af4f4cc70f48c4c, type: 3}
+  - {fileID: 21300000, guid: a087752f05b4bc24ab2e4b163bfeae75, type: 3}
+  - {fileID: 21300000, guid: 461db14eaed6cb441a3602c29db0d387, type: 3}
   - {fileID: 21300000, guid: be2e69e0145e89e4ba5547e9dbc0598e, type: 3}
   - {fileID: 21300000, guid: c01a3075b9c894846b3463cdc68d49f6, type: 3}
   currentIndex: 0

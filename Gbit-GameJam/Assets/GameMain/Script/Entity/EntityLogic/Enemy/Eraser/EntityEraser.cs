@@ -27,7 +27,7 @@ public class EntityEraser : EntityEnemy<EntityEraser>
         MaxHP = 6;
         Hp = MaxHP;
         Speed = 3f;
-        CollisionSpeed = 25f;
+        CollisionSpeed = 30f;
         DeclineHp = 30;
         
         m_Timer1 = 0f;

@@ -90,6 +90,7 @@ public class EraserCollisionState : EraserStateBase
                 Debug.Log("已到达边界，停");
                 m_EntityEraser.m_Rigidbody.velocity = Vector3.zero;
                 N++;
+                Debug.Log(N);
                 if (N == 3)
                 {
                     //嘲讽动画

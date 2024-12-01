@@ -70,7 +70,11 @@ public class EnemyManager : GameFrameworkComponent
         {
             if (TimerPaper >= nextSpawnTimePaper)
             {
-                SpawnPaper();
+                if (PaperCount <= 4f)
+                {
+                    SpawnPaper();
+                }
+
                 //Debug.Log(TimerPaper);
                 nextSpawnTimePaper = TimerPaper + spawnIntervalPaper;
             }
@@ -78,9 +82,15 @@ public class EnemyManager : GameFrameworkComponent
         else if (TimerPaper <= 720f && TimerPaper >= 360f)
         {
             if (TimerPaper >= nextSpawnTimePaper)
-            {
-                SpawnPaper();
-                SpawnPaper();
+            {   
+                if (PaperCount <= 4)
+                {
+                    SpawnPaper();
+                }
+                if (PaperCount <= 4)
+                {
+                    SpawnPaper();
+                }
                 //Debug.Log(TimerPaper);
                 nextSpawnTimePaper = TimerPaper + spawnIntervalPaper;
             }
@@ -89,9 +99,18 @@ public class EnemyManager : GameFrameworkComponent
         {
             if (TimerPaper >= nextSpawnTimePaper)
             {
-                SpawnPaper();
-                SpawnPaper();
-                SpawnPaper();
+                if (PaperCount <= 4)
+                {
+                    SpawnPaper();
+                }
+                if (PaperCount <= 4)
+                {
+                    SpawnPaper();
+                }
+                if (PaperCount <= 4)
+                {
+                    SpawnPaper();
+                }
                 //Debug.Log(TimerPaper);
                 nextSpawnTimePaper = TimerPaper + spawnIntervalPaper;
             }
@@ -101,7 +120,10 @@ public class EnemyManager : GameFrameworkComponent
         {
             if (TimerEraser >= nextSpawnTimeEraser)
             {
-                SpawnEraser();
+                if (EraserCount <= 2)
+                {
+                    SpawnEraser();
+                }
                 //Debug.Log(TimerEraser);
                 nextSpawnTimeEraser = TimerEraser + spawnIntervalEraser;
             }
@@ -110,8 +132,14 @@ public class EnemyManager : GameFrameworkComponent
         {
             if (TimerEraser >= nextSpawnTimeEraser)
             {
-                SpawnEraser();
-                SpawnEraser();
+                if (EraserCount <= 2)
+                {
+                    SpawnEraser();
+                }
+                if (EraserCount <= 2)
+                {
+                    SpawnEraser();
+                }
                 //Debug.Log(TimerEraser);
                 nextSpawnTimeEraser = TimerEraser + spawnIntervalEraser;
             }
@@ -162,6 +190,7 @@ public class EnemyManager : GameFrameworkComponent
     
     void SpawnPaper()
     {
+        PaperCount++;
         string prefabPath;
         System.Type entityType;
         
@@ -188,6 +217,7 @@ public class EnemyManager : GameFrameworkComponent
     
     void SpawnEraser()
     {
+        EraserCount++;
         string prefabPath;
         System.Type entityType;
         
