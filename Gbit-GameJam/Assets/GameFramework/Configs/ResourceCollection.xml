@@ -55,7 +55,6 @@
       <Resource Name="GameMain/Scene/Battle" LoadType="0" Packed="False" />
       <Resource Name="GameMain/Scene/GameEntry" LoadType="0" Packed="False" />
       <Resource Name="GameMain/Scene/GameStart" LoadType="0" Packed="False" />
-      <Resource Name="GameMain/Scene/Test" LoadType="0" Packed="False" />
       <Resource Name="GameMain/Sound/Sounds/Axe1" LoadType="0" Packed="False" />
       <Resource Name="GameMain/Sound/Sounds/Axe2" LoadType="0" Packed="False" />
       <Resource Name="GameMain/Sound/Sounds/Axe3" LoadType="0" Packed="False" />
@@ -118,6 +117,9 @@
       <Resource Name="GameMain/Texture/Player/Wait/character_wait_04" LoadType="0" Packed="False" />
       <Resource Name="GameMain/Texture/Player/Wait/character_wait_05" LoadType="0" Packed="False" />
       <Resource Name="GameMain/Texture/UI/BackGround/Tree" LoadType="0" Packed="False" />
+      <Resource Name="GameMain/Texture/UI/p1" LoadType="0" Packed="False" />
+      <Resource Name="GameMain/Texture/UI/p2" LoadType="0" Packed="False" />
+      <Resource Name="GameMain/Texture/UI/p3" LoadType="0" Packed="False" />
       <Resource Name="GameMain/Texture/UI/ui/1" LoadType="0" Packed="False" />
       <Resource Name="GameMain/Texture/UI/ui/2" LoadType="0" Packed="False" />
       <Resource Name="Resources/Bullet" LoadType="0" Packed="False" />
@@ -153,6 +155,7 @@
       <Asset Guid="3e3abd68494b2ea4f978446fd536a083" ResourceName="GameMain/Texture/Player/Jump/character_jump_01" />
       <Asset Guid="415366c3f816db046a8a182c3ad0ab68" ResourceName="Resources/Bullet" />
       <Asset Guid="41e63d64567bbad439f5b8d0e2b5190a" ResourceName="GameMain/Prefabs/Player" />
+      <Asset Guid="461db14eaed6cb441a3602c29db0d387" ResourceName="GameMain/Texture/UI/p3" />
       <Asset Guid="4679c3f9e9d8372409d8969acd07ce64" ResourceName="GameMain/Texture/Player/Wait/character_wait_02" />
       <Asset Guid="4939220a58bd4694c852f390d5da8757" ResourceName="GameMain/Texture/Player/Run/character_run_03" />
       <Asset Guid="4a214b2d16bc6814999d9cf8ddb2d550" ResourceName="GameMain/Sound/Sounds/PlayerJump1" />
@@ -174,6 +177,7 @@
       <Asset Guid="698b85c3f46ad684d8998b1ae5b5b78e" ResourceName="GameMain/Prefabs/UI/LevelCompelete" />
       <Asset Guid="69cf3fccd87912f4283079057a226450" ResourceName="GameMain/Texture/Player/Run/character_run_02" />
       <Asset Guid="6ae27cdacb76507439aa26b28d9c5a83" ResourceName="GameMain/Texture/Player/Axe/axe_05" />
+      <Asset Guid="6e5fc6213ad6bce45af4f4cc70f48c4c" ResourceName="GameMain/Texture/UI/p1" />
       <Asset Guid="6e999705cb4fdaf458d0881c4f8a7437" ResourceName="GameMain/Art/Anim/Player/Hit_Back" />
       <Asset Guid="71bf05feb3ac21d4ab229410a0717181" ResourceName="GameMain/Texture/Player/Axe/axe_02" />
       <Asset Guid="723405890b2738b498be44967f811a84" ResourceName="GameMain/Prefabs/UI/SampleBoardcast" />
@@ -200,6 +204,7 @@
       <Asset Guid="9e57e0fed99054b4f88afb819990f6dd" ResourceName="GameMain/Texture/Player/Dead/character_dead_05" />
       <Asset Guid="9f43e5e7357f3f945ac71bb231f1e532" ResourceName="GameMain/Prefabs/Axe" />
       <Asset Guid="9f5887920ac6aa44b82ea153ae7bd902" ResourceName="GameMain/Art/Anim/Player/Hit_Front" />
+      <Asset Guid="a087752f05b4bc24ab2e4b163bfeae75" ResourceName="GameMain/Texture/UI/p2" />
       <Asset Guid="a6ce435fa341a0f4dba1e13518d7f8e9" ResourceName="GameMain/Prefabs/Enemy/Paper" />
       <Asset Guid="aa6859d9fc88abb4b87d68a521096c0a" ResourceName="GameMain/Texture/Player/Wait/character_wait_05" />
       <Asset Guid="ad62e153ecffec24d94cf77b307c7ca5" ResourceName="GameMain/Texture/UI/ui/1" />
@@ -218,7 +223,6 @@
       <Asset Guid="c67d51c628dafef438a3de7861391c99" ResourceName="GameMain/Texture/Player/Wait/character_wait_04" />
       <Asset Guid="c69ddb7245885ca478643f16bd47dec8" ResourceName="GameMain/Sound/Sounds/CountTime" />
       <Asset Guid="ce0886fec8d84b5448f963a9de3085e0" ResourceName="GameMain/Art/Anim/Enemy/Erazer/Dead" />
-      <Asset Guid="ce35b961ecb31cc468e9fb7e7ce38e5f" ResourceName="GameMain/Scene/Test" />
       <Asset Guid="d08606b04ec104c4d8b682ef89c0bf95" ResourceName="GameMain/Texture/Blur" />
       <Asset Guid="d16e372fc20212b4c8be1fbbb2f0e983" ResourceName="GameMain/Texture/Player/Attack/character_throw_09" />
       <Asset Guid="d2f9c02e066b26f4d9f9c7bca5fae13c" ResourceName="GameMain/DataTables/UIForm" />

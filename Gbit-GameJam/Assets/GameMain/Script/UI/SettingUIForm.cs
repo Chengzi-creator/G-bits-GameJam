@@ -5,6 +5,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using GameMain.Script.Event;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityGameFramework.Runtime;
@@ -108,12 +109,12 @@ namespace GameMain
 
             if (isPaused)
             {
-                Time.timeScale = 0f; //暂停游戏时间
+                GameEntry.Base.PauseGame(); //暂停游戏时间
                 PauseMasks.SetActive(true);
             }
             else
             {
-                Time.timeScale = 1f;
+                GameEntry.Base.ResumeGame(); 
                 PauseMasks.SetActive(false);
             }
         }
@@ -126,15 +127,21 @@ namespace GameMain
 
         private void OnexitButtonClick()
         {
-            Application.Quit();
-#if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-#endif
+//             Application.Quit();
+// #if UNITY_EDITOR
+//             UnityEditor.EditorApplication.isPlaying = false;
+// #endif
+            GameEntry.Event.Fire(this, LevelExitEventArgs.Create());
+            PauseMasks.SetActive(false);
+            VolumeMasks.SetActive(false);
+
         }
 
         private void OnrestartButtonClick()
         {
             GameEntry.Event.Fire(this, LevelRetryEventArgs.Create());
+            PauseMasks.SetActive(false);
+            VolumeMasks.SetActive(false);
         }
 
         private void OnbackButtonClick()

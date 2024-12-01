@@ -2,6 +2,7 @@
 using GameFramework.Fsm;
 using GameFramework.Procedure;
 using GameMain;
+using GameMain.Script.Event;
 using UnityEngine;
 using UnityGameFramework.Runtime;
 
@@ -16,9 +17,17 @@ public class ProcedureBattle : ProcedureBase
     private bool isGameOver = false;
 
     private float debugTimer = 0f;
+    
+    private bool isExit = false;
+    private bool isRetry = false;
+
     protected override void OnEnter(IFsm<IProcedureManager> procedureOwner)
     {
         base.OnEnter(procedureOwner);
+        GameEntry.Base.ResumeGame();
+        
+        isExit = false;
+        isRetry = false;
         
         m_LiveSeconds = 0f;
         isGameOver = false;
@@ -26,8 +35,11 @@ public class ProcedureBattle : ProcedureBase
         
         GameEntry.Event.Subscribe(PlayerHpRunOutEventArgs.EventId, OnPlayerHpRunOut);
         GameEntry.Event.Subscribe(LevelCompeleteEventArgs.EventId,OnLevelCompelete);
-        
-        
+        GameEntry.Event.Subscribe(LevelExitEventArgs.EventId, OnExitLevel);
+        GameEntry.Event.Subscribe(LevelRetryEventArgs.EventId, OnRetryLevel);
+
+
+
         GameEntry.Entity.ShowEntity<EntityPlayer>(EntityPlayer.PlayerId, "Assets/GameMain/Prefabs/Player.prefab",
             "Player", EntityPlayerData.Create(Vector2.zero));
 
@@ -54,6 +66,7 @@ public class ProcedureBattle : ProcedureBase
     protected override void OnUpdate(IFsm<IProcedureManager> procedureOwner, float elapseSeconds, float realElapseSeconds)
     {
         base.OnUpdate(procedureOwner, elapseSeconds, realElapseSeconds);
+        
         m_LiveSeconds += elapseSeconds;
         VarInt32 varMinute = (int)m_LiveSeconds;
         GameEntry.DataNode.GetOrAddNode("UI").SetData(varMinute);
@@ -69,6 +82,25 @@ public class ProcedureBattle : ProcedureBase
             GameEntry.UI.OpenUIForm(UIFormId.TestWindow);
             debugTimer = 0;
         }
+        
+        if(isExit)
+        {
+            GameEntry.Base.ResumeGame();
+            //删去所有实体
+            GameEntry.Entity.HideAllLoadedEntities();
+            GameEntry.Entity.HideAllLoadingEntities();
+            GameEntry.UI.CloseAllLoadedUIForms();
+            GameEntry.UI.CloseAllLoadingUIForms();
+            ChangeState<ProcedureTitleView>(procedureOwner);
+        }
+        else if(isRetry)
+        {
+            GameEntry.Base.ResumeGame();
+            GameEntry.Entity.HideAllLoadedEntities();
+            GameEntry.Entity.HideAllLoadingEntities();
+
+            ChangeState<ProcedureBattle>(procedureOwner);
+        }
     }
 
     protected override void OnLeave(IFsm<IProcedureManager> procedureOwner, bool isShutdown)
@@ -76,6 +108,10 @@ public class ProcedureBattle : ProcedureBase
         base.OnLeave(procedureOwner, isShutdown);
         GameEntry.Event.Unsubscribe(PlayerHpRunOutEventArgs.EventId, OnPlayerHpRunOut);
         GameEntry.Event.Unsubscribe(LevelCompeleteEventArgs.EventId,OnLevelCompelete);
+        GameEntry.Event.Unsubscribe(LevelExitEventArgs.EventId, OnExitLevel);
+        GameEntry.Event.Unsubscribe(LevelRetryEventArgs.EventId, OnRetryLevel);
+
+
     }
 
 
@@ -89,5 +125,14 @@ public class ProcedureBattle : ProcedureBase
     private void OnLevelCompelete(object sender, GameEventArgs e)
     {
         isGameOver = true;
+    }
+    
+    private void OnExitLevel(object sender, GameEventArgs e)
+    {
+        isExit = true;
+    }
+    private void OnRetryLevel(object sender, GameEventArgs e)
+    {
+        isRetry = true;
     }
 }

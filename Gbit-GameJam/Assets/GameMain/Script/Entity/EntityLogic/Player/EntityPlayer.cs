@@ -21,7 +21,7 @@ public class EntityPlayer : EntityLogic, IAttackAble
 
     public KeyCode ATTACK_COMMAND = KeyCode.Mouse0;
     public KeyCode JUMP_COMMAND = KeyCode.Space;
-    public KeyCode DODGE_COMMAND = KeyCode.LeftShift;
+    public KeyCode DODGE_COMMAND = KeyCode.F2;
 
     public Rigidbody2D rb { get; private set; }
     public PlayerAttackComponent attackComponent { get; private set; }
@@ -196,14 +196,19 @@ public class EntityPlayer : EntityLogic, IAttackAble
                 RecoverAxe();
             }
         }
-
-        if (Hp > 80)
+        
+        
+        ScreenBlur sb = GameObject.FindObjectOfType<ScreenBlur>();
+        if (sb != null)
         {
-            GameObject.FindObjectOfType<ScreenBlur>().OpenBlur();
-        }
-        else
-        {
-            GameObject.FindObjectOfType<ScreenBlur>().CloseBlur();
+            if (Hp > 80)
+            {
+                sb.OpenBlur();
+            }
+            else
+            {
+                sb.CloseBlur();
+            }
         }
     }
 

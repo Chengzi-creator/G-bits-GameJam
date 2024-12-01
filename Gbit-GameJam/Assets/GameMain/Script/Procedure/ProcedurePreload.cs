@@ -31,7 +31,7 @@ public class ProcedurePreload : ProcedureBase
         GameEntry.Entity.AddEntityGroup("MissileGroup",0,0,0,0);
         Physics2D.gravity = new Vector2(0, -32f);
 
-        GameEntry.UI.AddUIGroup("Setting", 12);
+        GameEntry.UI.AddUIGroup("Setting", 9);
         GameEntry.UI.AddUIGroup("Default",11);
         GameEntry.UI.AddUIGroup("Boardcast",10);
         GameEntry.UI.AddUIGroup("BattleUI",9);
