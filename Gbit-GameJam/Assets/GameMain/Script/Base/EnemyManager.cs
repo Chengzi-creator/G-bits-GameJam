@@ -16,7 +16,9 @@ public class EnemyManager : GameFrameworkComponent
     public float TimerEraser;
     private float nextSpawnTimePaper;
     private float nextSpawnTimeEraser;
-    
+
+    public int PaperCount;
+    public int EraserCount;
     public bool isWorking = false;
     public bool Found = false;
     
@@ -28,6 +30,8 @@ public class EnemyManager : GameFrameworkComponent
         spawnAreaMax = new Vector2(CameraControl.rightBoundary,0f);
         TimerPaper = 0f;
         TimerEraser = 0f;
+        PaperCount = 0;
+        EraserCount = 0;
     }
 
 

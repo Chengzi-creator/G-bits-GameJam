@@ -9,7 +9,8 @@ using UnityGameFramework.Runtime;
 public class EntityEraser : EntityEnemy<EntityEraser>
 {
     public bool Hide = false;
-    public float m_Timer;
+    public float m_Timer1;
+    public float m_Timer2;
     public float Speed { get; set; }
     public float CollisionSpeed { get; set; }
     public Rigidbody2D m_Rigidbody;
@@ -17,6 +18,7 @@ public class EntityEraser : EntityEnemy<EntityEraser>
 
     public bool Smash;
     public bool Collision;
+    public bool Attacked;
     public int DeclineHp;
     
     protected override void OnShow(object userData)
@@ -28,10 +30,11 @@ public class EntityEraser : EntityEnemy<EntityEraser>
         CollisionSpeed = 16f;
         DeclineHp = 30;
         
-        m_Timer = 0f;
+        m_Timer1 = 0f;
+        m_Timer2 = 0f;
         Smash = false;
         Collision = false;
-        
+        Attacked = false;
         //Debug.Log("成功了");
         m_Animator = GetComponent<Animator>();
         m_Rigidbody = GetComponent<Rigidbody2D>();
@@ -57,13 +60,22 @@ public class EntityEraser : EntityEnemy<EntityEraser>
     {
         base.OnUpdate(elapseSeconds, realElapseSeconds);
         //Debug.Log(m_Timer);
-        if(Hide)
-            m_Timer += Time.deltaTime;
-        if (m_Timer >= 1f)
+        if (Hide)
+            m_Timer1 += Time.deltaTime;
+        if (m_Timer1 >= 1f)
         {
             Hide = false;
-            m_Timer = 0f;
+            m_Timer1 = 0f;
             GameEntry.Entity.HideEntity(Entity);
+        }
+
+        if (Attacked)
+            m_Timer2 += Time.deltaTime;
+        if (m_Timer1 >= 0.3f)
+        {
+            m_SpriteRenderer.color = Color.white;
+            Attacked = false;
+            m_Timer2 = 0f;
         }
     }
     
@@ -88,6 +100,9 @@ public class EntityEraser : EntityEnemy<EntityEraser>
     {
         base.OnAttacked(data);
         //m_Animator.Play("Attacked");
+        m_SpriteRenderer.color = new Color(1, 1, 1, 0.5f);
+        Attacked = true;
+        
     }
 
     public override void OnDead()
