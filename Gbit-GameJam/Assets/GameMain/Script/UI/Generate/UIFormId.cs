@@ -1,6 +1,6 @@
 //------------------------------------------------------------
 // 此文件由工具自动生成，请勿直接修改。
-// 生成时间：2024/11/30 15:45:39
+// 生成时间：2024/12/1 11:26:44
 //------------------------------------------------------------
 namespace GameMain
 {
@@ -30,6 +30,11 @@ namespace GameMain
 		/// TitleView
 		/// </summary>
 		public const int TitleView = 105;
+
+		/// <summary>
+		/// TestWindow
+		/// </summary>
+		public const int TestWindow = 106;
 
 	}
 }

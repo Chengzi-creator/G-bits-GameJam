@@ -214,7 +214,6 @@ public class EntityPlayer : EntityLogic, IAttackAble
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 1.35f, LayerMask.GetMask("Land"));
         return hit.collider != null;
     }
-
     public void OnAttacked(AttackData data)
     {
         Vector2 dir = data.AttackDirection.x >= 0 ? Vector2.right : Vector2.left;
@@ -260,5 +259,11 @@ public class EntityPlayer : EntityLogic, IAttackAble
         {
             AxeCount++;
         }
+    }
+    public void AddHP(int hp)
+    {
+        int newHp = Hp + hp;
+        newHp = Math.Clamp(newHp, 0, MaxHP);
+        Hp = newHp;
     }
 }

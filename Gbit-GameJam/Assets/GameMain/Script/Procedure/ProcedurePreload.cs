@@ -2,6 +2,7 @@ using GameFramework.DataTable;
 using GameFramework.Event;
 using GameFramework.Fsm;
 using GameFramework.Procedure;
+using GameMain;
 using Party;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -37,10 +38,13 @@ public class ProcedurePreload : ProcedureBase
         
         DataTableBase dataTableBase = (DataTableBase)GameEntry.DataTable.CreateDataTable<DRPlayer>();
         dataTableBase.ReadData("Assets/GameMain/DataTables/Player.txt",this);
+        
+        string testhubDataTableName = AssetUtility.GetDataTableAsset("TestHub", false);
+        GameEntry.DataTable.LoadDataTable("TestHub", testhubDataTableName, this);
+
 
         string uiformDatableName = AssetUtility.GetDataTableAsset("UIForm", false);
         GameEntry.DataTable.LoadDataTable("UIForm", uiformDatableName, this);
-        
     }
 
     private void OnLoadDataTableSuccess(object sender, GameEventArgs e)

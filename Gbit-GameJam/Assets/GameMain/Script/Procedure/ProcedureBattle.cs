@@ -1,6 +1,7 @@
 ﻿using GameFramework.Event;
 using GameFramework.Fsm;
 using GameFramework.Procedure;
+using GameMain;
 using UnityEngine;
 using UnityGameFramework.Runtime;
 
@@ -13,7 +14,8 @@ public class ProcedureBattle : ProcedureBase
     private float m_LiveSeconds = 0f;
     
     private bool isGameOver = false;
-    
+
+    private float debugTimer = 0f;
     protected override void OnEnter(IFsm<IProcedureManager> procedureOwner)
     {
         base.OnEnter(procedureOwner);
@@ -58,6 +60,14 @@ public class ProcedureBattle : ProcedureBase
         if (isGameOver)
         {
             ChangeState<ProcedureLevelCompelete>(procedureOwner);
+        }
+        
+        //Debug
+        debugTimer += elapseSeconds;
+        if (debugTimer > 5)
+        {
+            GameEntry.UI.OpenUIForm(UIFormId.TestWindow);
+            debugTimer = 0;
         }
     }
 
