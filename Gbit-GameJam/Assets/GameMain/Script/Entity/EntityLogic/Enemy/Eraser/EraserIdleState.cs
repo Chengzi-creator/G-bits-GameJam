@@ -29,7 +29,7 @@ public class EraserIdleState : EraserStateBase
         eraserPositon = m_EntityEraser.transform.position;
         distance = System.Math.Abs(playerPosition.x - eraserPositon.x);
         CalculateLength();
-        Debug.Log("EraserIdle");
+    //    Debug.Log("EraserIdle");
         GameEntry.Sound.PlaySound(AssetUtility.GetWAVAsset("Smile"));
     }
     

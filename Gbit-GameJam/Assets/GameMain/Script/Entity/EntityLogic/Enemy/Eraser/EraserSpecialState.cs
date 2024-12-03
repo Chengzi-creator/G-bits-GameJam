@@ -25,7 +25,7 @@ public class EraserSpecialState : EraserStateBase
     protected override void OnEnter(IFsm<EntityEraser> fsm)
     {
         base.OnEnter(fsm);
-        Debug.Log("Special");
+    //    Debug.Log("Special");
         m_EntityEraser.Smash = true;
         m_Fsm = fsm;
         m_CameraShake = Camera.main.GetComponent<CameraShake>();
@@ -80,7 +80,7 @@ public class EraserSpecialState : EraserStateBase
         else if(m_Timer > 3f)
         {
             //体积开始膨胀并播放倒计时动画
-            Debug.Log("Smash");
+       //     Debug.Log("Smash");
             Smash();
         }
     }

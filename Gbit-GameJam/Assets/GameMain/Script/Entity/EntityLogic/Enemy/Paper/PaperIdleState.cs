@@ -18,7 +18,7 @@ public class PaperIdleState : PaperStateBase
         m_Timer = 0f;
         time++;
         paperPositon = m_EntityPaper.transform.position;
-        Debug.Log("Idle");
+//        Debug.Log("Idle");
         m_EntityPaper.m_Animator.SetBool("Idle",true);
     }
     

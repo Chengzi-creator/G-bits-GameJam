@@ -67,7 +67,7 @@ public class PaperCollisionState:PaperStateBase
             
             if ( Mathf.Abs((int)m_EntityPaper.transform.position.x - (int)targetPosition.x) <= 2f)
             {   
-                Debug.Log("已到达边界，停");
+               // Debug.Log("已到达边界，停");
                 m_EntityPaper.m_Rigidbody.velocity = Vector3.zero;
                 m_EntityPaper.m_Animator.SetBool("MoveRight",false);
                 m_EntityPaper.m_Animator.SetBool("MoveLeft",false);
@@ -78,7 +78,7 @@ public class PaperCollisionState:PaperStateBase
         }
         else
         {
-           Debug.Log("丸辣");
+          // Debug.Log("丸辣");
         }
     }
     

@@ -17,7 +17,7 @@ public class EraserMoveForwardState : EraserStateBase
     protected override void OnEnter(IFsm<EntityEraser> fsm)
     {
         base.OnEnter(fsm);
-        Debug.Log("MoveForward");
+//        Debug.Log("MoveForward");
         
         m_CameraControl = Camera.main.GetComponent<CameraControl>();
         m_Timer = 0f;
@@ -55,7 +55,7 @@ public class EraserMoveForwardState : EraserStateBase
                 || Mathf.Abs((int)m_EntityEraser.transform.position.x - (int)m_CameraControl.leftBoundary)<= 1f 
                 || Mathf.Abs((int)m_EntityEraser.transform.position.x - (int)m_CameraControl.rightBoundary)<= 1f )
             {   
-                Debug.Log("撞到人了，停");
+   //             Debug.Log("撞到人了，停");
                 m_EntityEraser.m_Rigidbody.velocity = Vector2.zero;
                 m_EntityEraser.m_Animator.SetBool("MoveForward",false);
                 m_EntityEraser.m_Animator.SetBool("Idle",true);
