@@ -84,6 +84,11 @@ public class EntityPlayer : EntityLogic, IAttackAble
     public Vector2 MoveDirection { get; private set; }
 
     public float HitTime = 0.5f;
+    
+    public float HpIncreaseTime = 1f;
+    public int HpIncrease = 1;
+    private float m_HpIncreaseTimer = 0f;
+    
 
     public bool isRight = true;
     public bool isAttack = false;
@@ -209,6 +214,13 @@ public class EntityPlayer : EntityLogic, IAttackAble
             {
                 sb.CloseBlur();
             }
+        }
+        
+        m_HpIncreaseTimer += elapseSeconds;
+        if (m_HpIncreaseTimer >= HpIncreaseTime)
+        {
+            m_HpIncreaseTimer = 0f;
+            AddHP(HpIncrease);
         }
     }
 

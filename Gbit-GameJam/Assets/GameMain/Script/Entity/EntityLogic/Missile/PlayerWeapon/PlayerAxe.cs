@@ -76,9 +76,6 @@ public class PlayerAxe : EntityLogic
             angle = CalculateLaunchAngle(new Vector2(-dir.x, dir.y), Speed, -Physics2D.gravity.y);
             thorwDir = new Vector2(-Mathf.Cos(angle), Mathf.Sin(angle));
         }
-
-        Log.Warning(angle * Mathf.Rad2Deg);
-
         rb.velocity = Speed * thorwDir;
     }
 

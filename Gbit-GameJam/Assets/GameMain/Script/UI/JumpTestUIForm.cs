@@ -59,7 +59,19 @@ public class JumpTestUIForm : UIFormLogic
         IDataTable<DRTestHub> dtTestHub = GameEntry.DataTable.GetDataTable<DRTestHub>();
 
         //随机取一条题目
-        int randomIndex = Random.Range(0, dtTestHub.Count);
+        //根据时间选取
+        VarInt32 second = GameEntry.DataNode.GetNode("UI").GetData<VarInt32>();
+        int minute = second / 60;
+        int randomIndex;
+        if (minute < 5)
+        {
+            randomIndex = Random.Range(0, 21);
+
+        }
+        else
+        {
+            randomIndex = Random.Range(21, 41);
+        }
 
         QuestionText.text = dtTestHub[randomIndex].TestName;
         Answer1Text.text = dtTestHub[randomIndex].Answer1;
