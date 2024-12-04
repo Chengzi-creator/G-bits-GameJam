@@ -16,7 +16,7 @@ public class EraserMoveBackState : EraserStateBase
     protected override void OnEnter(IFsm<EntityEraser> fsm)
     {
         base.OnEnter(fsm);
-        Debug.Log("MoveBack");
+ //       Debug.Log("MoveBack");
         
         m_CameraControl = Camera.main.GetComponent<CameraControl>();
         m_Timer = 0f;
@@ -58,7 +58,7 @@ public class EraserMoveBackState : EraserStateBase
             if (Mathf.Abs((int)m_EntityEraser.transform.position.x - (int)m_CameraControl.leftBoundary)<= 1f 
                 || Mathf.Abs((int)m_EntityEraser.transform.position.x - (int)playerPosition.x) <= 1F)
             {   
-                Debug.Log("已到达边界，停");
+     //           Debug.Log("已到达边界，停");
                 m_EntityEraser.m_Rigidbody.velocity = Vector3.zero;
                 m_EntityEraser.m_Animator.SetBool("MoveBack",false);
                 m_EntityEraser.m_Animator.SetBool("Idle",true);
@@ -71,7 +71,7 @@ public class EraserMoveBackState : EraserStateBase
             if (Mathf.Abs((int)m_EntityEraser.transform.position.x - (int)m_CameraControl.rightBoundary)<= 1f 
                 || Mathf.Abs((int)m_EntityEraser.transform.position.x - (int)playerPosition.x) <= 1F)
             {   
-                Debug.Log("已到达边界，停");
+    //            Debug.Log("已到达边界，停");
                 m_EntityEraser.m_Rigidbody.velocity = Vector3.zero;
                 m_EntityEraser.m_Animator.SetBool("MoveBack",false);
                 m_EntityEraser.m_Animator.SetBool("Idle",true);

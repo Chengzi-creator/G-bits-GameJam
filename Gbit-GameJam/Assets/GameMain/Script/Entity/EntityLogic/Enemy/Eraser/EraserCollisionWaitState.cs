@@ -15,8 +15,8 @@ public class EraserCollisionWaitState : EraserStateBase
         base.OnEnter(fsm);
         m_Fsm = fsm;
         m_Timer = 0f;
-        Debug.Log("Wait");
-        Debug.Log(N);
+    //    Debug.Log("Wait");
+     //   Debug.Log(N);
         m_EntityEraser.m_Animator.SetBool("Idle",true);
         playerPosition = m_EntityEraser.player.transform.position;
         eraserPositon = m_EntityEraser.transform.position;

@@ -316,8 +316,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainCameraObject: {fileID: 0}
-  spawnIntervalPaper: 20
-  spawnIntervalEraser: 60
+  spawnIntervalPaper: 5
+  spawnIntervalEraser: 15
   CameraControl: {fileID: 0}
   spawnAreaMin: {x: -10, y: -5}
   spawnAreaMax: {x: 10, y: 5}
@@ -384,7 +384,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 11402440, guid: adb3eb1c35fcff14f89fba7b05c9d71c, type: 3}
       propertyPath: m_ActiveWindow
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 11405216, guid: adb3eb1c35fcff14f89fba7b05c9d71c, type: 3}
       propertyPath: m_EntranceProcedureTypeName
@@ -476,7 +476,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 11499388, guid: adb3eb1c35fcff14f89fba7b05c9d71c, type: 3}
       propertyPath: m_EditorResourceMode
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: adb3eb1c35fcff14f89fba7b05c9d71c, type: 3}

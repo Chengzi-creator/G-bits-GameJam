@@ -18,7 +18,7 @@ public class EraserCollisionState : EraserStateBase
     {
         base.OnEnter(fsm);
         m_EntityEraser.Collision = true;
-        Debug.Log("Collision");
+    //    Debug.Log("Collision");
         m_CameraControl = Camera.main.GetComponent<CameraControl>();
         m_Fsm = fsm;
         m_EntityEraser.m_Rigidbody.velocity = Vector2.zero;
@@ -87,7 +87,7 @@ public class EraserCollisionState : EraserStateBase
                 ||(Mathf.Abs((int)eraserPositon.x - (int)playerPosition.x) <= 2f 
                    &&(Mathf.Abs((int)eraserPositon.y - (int)playerPosition.y) <= 0.5f)))
             {   
-                Debug.Log("已到达边界，停");
+ //               Debug.Log("已到达边界，停");
                 m_EntityEraser.m_Rigidbody.velocity = Vector3.zero;
                 N++;
                 Debug.Log(N);
